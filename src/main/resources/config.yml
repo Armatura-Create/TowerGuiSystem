@@ -1,0 +1,18 @@
+general:
+  name_group: #Перечислять серваки которые выводить
+    - "Creative"
+    - "LA"
+    - "Towny"
+    - "Hub"
+    - "Hub:Dynamic"
+    - "Survival"
+    - "SurvVanilla"
+    - "Test"
+  source: "timocloud" #Cloud system (timocloud, netcloud...)
+
+Enable:
+  Gui: true
+  Items: true
+  Lobby: true
+AnimationTime: 20
+ClearInventoryOnJoin: true

@@ -1,0 +1,22 @@
+JoinItems:
+  SERVERS:
+    id: 'COMPASS'
+    slot: 1
+    name: '&eВыбор сервера'
+    lore:
+      - '&cПОШЕЛ НА Х*Й'
+    command: 'gui open serversss'
+    amount: 1
+    drop: true
+    move: true
+
+  LOBBY:
+    id: 'SLIME_BALL'
+    slot: 9
+    name: '&eВыбор лобби'
+    lore:
+      - '&cПОШЕЛ НА Х*Й'
+    command: 'gui open lobby'
+    amount: 1
+    drop: true
+    move: true
