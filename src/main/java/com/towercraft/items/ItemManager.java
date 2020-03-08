@@ -61,9 +61,9 @@ public class ItemManager {
                 final boolean move = this.config.getBoolean("JoinItems." + name + ".move", false);
                 final Item item = new Item(name, id, slot, displayName, lore, command, amount, drop, move, cooldown);
                 this.items.put(slot, item);
-                TowerGuiSystem.log("[JoinItems] \u041f\u0440\u0435\u0434\u043c\u0435\u0442 '" + name + "' \u0443\u0441\u043f\u0435\u0448\u043d\u043e \u0437\u0430\u0433\u0440\u0443\u0436\u0435\u043d");
+                TowerGuiSystem.log("[TGSItems] \u041f\u0440\u0435\u0434\u043c\u0435\u0442 '" + name + "' \u0443\u0441\u043f\u0435\u0448\u043d\u043e \u0437\u0430\u0433\u0440\u0443\u0436\u0435\u043d");
             } catch (Exception ex2) {
-                TowerGuiSystem.log("[JoinItems] \u041e\u0448\u0438\u0431\u043a\u0430 \u043f\u0440\u0438 \u0437\u0430\u0433\u0440\u0443\u0437\u043a\u0435 \u043f\u0440\u0435\u0434\u043c\u0435\u0442\u0430 '" + name + "'. \u041e\u0448\u0438\u0431\u043a\u0430 - " + ex2.getMessage());
+                TowerGuiSystem.log("[TGSItems] \u041e\u0448\u0438\u0431\u043a\u0430 \u043f\u0440\u0438 \u0437\u0430\u0433\u0440\u0443\u0437\u043a\u0435 \u043f\u0440\u0435\u0434\u043c\u0435\u0442\u0430 '" + name + "'. \u041e\u0448\u0438\u0431\u043a\u0430 - " + ex2.getMessage());
             }
         }
     }

@@ -29,5 +29,7 @@
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.yaml:snakeyaml:1.25" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: cloud.timo.TimoCloud:TimoCloud-API:6.0-beta-1.0" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.gmail.filoghost.holographicdisplays:holographicdisplays-api:2.4.0" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: de.dytanic.cloudnet:cloudnet-api-bridge:2.1.17" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: de.dytanic.cloudnet:cloudnet-core:2.1.17" level="project" />
   </component>
 </module>

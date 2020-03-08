@@ -34,12 +34,20 @@ public class GuiListener implements Listener {
                 final String[] arr$ = item.getCommand().split(";");
                 for (String cmd : arr$) {
                     if (cmd.startsWith("server:")) {
-                        TowerGuiSystem.connect(player, cmd.replace("server:", ""));
+                        TowerGuiSystem.connect(player, cmd.replace("server:", "") + "_random");
+                        player.closeInventory();
+                    } else if (cmd.startsWith("maxLobby:")) {
+                        TowerGuiSystem.connect(player, cmd.replace("maxLobby:", "") + "_max");
+                        player.closeInventory();
+                    } else if (cmd.startsWith("minLobby:")) {
+                        TowerGuiSystem.connect(player, cmd.replace("minLobby:", "") + "_min");
                         player.closeInventory();
                     } else if (cmd.startsWith("lore")) {
                         return;
                     } else if (cmd.startsWith("close")) {
                         player.closeInventory();
+                    } else if (cmd.startsWith("gui")) {
+                        Bukkit.dispatchCommand(player, cmd);
                     } else {
                         Bukkit.dispatchCommand(player, cmd);
                         player.closeInventory();

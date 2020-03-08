@@ -8,5 +8,6 @@ com\towercraft\gui\GuiItem.class
 com\towercraft\items\Item.class
 com\towercraft\items\ItemListener.class
 com\towercraft\gui\GuiListener$1.class
+com\towercraft\utils\ServerModel.class
 com\towercraft\gui\GuiListener.class
 com\towercraft\items\ItemManager.class

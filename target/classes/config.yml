@@ -8,11 +8,10 @@ general:
     - "Survival"
     - "SurvVanilla"
     - "Test"
-  source: "timocloud" #Cloud system (timocloud, netcloud...)
+  source: "timocloud" #Cloud system (timocloud, cloudnet...)
 
 Enable:
   Gui: true
   Items: true
-  Lobby: true
 AnimationTime: 20
 ClearInventoryOnJoin: true

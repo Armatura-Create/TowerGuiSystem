@@ -1,6 +1,7 @@
 package com.towercraft.gui;
 
 import com.towercraft.TowerGuiSystem;
+import com.towercraft.utils.ServerModel;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -13,6 +14,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class Gui {
     private String name;
@@ -95,24 +97,33 @@ public class Gui {
                             id = lobby.getStringList("items").get(2);
 
                         final String name = lobby.getString("item.nameserver").replace("&", "§") + "-" + nameLobbyItem;
-                        final List<String> lore = lobby.getStringList("item.lore");
+                        final List<String> lore_config = lobby.getStringList("item.lore");
+                        final List<String> lore_result = new ArrayList<>();
+
+                        for (String temp : lore_config) {
+                            if (TowerGuiSystem.nameServer.equalsIgnoreCase(lobby.getString("item.nameserver").replace(lobby.getString("item.nameserver").substring(0, 2), "") + "-" + nameLobbyItem))
+                                lore_result.add(temp.replace("%place%", "Вы находитесь здесь"));
+                            else
+                                lore_result.add(temp.replace("%place%", ""));
+                        }
+
+                        List<ServerModel> serverModel = TowerGuiSystem.lobbys.stream().filter(s -> s.getName().equalsIgnoreCase(lobby.getString("item.nameserver").replace(lobby.getString("item.nameserver").substring(0, 2), "") + "-" + nameLobbyItem)).collect(Collectors.toList());
+
                         final String command = "server:" + lobby.getString("item.nameserver").replace(lobby.getString("item.nameserver").substring(0, 2), "") + "-" + nameLobbyItem;
                         Gui.server = name;
-                        List<List<String>> animation;
-                        animation = new ArrayList<>();
 
                         String online = "";
                         for (Map.Entry<String, String> entry : TowerGuiSystem.lobbysOnline.entrySet())
                             if (entry.getKey().contains(lobby.getString("item.nameserver").replace(lobby.getString("item.nameserver").substring(0, 2), "") + "-" + nameLobbyItem))
                                 online = entry.getValue();
 
-                        final GuiItem guiItem = new GuiItem(Gui.this, id, Integer.parseInt(online.split("/")[0]), name, lore, i, command, animation, Gui.server);
+                        final GuiItem guiItem = new GuiItem(Gui.this, id, Integer.parseInt(online.split("/")[0]), name, lore_result, i, command, new ArrayList<>(), Gui.server);
 
                         final ItemMeta meta = guiItem.getItemStack().getItemMeta();
                         final List<String> nlore = new ArrayList<>();
 
                         for (final String l : guiItem.lore) {
-                            final String line = l.replace("%so%", "" + online).replace("%map%", "" + lobby.getString("item.nameserver").replace(lobby.getString("item.nameserver").substring(0, 2), "") + "-" + nameLobbyItem);
+                            final String line = l.replace("%so%", "" + online).replace("%map%", (serverModel.size() > 0 ? serverModel.get(0).getMap() : "")).replace("%status%", serverModel.size() > 0 ? serverModel.get(0).isInGame() ? "In Game" : "Wait" : "");
                             nlore.add(line);
                         }
 
