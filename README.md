@@ -5,11 +5,11 @@
 Данный плагин не будет работать сам по себе, для его работы нужна CloudSystem!
 
 # Работает со следующиме системами:
- -** · TimoCloud (Рекомендуется)**
- -** · CloudNet**
- -** · CaveCloud**
- -** · CloudSystemIO**
- -** · ReformCloud**
+ -**· TimoCloud (Рекомендуется)**
+ -**· CloudNet**
+ -**· CaveCloud**
+ -**· CloudSystemIO**
+ -**· ReformCloud**
 
 # Зависимости:
  **· Holographic Displays (Не обязательно)**
