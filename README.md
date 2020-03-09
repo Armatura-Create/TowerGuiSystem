@@ -4,15 +4,14 @@
 Главная его особенность - это работа с системами **"Облачного управления"**
 Данный плагин не будет работать сам по себе, для его работы нужна CloudSystem!
 
-# Зависимости:
+# Работает со следующиме системами:
  ## · TimoCloud (Рекомендуется)
-    https://www.timo.cloud
  ## · CloudNet
-    https://www.spigotmc.org/resources/cloudnet-v3-the-cloud-network-environment-technology.42059
  ## · CaveCloud
-    https://cavecloud.net
  ## · CloudSystemIO
-    https://cloudsystem.io
  ## · ReformCloud
-    https://www.spigotmc.org/resources/reformcloud-v2.63950
+
+# Зависимости:
+ ## · Holographic Displays (Не обязательно)
+  Только для создания голограмм с выводом онлайна по группе серверов.
 
