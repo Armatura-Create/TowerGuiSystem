@@ -4,12 +4,12 @@ TowerGUISystem - мощный плагин для динамического в�
 
 Данный плагин не будет работать сам по себе, для его работы нужно:
  ## · TimoCloud (Рекомендуется)
-    https://www.timo.cloud/**
+    https://www.timo.cloud
  # · CloudNet
-    https://www.spigotmc.org/resources/cloudnet-v3-the-cloud-network-environment-technology.42059/
+    https://www.spigotmc.org/resources/cloudnet-v3-the-cloud-network-environment-technology.42059
  # · CaveCloud
-    https://cavecloud.net/
+    https://cavecloud.net
  # · CloudSystemIO
-    https://cloudsystem.io/
+    https://cloudsystem.io
  # · ReformCloud
-    https://www.spigotmc.org/resources/reformcloud-v2.63950/
+    https://www.spigotmc.org/resources/reformcloud-v2.63950
