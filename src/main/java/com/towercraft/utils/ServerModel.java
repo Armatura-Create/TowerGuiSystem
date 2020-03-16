@@ -5,7 +5,7 @@ public class ServerModel {
     private String group;
     private int maxPlayers;
     private int nowPlayer;
-    private boolean inGame;
+    private String inGame;
     private String map;
 
     public String getName() {
@@ -40,11 +40,11 @@ public class ServerModel {
         this.nowPlayer = nowPlayer;
     }
 
-    public boolean isInGame() {
+    public String getInStatus() {
         return inGame;
     }
 
-    public void setInGame(boolean inGame) {
+    public void setStatus(String inGame) {
         this.inGame = inGame;
     }
 

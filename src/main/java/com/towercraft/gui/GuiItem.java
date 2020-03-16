@@ -53,7 +53,7 @@ public class GuiItem {
             this.item = itemStack;
         } catch (Exception ex) {
             ex.printStackTrace();
-            TowerGuiSystem.log("\u041e\u0448\u0438\u0431\u043a\u0430 \u043f\u0440\u0438 \u0437\u0430\u0433\u0440\u0443\u0437\u043a\u0435 \u043f\u0440\u0435\u0434\u043c\u0435\u0442\u0430 '" + name + "' \u0432 Gui '" + gui.getName() + "'");
+            TowerGuiSystem.log("Ошибка при загрузке предмета '" + name + " - " + id + "' \u0432 Gui '" + gui.getName() + "'");
         }
 
         this.animation = animation;

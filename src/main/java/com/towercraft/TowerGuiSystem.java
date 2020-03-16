@@ -110,23 +110,27 @@ public final class TowerGuiSystem extends JavaPlugin implements CommandExecutor 
 
     List<ServerModel> getOnlineServers(String nameGroup) {
         List<ServerModel> result = new ArrayList<>();
+
         switch (source) {
             case "timocloud":
-                if (TimoCloudAPI.getUniversalAPI().getServerGroup(nameGroup) != null)
+                if (TimoCloudAPI.getUniversalAPI() != null && TimoCloudAPI.getUniversalAPI().getServerGroup(nameGroup) != null)
                     for (ServerObject temp :
                             TimoCloudAPI.getUniversalAPI().getServerGroup(nameGroup).getServers()) {
-                        ServerModel model = new ServerModel();
-                        model.setName(temp.getName());
-                        model.setGroup(nameGroup);
-                        model.setMaxPlayers(temp.getMaxPlayerCount());
-                        model.setNowPlayer(temp.getOnlinePlayerCount());
-                        model.setInGame(temp.getState().equalsIgnoreCase("in game"));
-                        model.setMap(temp.getMap());
-                        result.add(model);
+                        if (!temp.getState().equalsIgnoreCase("ingame")) {
+                            ServerModel model = new ServerModel();
+                            model.setName(temp.getName());
+                            model.setGroup(nameGroup);
+                            model.setMaxPlayers(temp.getMaxPlayerCount());
+                            model.setNowPlayer(temp.getOnlinePlayerCount());
+                            model.setStatus(temp.getState());
+                            model.setMap(temp.getMap());
+                            result.add(model);
+                        }
                     }
                 break;
             case "cloudnet":
-                if (CloudAPI.getInstance().getServers(nameGroup) != null)
+
+                if (CloudAPI.getInstance() != null && CloudAPI.getInstance().getServers(nameGroup) != null)
                     for (ServerInfo temp :
                             CloudAPI.getInstance().getServers(nameGroup)) {
                         ServerModel model = new ServerModel();
@@ -134,11 +138,11 @@ public final class TowerGuiSystem extends JavaPlugin implements CommandExecutor 
                         model.setGroup(nameGroup);
                         model.setMaxPlayers(temp.getMaxPlayers());
                         model.setNowPlayer(temp.getOnlineCount());
-                        model.setInGame(temp.isIngame());
+                        model.setStatus(temp.isIngame() ? "" : "");
 //                        model.setMap(temp.getServerConfig());
                         result.add(model);
                     }
-                    result = new ArrayList<>();
+                result = new ArrayList<>();
                 break;
             default:
                 log(getPrefix() + "Нет такого source - " + source);
@@ -146,7 +150,7 @@ public final class TowerGuiSystem extends JavaPlugin implements CommandExecutor 
                 break;
         }
 
-        result.sort(Ordering.usingToString());
+//        result.sort(Ordering.usingToString());
         return result;
     }
 
@@ -169,13 +173,13 @@ public final class TowerGuiSystem extends JavaPlugin implements CommandExecutor 
                         command = fileEntry.getName().replace(".yml", "");
                     }
                     Bukkit.getLogger().info("\u0417\u0430\u0433\u0440\u0443\u0436\u0430\u044e Gui '" + fileEntry.getName().replace(".yml", "") + "'");
-                    if (command.contains("lobby")) {
+                    if (command.split(":").length > 1 && command.split(":")[1].contains("dynamic")) {
                         File templates = new File(TowerGuiSystem.instance.getDataFolder() + File.separator + "Templates" + File.separator + configuration.getString("templates", null) + ".yml");
                         if (!templates.exists()) {
                             templates.mkdir();
-                            log("Файл - " + configuration.getString("template", null) + ".yml не найден");
+                            log(getPrefix() + "Файл - " + configuration.getString("template", null) + ".yml не найден");
                         }
-                        this.guis.put(command, new Gui(command, configuration, YamlConfiguration.loadConfiguration(templates)));
+                        this.guis.put(command.split(":")[0], new Gui(command.split(":")[0], configuration, YamlConfiguration.loadConfiguration(templates)));
                     } else
                         this.guis.put(command, new Gui(command, configuration));
                     Bukkit.getLogger().info("Gui '" + fileEntry.getName().replace(".yml", "") + "' \u0443\u0441\u043f\u0435\u0448\u043d\u043e \u0437\u0430\u0433\u0440\u0443\u0436\u0435\u043d\u043e");
@@ -204,11 +208,11 @@ public final class TowerGuiSystem extends JavaPlugin implements CommandExecutor 
 
         TowerGuiSystem.servers.sort(Comparator.comparing(ServerModel::getNowPlayer));
 
-        for (final ServerModel s : TowerGuiSystem.servers) {
-            if (s.getName().contains(where.split("_")[0])) {
+        for (final ServerModel s : TowerGuiSystem.servers)
+            if (s.getName().contains(where.split("_")[0]) && s.getInStatus().equalsIgnoreCase("online"))
                 servers.add(s);
-            }
-        }
+
+        System.out.println(where);
 
         if (servers.size() < 1)
             p.sendMessage(getPrefix() + "Не найден сервер");
@@ -216,9 +220,6 @@ public final class TowerGuiSystem extends JavaPlugin implements CommandExecutor 
         switch (type) {
             case "random":
                 Collections.shuffle(servers);
-                break;
-
-            case "normal":
                 break;
 
             case "max":
@@ -239,6 +240,7 @@ public final class TowerGuiSystem extends JavaPlugin implements CommandExecutor 
             try {
                 out.writeUTF("Connect");
                 out.writeUTF(servers.get(0).getName());
+                System.out.println(servers.get(0).getName());
             } catch (IOException e) {
                 log(e.getMessage());
             }
