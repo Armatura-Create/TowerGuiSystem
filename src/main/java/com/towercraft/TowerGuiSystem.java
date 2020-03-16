@@ -92,14 +92,17 @@ public final class TowerGuiSystem extends JavaPlugin implements CommandExecutor 
                             TowerGuiSystem.lobbysOnline.put(s.getName(), s.getNowPlayer() + "/" + s.getMaxPlayers());
                     } else {
                         servers.addAll(getOnlineServers(group));
-                        for (final ServerModel s : getOnlineServers(group)) {
-                            if (s.getName().split("-").length > 1 && s.getName().split("-")[1].equals("1"))
-                                TowerGuiSystem.serversOnline.put(s.getName().split("-")[0], 0 + "/" + 0);
-                            else if (s.getName().split("-").length == 1)
-                                TowerGuiSystem.serversOnline.put(s.getName().split("-")[0], 0 + "/" + 0);
-                            int now = (TowerGuiSystem.serversOnline.get(s.getName().split("-")[0]) != null ? Integer.parseInt(TowerGuiSystem.serversOnline.get(s.getName().split("-")[0]).split("/")[0]) : 0) + s.getNowPlayer();
-                            int max = (TowerGuiSystem.serversOnline.get(s.getName().split("-")[0]) != null ? Integer.parseInt(TowerGuiSystem.serversOnline.get(s.getName().split("-")[0]).split("/")[1]) : 0) + s.getMaxPlayers();
-                            TowerGuiSystem.serversOnline.put(s.getName().split("-")[0], now + "/" + max);
+
+                        for (int i = 0; i < getOnlineServers(group).size(); i++) {
+                            ServerModel temp = getOnlineServers(group).get(i);
+                            if (temp.getName().split("-").length > 1 && i == 0)
+                                TowerGuiSystem.serversOnline.put(getOnlineServers(group).get(i).getName().split("-")[0], 0 + "/" + 0);
+                            else if (temp.getName().split("-").length == 1)
+                                TowerGuiSystem.serversOnline.put(temp.getName().split("-")[0], 0 + "/" + 0);
+                            int now = (TowerGuiSystem.serversOnline.get(temp.getName().split("-")[0]) != null ? Integer.parseInt(TowerGuiSystem.serversOnline.get(temp.getName().split("-")[0]).split("/")[0]) : 0) + temp.getNowPlayer();
+                            int max = (TowerGuiSystem.serversOnline.get(temp.getName().split("-")[0]) != null ? Integer.parseInt(TowerGuiSystem.serversOnline.get(temp.getName().split("-")[0]).split("/")[1]) : 0) + temp.getMaxPlayers();
+                            TowerGuiSystem.serversOnline.put(temp.getName().split("-")[0], now + "/" + max);
+
                         }
                     }
                 } else if (group.split(":").length == 1)
@@ -122,7 +125,7 @@ public final class TowerGuiSystem extends JavaPlugin implements CommandExecutor 
                             model.setGroup(nameGroup);
                             model.setMaxPlayers(temp.getMaxPlayerCount());
                             model.setNowPlayer(temp.getOnlinePlayerCount());
-                            model.setStatus(temp.getState());
+                            model.setStatus(temp.getState().equalsIgnoreCase("online") ? "Waiting" : temp.getState());
                             model.setMap(temp.getMap());
                             result.add(model);
                         }
@@ -134,18 +137,18 @@ public final class TowerGuiSystem extends JavaPlugin implements CommandExecutor 
                     for (ServerInfo temp :
                             CloudAPI.getInstance().getServers(nameGroup)) {
                         ServerModel model = new ServerModel();
-                        model.setName(temp.getMotd()); //Не знаю пока
+                        model.setName(temp.getServerConfig().getProperties().getName());
                         model.setGroup(nameGroup);
                         model.setMaxPlayers(temp.getMaxPlayers());
                         model.setNowPlayer(temp.getOnlineCount());
                         model.setStatus(temp.isIngame() ? "" : "");
-//                        model.setMap(temp.getServerConfig());
+                        model.setMap(temp.isIngame() ? "InGame" : "Waiting");
                         result.add(model);
                     }
                 result = new ArrayList<>();
                 break;
             default:
-                log(getPrefix() + "Нет такого source - " + source);
+                log("Нет такого source - " + source);
                 this.setEnabled(false);
                 break;
         }
@@ -172,19 +175,19 @@ public final class TowerGuiSystem extends JavaPlugin implements CommandExecutor 
                     if (command == null) {
                         command = fileEntry.getName().replace(".yml", "");
                     }
-                    Bukkit.getLogger().info("\u0417\u0430\u0433\u0440\u0443\u0436\u0430\u044e Gui '" + fileEntry.getName().replace(".yml", "") + "'");
+                    Bukkit.getLogger().info("Загружаю Gui '" + fileEntry.getName().replace(".yml", "") + "'");
                     if (command.split(":").length > 1 && command.split(":")[1].contains("dynamic")) {
                         File templates = new File(TowerGuiSystem.instance.getDataFolder() + File.separator + "Templates" + File.separator + configuration.getString("templates", null) + ".yml");
                         if (!templates.exists()) {
                             templates.mkdir();
-                            log(getPrefix() + "Файл - " + configuration.getString("template", null) + ".yml не найден");
+                            log("Файл - " + configuration.getString("template", null) + ".yml не найден");
                         }
                         this.guis.put(command.split(":")[0], new Gui(command.split(":")[0], configuration, YamlConfiguration.loadConfiguration(templates)));
                     } else
                         this.guis.put(command, new Gui(command, configuration));
-                    Bukkit.getLogger().info("Gui '" + fileEntry.getName().replace(".yml", "") + "' \u0443\u0441\u043f\u0435\u0448\u043d\u043e \u0437\u0430\u0433\u0440\u0443\u0436\u0435\u043d\u043e");
+                    Bukkit.getLogger().info("Gui '" + fileEntry.getName().replace(".yml", "") + "' успешно загружено");
                 } catch (Exception ex) {
-                    Bukkit.getLogger().info("\u041e\u0448\u0438\u0431\u043a\u0430 \u043f\u0440\u0438 \u0437\u0430\u0433\u0440\u0443\u0437\u043a\u0435 GUI - " + fileEntry.getName().replace(".yml", ""));
+                    Bukkit.getLogger().info("ошибка при загрузки GUI - " + fileEntry.getName().replace(".yml", ""));
                     ex.printStackTrace();
                 }
             }
@@ -209,7 +212,8 @@ public final class TowerGuiSystem extends JavaPlugin implements CommandExecutor 
         TowerGuiSystem.servers.sort(Comparator.comparing(ServerModel::getNowPlayer));
 
         for (final ServerModel s : TowerGuiSystem.servers)
-            if (s.getName().contains(where.split("_")[0]) && s.getInStatus().equalsIgnoreCase("online"))
+            if (s.getName().contains(where.split("_")[0])
+                    && (s.getInStatus().equalsIgnoreCase("online") || s.getInStatus().equalsIgnoreCase("waiting")))
                 servers.add(s);
 
         System.out.println(where);
@@ -262,13 +266,13 @@ public final class TowerGuiSystem extends JavaPlugin implements CommandExecutor 
         switch (commandLabel.split("_")[0]) {
             case "gui":
                 if (args.length == 0) {
-                    sender.sendMessage(getPrefix() + "\u041e\u0442\u043a\u0440\u044b\u0442\u044c Gui - §c/gui open [\u043d\u0430\u0437\u0432\u0430\u043d\u0438\u0435]");
-                    sender.sendMessage(getPrefix() + "\u0421\u043f\u0438\u0441\u043e\u043a Gui - §c/gui list");
+                    sender.sendMessage(getPrefix() + "Открыть Gui - §c/gui open [название]");
+                    sender.sendMessage(getPrefix() + "Список Gui - §c/gui list");
                     return true;
                 }
                 if (args.length == 1) {
                     if (args[0].equalsIgnoreCase("list")) {
-                        sender.sendMessage(getPrefix() + "\u0421\u043f\u0438\u0441\u043e\u043a Gui:");
+                        sender.sendMessage(getPrefix() + "Список Gui:");
                         for (final String name : this.guis.keySet()) {
                             sender.sendMessage("§f- §c" + name);
                         }
@@ -285,15 +289,15 @@ public final class TowerGuiSystem extends JavaPlugin implements CommandExecutor 
                     if (args[0].equalsIgnoreCase("open")) {
                         final Gui gui = this.guis.get(args[1]);
                         if (gui == null) {
-                            sender.sendMessage(getPrefix() + "§cGui \u043d\u0435 \u043d\u0430\u0439\u0434\u0435\u043d\u043e!");
+                            sender.sendMessage(getPrefix() + "§cGui не найденв!");
                             return true;
                         }
                         gui.open(player);
                         return true;
                     }
                 }
-                sender.sendMessage(getPrefix() + "\u041e\u0442\u043a\u0440\u044b\u0442\u044c Gui - §c/gui open [\u043d\u0430\u0437\u0432\u0430\u043d\u0438\u0435]");
-                sender.sendMessage(getPrefix() + "\u0421\u043f\u0438\u0441\u043e\u043a Gui - §c/gui list");
+                sender.sendMessage(getPrefix() + "Открыть Gui - §c/gui open [название]");
+                sender.sendMessage(getPrefix() + "Список Gui - §c/gui list");
                 return true;
 
             case "connect":

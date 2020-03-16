@@ -111,18 +111,13 @@ public class Gui {
                             final String command = "server:" + filterLobby.get(countName - 1).getName();
                             Gui.server = name;
 
-                            String online = "";
-                            for (Map.Entry<String, String> entry : TowerGuiSystem.lobbysOnline.entrySet())
-                                if (entry.getKey().contains(lobbyGet.getName()))
-                                    online = entry.getValue();
-
-                            final GuiItem guiItem = new GuiItem(Gui.this, id, Integer.parseInt(online.split("/")[0]), name, lore_result, i, command, new ArrayList<>(), Gui.server);
+                            final GuiItem guiItem = new GuiItem(Gui.this, id, Integer.parseInt(TowerGuiSystem.lobbysOnline.get(lobbyGet.getName()).split("/")[0]), name, lore_result, i, command, new ArrayList<>(), Gui.server);
 
                             final ItemMeta meta = guiItem.getItemStack().getItemMeta();
                             final List<String> nlore = new ArrayList<>();
 
                             for (final String l : guiItem.lore) {
-                                final String line = l.replace("%so%", "" + online).replace("%map%", lobbyGet.getMap()).replace("%status%", lobbyGet.getInStatus());
+                                final String line = l.replace("%so%", "" + TowerGuiSystem.lobbysOnline.get(lobbyGet.getName())).replace("%map%", lobbyGet.getMap()).replace("%status%", lobbyGet.getInStatus());
                                 nlore.add(line);
                             }
 
@@ -171,7 +166,7 @@ public class Gui {
                 final int amount = this.config.getInt("Items." + itemName + ".amount");
                 Gui.server = this.config.getString("Items." + itemName + ".server");
                 List<List<String>> animation;
-                TowerGuiSystem.log("\u0417\u0430\u0433\u0440\u0443\u0436\u0430\u044e \u0430\u043d\u0438\u043c\u0430\u0446\u0438\u044e \u0434\u043b\u044f \u043f\u0440\u0435\u0434\u043c\u0435\u0442\u0430 " + itemName);
+                TowerGuiSystem.log("Загружаю анимацию для предмета " + itemName);
                 animation = new ArrayList<>();
                 for (final String string : this.config.getConfigurationSection("Items." + itemName + ".animation").getKeys(false)) {
                     final List<String> list = new ArrayList<>();
@@ -180,7 +175,7 @@ public class Gui {
                     }
                     animation.add(list);
                 }
-                TowerGuiSystem.log("\u041b\u0438\u0441\u0442\u043e\u0432 \u0432 \u0430\u043d\u0438\u043c\u0430\u0446\u0438\u0438 - " + animation.size());
+                TowerGuiSystem.log("Листов в анимации - " + animation.size());
                 final GuiItem guiItem = new GuiItem(this, id, amount, name, lore, slot, command, animation, Gui.server);
                 this.items.put(slot, guiItem);
                 this.startSheduler(guiItem);
@@ -189,12 +184,12 @@ public class Gui {
                         this.inventory.setItem(s, this.items.get(s).getItemStack());
                     } catch (Exception ex) {
                         ex.printStackTrace();
-                        TowerGuiSystem.log("\u041f\u0440\u0435\u0434\u043c\u0435\u0442 \u0432 \u0441\u043b\u043e\u0442\u0435 '" + s + "' \u0432\u044b\u0437\u0432\u0430\u043b \u043e\u0448\u0438\u0431\u043a\u0443!");
+                        TowerGuiSystem.log("Предмет в слоте '" + s + "' вызвал ошибку!");
                     }
                 }
             } catch (Exception ex2) {
                 ex2.printStackTrace();
-                TowerGuiSystem.log("\u041e\u0448\u0438\u0431\u043a\u0430 \u043f\u0440\u0438 \u0437\u0430\u0433\u0440\u0443\u0437\u043a\u0435 \u043f\u0440\u0435\u0434\u043c\u0435\u0442\u0430 '" + itemName + "' \u0432 GUI '" + this.name + "'");
+                TowerGuiSystem.log("Ошибка при загрузке предмета '" + itemName + "' в GUI '" + this.name + "'");
             }
         }
     }

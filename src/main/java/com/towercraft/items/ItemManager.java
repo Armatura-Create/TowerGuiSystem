@@ -36,18 +36,18 @@ public class ItemManager {
             try {
                 final String id = this.config.getString("JoinItems." + name + ".id", null);
                 if (id == null) {
-                    throw new Exception("\u041d\u0435\u0432\u0435\u0440\u043d\u043e \u0443\u043a\u0430\u0437\u0430\u043d 'id' \u043f\u0440\u0435\u0434\u043c\u0435\u0442\u0430");
+                    throw new Exception("Неверно указан 'id' предмета");
                 }
                 if (Material.getMaterial(id.split(":")[0]) == null) {
-                    throw new Exception("\u041d\u0435\u0432\u0435\u0440\u043d\u043e \u0443\u043a\u0430\u0437\u0430\u043d 'id' \u043f\u0440\u0435\u0434\u043c\u0435\u0442\u0430 " + name);
+                    throw new Exception("Неверно указан 'id' предмета " + name);
                 }
                 int slot = this.config.getInt("JoinItems." + name + ".slot", 0);
                 if (slot <= 0 || slot >= 40) {
-                    throw new Exception("\u041d\u0435\u0432\u0435\u0440\u043d\u043e \u0443\u043a\u0430\u0437\u0430\u043d 'slot' \u043f\u0440\u0435\u0434\u043c\u0435\u0442\u0430 " + name);
+                    throw new Exception("Неверно указан 'slot' предмета " + name);
                 }
                 --slot;
                 if (this.items.get(slot) != null) {
-                    throw new Exception("\u041f\u0440\u0435\u0434\u043c\u0435\u0442 \u0441 \u0434\u0430\u043d\u043d\u044b\u043c \u0441\u043b\u043e\u0442\u043e\u043c \u0443\u0436\u0435 \u0441\u0443\u0449\u0435\u0441\u0442\u0432\u0443\u0435\u0442!");
+                    throw new Exception("Предмет с данным слотом уже существует!");
                 }
                 final String displayName = this.config.getString("JoinItems." + name + ".name", null);
                 final List<String> lore = this.config.getStringList("JoinItems." + name + ".lore");
@@ -55,15 +55,15 @@ public class ItemManager {
                 final int cooldown = this.config.getInt("JoinItems." + name + ".cooldown", 0);
                 final int amount = this.config.getInt("JoinItems." + name + ".amount", 1);
                 if (amount <= 0 || amount > 64) {
-                    throw new Exception("\u041d\u0435\u0432\u0435\u0440\u043d\u043e \u0443\u043a\u0430\u0437\u0430\u043d\u043e 'amount' \u043f\u0440\u0435\u0434\u043c\u0435\u0442\u0430 " + name);
+                    throw new Exception("Неверно указано 'amount' предмета " + name);
                 }
                 final boolean drop = this.config.getBoolean("JoinItems." + name + ".drop", false);
                 final boolean move = this.config.getBoolean("JoinItems." + name + ".move", false);
                 final Item item = new Item(name, id, slot, displayName, lore, command, amount, drop, move, cooldown);
                 this.items.put(slot, item);
-                TowerGuiSystem.log("[TGSItems] \u041f\u0440\u0435\u0434\u043c\u0435\u0442 '" + name + "' \u0443\u0441\u043f\u0435\u0448\u043d\u043e \u0437\u0430\u0433\u0440\u0443\u0436\u0435\u043d");
+                TowerGuiSystem.log("[TGSItems] Предмет '" + name + "' успешно загружен");
             } catch (Exception ex2) {
-                TowerGuiSystem.log("[TGSItems] \u041e\u0448\u0438\u0431\u043a\u0430 \u043f\u0440\u0438 \u0437\u0430\u0433\u0440\u0443\u0437\u043a\u0435 \u043f\u0440\u0435\u0434\u043c\u0435\u0442\u0430 '" + name + "'. \u041e\u0448\u0438\u0431\u043a\u0430 - " + ex2.getMessage());
+                TowerGuiSystem.log("[TGSItems] Ошибка при загрузке предмета '" + name + "'. Ошибка - " + ex2.getMessage());
             }
         }
     }
