@@ -1,14 +1,5 @@
 general:
-  name_group: #Перечислять серваки которые выводить
-    - "Creative"
-    - "LA"
-    - "Towny"
-    - "Hub"
-    - "Hub:Dynamic"
-    - "Survival"
-    - "SurvVanilla"
-    - "Test"
-  source: "timocloud" #Cloud system (timocloud, cloudnet...)
+  server_name: "Test" #Имя текущего сервака
 
 Enable:
   Gui: true

@@ -1,17 +1,14 @@
 package com.towercraft;
 
-import cloud.timo.TimoCloud.api.TimoCloudAPI;
-import cloud.timo.TimoCloud.api.objects.ServerObject;
-import com.google.common.collect.Ordering;
+import com.google.common.io.ByteArrayDataInput;
+import com.google.common.io.ByteArrayDataOutput;
+import com.google.common.io.ByteStreams;
 import com.towercraft.gui.Gui;
 import com.towercraft.items.ItemListener;
 import com.towercraft.items.ItemManager;
 import com.towercraft.utils.ServerModel;
-import de.dytanic.cloudnet.api.CloudAPI;
-import de.dytanic.cloudnet.lib.server.info.ServerInfo;
-import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.chat.ComponentBuilder;
 import org.bukkit.Bukkit;
+import org.bukkit.Server;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -20,6 +17,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.plugin.messaging.PluginMessageListener;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
@@ -28,16 +26,16 @@ import java.io.IOException;
 import java.util.*;
 import java.util.logging.Logger;
 
-public final class TowerGuiSystem extends JavaPlugin implements CommandExecutor {
+public final class TowerGuiSystem extends JavaPlugin implements CommandExecutor, PluginMessageListener {
 
     public static TowerGuiSystem instance;
     private HashMap<String, Gui> guis;
     public ItemManager itemManager;
     public static TowerGuiSystem plugin;
-    private String source;
     boolean gui;
     boolean items;
     public boolean clearOnJoin;
+    public static boolean isUpdate = false;
     public static String nameServer;
     public static List<ServerModel> servers;
     public static List<ServerModel> lobbys;
@@ -53,25 +51,17 @@ public final class TowerGuiSystem extends JavaPlugin implements CommandExecutor 
 
     public void startUpdate() {
         (this.updater = new Thread(() -> {
-            long tick = 0L;
-            outer:
             while (true) {
-                while (true) {
-                    try {
-                        while (true) {
-                            Thread.sleep(50L);
-                            if (tick == Long.MAX_VALUE) {
-                                tick = 0L;
-                            }
-                            if (tick == 0L || tick % 100L == 0L) {
-                                TowerGuiSystem.this.mainRunnable.run();
-                            }
-                            ++tick;
-                        }
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
-                        continue outer;
+                try {
+                    while (true) {
+                        Thread.sleep(5000L);
+                        if (Bukkit.getOnlinePlayers().toArray().length > 0 && nameServer == null)
+                            setCurrentServer();
+                        if (nameServer != null && !isUpdate)
+                            TowerGuiSystem.this.mainRunnable.run();
                     }
+                } catch (Exception ex) {
+                    ex.printStackTrace();
                 }
             }
         })).start();
@@ -79,82 +69,17 @@ public final class TowerGuiSystem extends JavaPlugin implements CommandExecutor 
 
     void staticRunnable() {
         this.mainRunnable = () -> {
-            if (TimoCloudAPI.getBukkitAPI() != null)
-                if (TimoCloudAPI.getBukkitAPI().getThisServer() != null)
-                    nameServer = TimoCloudAPI.getBukkitAPI().getThisServer().getName();
-            servers.clear();
-            lobbys.clear();
-            for (String group : instance.getConfig().getConfigurationSection("general").getStringList("name_group")) {
-                if (getOnlineServers(group.split(":")[0]).size() > 0) {
-                    if (group.split(":").length > 1) {
-                        lobbys.addAll(getOnlineServers(group.split(":")[0]));
-                        for (final ServerModel s : getOnlineServers(group.split(":")[0]))
-                            TowerGuiSystem.lobbysOnline.put(s.getName(), s.getNowPlayer() + "/" + s.getMaxPlayers());
-                    } else {
-                        servers.addAll(getOnlineServers(group));
+            final ByteArrayOutputStream b = new ByteArrayOutputStream();
+            final DataOutputStream out = new DataOutputStream(b);
 
-                        for (int i = 0; i < getOnlineServers(group).size(); i++) {
-                            ServerModel temp = getOnlineServers(group).get(i);
-                            if (temp.getName().split("-").length > 1 && i == 0)
-                                TowerGuiSystem.serversOnline.put(getOnlineServers(group).get(i).getName().split("-")[0], 0 + "/" + 0);
-                            else if (temp.getName().split("-").length == 1)
-                                TowerGuiSystem.serversOnline.put(temp.getName().split("-")[0], 0 + "/" + 0);
-                            int now = (TowerGuiSystem.serversOnline.get(temp.getName().split("-")[0]) != null ? Integer.parseInt(TowerGuiSystem.serversOnline.get(temp.getName().split("-")[0]).split("/")[0]) : 0) + temp.getNowPlayer();
-                            int max = (TowerGuiSystem.serversOnline.get(temp.getName().split("-")[0]) != null ? Integer.parseInt(TowerGuiSystem.serversOnline.get(temp.getName().split("-")[0]).split("/")[1]) : 0) + temp.getMaxPlayers();
-                            TowerGuiSystem.serversOnline.put(temp.getName().split("-")[0], now + "/" + max);
-
-                        }
-                    }
-                } else if (group.split(":").length == 1)
-                    TowerGuiSystem.serversOnline.put(group, 0 + "/" + 0);
+            try {
+                out.writeUTF(nameServer);
+            } catch (IOException e) {
+                e.printStackTrace();
             }
+
+            getServer().sendPluginMessage(plugin, "tgs:channel", b.toByteArray());
         };
-    }
-
-    List<ServerModel> getOnlineServers(String nameGroup) {
-        List<ServerModel> result = new ArrayList<>();
-
-        switch (source) {
-            case "timocloud":
-                if (TimoCloudAPI.getUniversalAPI() != null && TimoCloudAPI.getUniversalAPI().getServerGroup(nameGroup) != null)
-                    for (ServerObject temp :
-                            TimoCloudAPI.getUniversalAPI().getServerGroup(nameGroup).getServers()) {
-                        if (!temp.getState().equalsIgnoreCase("ingame")) {
-                            ServerModel model = new ServerModel();
-                            model.setName(temp.getName());
-                            model.setGroup(nameGroup);
-                            model.setMaxPlayers(temp.getMaxPlayerCount());
-                            model.setNowPlayer(temp.getOnlinePlayerCount());
-                            model.setStatus(temp.getState().equalsIgnoreCase("online") ? "Waiting" : temp.getState());
-                            model.setMap(temp.getMap());
-                            result.add(model);
-                        }
-                    }
-                break;
-            case "cloudnet":
-
-                if (CloudAPI.getInstance() != null && CloudAPI.getInstance().getServers(nameGroup) != null)
-                    for (ServerInfo temp :
-                            CloudAPI.getInstance().getServers(nameGroup)) {
-                        ServerModel model = new ServerModel();
-                        model.setName(temp.getServerConfig().getProperties().getName());
-                        model.setGroup(nameGroup);
-                        model.setMaxPlayers(temp.getMaxPlayers());
-                        model.setNowPlayer(temp.getOnlineCount());
-                        model.setStatus(temp.isIngame() ? "" : "");
-                        model.setMap(temp.isIngame() ? "InGame" : "Waiting");
-                        result.add(model);
-                    }
-                result = new ArrayList<>();
-                break;
-            default:
-                log("Нет такого source - " + source);
-                this.setEnabled(false);
-                break;
-        }
-
-//        result.sort(Ordering.usingToString());
-        return result;
     }
 
     void loadGui() {
@@ -187,7 +112,7 @@ public final class TowerGuiSystem extends JavaPlugin implements CommandExecutor 
                         this.guis.put(command, new Gui(command, configuration));
                     Bukkit.getLogger().info("Gui '" + fileEntry.getName().replace(".yml", "") + "' успешно загружено");
                 } catch (Exception ex) {
-                    Bukkit.getLogger().info("ошибка при загрузки GUI - " + fileEntry.getName().replace(".yml", ""));
+                    Bukkit.getLogger().info("Ошибка при загрузки GUI - " + fileEntry.getName().replace(".yml", ""));
                     ex.printStackTrace();
                 }
             }
@@ -213,13 +138,23 @@ public final class TowerGuiSystem extends JavaPlugin implements CommandExecutor 
 
         for (final ServerModel s : TowerGuiSystem.servers)
             if (s.getName().contains(where.split("_")[0])
-                    && (s.getInStatus().equalsIgnoreCase("online") || s.getInStatus().equalsIgnoreCase("waiting")))
+                    && (!s.getInStatus().equalsIgnoreCase("ingame")))
                 servers.add(s);
 
-        System.out.println(where);
-
-        if (servers.size() < 1)
-            p.sendMessage(getPrefix() + "Не найден сервер");
+        if (servers.size() < 1) {
+            String result;
+            if (Integer.parseInt(getMinecraftVersion(TowerGuiSystem.plugin.getServer()).replace(".", "-").split("-")[1]) >= 12)
+                switch (p.getLocale().toLowerCase()) {
+                    case "ru_ru":
+                        result = "Не найден сервер";
+                        break;
+                    default:
+                        result = "Server not found";
+                }
+            else
+                result = "Не найден сервер";
+            p.sendMessage(getPrefix() + result);
+        }
 
         switch (type) {
             case "random":
@@ -233,8 +168,20 @@ public final class TowerGuiSystem extends JavaPlugin implements CommandExecutor 
 
         if (servers.size() > 0) {
 
-            if (p.getServer().getName().equalsIgnoreCase(servers.get(0).getName())) {
-                p.sendMessage(Arrays.toString(new ComponentBuilder("Вы уже находитесь на - " + where.split("_")[0]).color(ChatColor.RED).create()));
+            if (nameServer.equalsIgnoreCase(servers.get(0).getName())) {
+                String result;
+
+                if (Integer.parseInt(getMinecraftVersion(TowerGuiSystem.plugin.getServer()).replace(".", "-").split("-")[1]) >= 12)
+                    switch (p.getLocale().toLowerCase()) {
+                        case "ru_ru":
+                            result = "Вы уже находитесь в - ";
+                            break;
+                        default:
+                            result = "You are already in - ";
+                    }
+                else
+                    result = "Вы уже находитесь в - ";
+                p.sendMessage(getPrefix() + result + "§a" + nameServer);
                 return;
             }
 
@@ -244,7 +191,6 @@ public final class TowerGuiSystem extends JavaPlugin implements CommandExecutor 
             try {
                 out.writeUTF("Connect");
                 out.writeUTF(servers.get(0).getName());
-                System.out.println(servers.get(0).getName());
             } catch (IOException e) {
                 log(e.getMessage());
             }
@@ -273,6 +219,18 @@ public final class TowerGuiSystem extends JavaPlugin implements CommandExecutor 
                 if (args.length == 1) {
                     if (args[0].equalsIgnoreCase("list")) {
                         sender.sendMessage(getPrefix() + "Список Gui:");
+
+                        final ByteArrayOutputStream b = new ByteArrayOutputStream();
+                        final DataOutputStream out = new DataOutputStream(b);
+
+                        try {
+                            out.writeUTF(nameServer);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+                        getServer().sendPluginMessage(plugin, "tgs:channel", b.toByteArray());
+
                         for (final String name : this.guis.keySet()) {
                             sender.sendMessage("§f- §c" + name);
                         }
@@ -315,6 +273,63 @@ public final class TowerGuiSystem extends JavaPlugin implements CommandExecutor 
     }
 
     @Override
+    public void onPluginMessageReceived(String channel, Player player, byte[] message) {
+
+        if (!channel.equals("tgs:channel")) {
+            return;
+        }
+
+        ByteArrayDataInput in = ByteStreams.newDataInput(message);
+
+        servers.clear();
+        lobbys.clear();
+        serversOnline.clear();
+        lobbysOnline.clear();
+
+        while (true) {
+            try {
+                String[] data = in.readUTF().split(":");
+
+                if (data[0].equals("serverName")) {
+                    nameServer = data[1];
+                    return;
+                }
+
+                ServerModel temp = new ServerModel(data[1], data[2], data[3], data[4], Integer.parseInt(data[5]), Integer.parseInt(data[6]));
+
+                if (data[0].equals("server"))
+                    servers.add(temp);
+                else
+                    lobbys.add(temp);
+            } catch (Exception e) {
+                break;
+            }
+        }
+
+        for (final ServerModel s : lobbys)
+            lobbysOnline.put(s.getName(), s.getNowPlayer() + "/" + s.getMaxPlayers());
+
+        for (int i = 0; i < servers.size(); i++) {
+            ServerModel temp = servers.get(i);
+            if (temp.getName().split("-").length > 1 && i == 0)
+                serversOnline.put(temp.getName().split("-")[0], 0 + "/" + 0);
+            else if (temp.getName().split("-").length == 1)
+                serversOnline.put(temp.getName().split("-")[0], 0 + "/" + 0);
+            int now = (serversOnline.get(temp.getName().split("-")[0]) != null ? Integer.parseInt(serversOnline.get(temp.getName().split("-")[0]).split("/")[0]) : 0) + temp.getNowPlayer();
+            int max = (serversOnline.get(temp.getName().split("-")[0]) != null ? Integer.parseInt(serversOnline.get(temp.getName().split("-")[0]).split("/")[1]) : 0) + temp.getMaxPlayers();
+            serversOnline.put(temp.getName().split("-")[0], now + "/" + max);
+        }
+    }
+
+    private static String getMinecraftVersion(Server server) {
+        // Same substring as the one bStats uses, so should be safe
+        String version = server.getVersion();
+        int start = version.indexOf("MC: ") + 4;
+        int end = version.length() - 1;
+        return version.substring(start, end);
+    }
+
+    @Override
     public void onEnable() {
 
         //TODO Добавить проверку на все нужные плагины
@@ -326,28 +341,41 @@ public final class TowerGuiSystem extends JavaPlugin implements CommandExecutor 
 
         Bukkit.getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
 
+        //Регистрируем канал для получения серваков
+        Bukkit.getMessenger().registerOutgoingPluginChannel(this, "tgs:channel");
+        Bukkit.getMessenger().registerIncomingPluginChannel(this, "tgs:channel", this);
+
         this.gui = this.getConfig().getBoolean("Enable.Gui");
         this.items = this.getConfig().getBoolean("Enable.Items");
-        this.source = this.getConfig().getString("general.source");
-        this.loadItems();
-        this.staticRunnable();
-        this.startUpdate();
+
+        loadItems();
         this.getCommand("gui").setExecutor(this);
         this.getCommand("connect").setExecutor(this);
         loadGui();
+
+        this.staticRunnable();
+        this.startUpdate();
     }
+    public void setCurrentServer(){
+        ByteArrayDataOutput out = ByteStreams.newDataOutput();
+        Player player = (Player)Bukkit.getOnlinePlayers().toArray()[0];
+        out.writeUTF(player.getName());
+        player.sendPluginMessage(this, "tgs:channel", out.toByteArray());
+    }
+
 
     static {
         TowerGuiSystem.servers = new ArrayList<>();
-        TowerGuiSystem.nameServer = "";
+        TowerGuiSystem.nameServer = null;
         TowerGuiSystem.lobbys = new ArrayList<>();
         TowerGuiSystem.serversOnline = new HashMap<>();
         TowerGuiSystem.lobbysOnline = new HashMap<>();
-        TowerGuiSystem.prefix = "§f[§eTowerGuiMenu§f] ";
+        TowerGuiSystem.prefix = "§6TGS §8» §7";
     }
 
     @Override
     public void onDisable() {
         Bukkit.getMessenger().unregisterIncomingPluginChannel(this, "BungeeCord");
+        Bukkit.getMessenger().unregisterIncomingPluginChannel(this, "tgs:channel");
     }
 }

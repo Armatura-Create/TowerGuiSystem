@@ -65,7 +65,7 @@ public class Gui {
             @Override
             public void run() {
 
-
+                TowerGuiSystem.isUpdate = true;
 
                 int countName = 0;
 
@@ -77,6 +77,7 @@ public class Gui {
                         plus++;
                         continue;
                     }
+
                     items.remove(i);
                     inventory.clear(i);
                     countName++;
@@ -139,6 +140,8 @@ public class Gui {
                         ex.printStackTrace();
                     }
                 }
+
+                TowerGuiSystem.isUpdate = false;
             }
         }.runTaskTimer(TowerGuiSystem.instance, 40L, 20L);
     }
@@ -199,13 +202,12 @@ public class Gui {
             public void run() {
                 final ItemMeta meta = item.getItemStack().getItemMeta();
                 final List<String> nlore = new ArrayList<>();
-                String online = "";
-                for (Map.Entry<String, String> entry : TowerGuiSystem.serversOnline.entrySet())
-                    if (entry.getKey().contains(item.server))
-                        online = Integer.parseInt(entry.getValue().split("/")[1]) == 0 ? "§cOffline" : entry.getValue();
+                String online;
+
+                online = TowerGuiSystem.serversOnline.get(item.server) == null ? "§cOffline" : TowerGuiSystem.serversOnline.get(item.server);
 
                 for (final String l : item.lore) {
-                    final String line = l.replace("%so%", "" + online);
+                    final String line = l.replace("%so%", online);
                     nlore.add(line);
                 }
 

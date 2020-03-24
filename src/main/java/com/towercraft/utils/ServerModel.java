@@ -8,6 +8,17 @@ public class ServerModel {
     private String inGame;
     private String map;
 
+    public ServerModel() {}
+
+    public ServerModel(String name, String group, String map, String inGame, int nowPlayer, int maxPlayers) {
+        this.name = name;
+        this.group = group;
+        this.maxPlayers = maxPlayers;
+        this.nowPlayer = nowPlayer;
+        this.inGame = inGame;
+        this.map = map;
+    }
+
     public String getName() {
         return name;
     }
