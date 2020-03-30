@@ -1,4 +1,4 @@
-command: 'lobby:dynamic'
+command: 'lobby_ru:dynamic'
 name: '&0Выбор Лобби'
 rows: 6
 templates: 'Hub' #Имя шаблона серверов, по котороых выводить инфу арен.     

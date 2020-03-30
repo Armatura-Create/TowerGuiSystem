@@ -1,0 +1,20 @@
+command: 'lobby_en:dynamic'
+name: '&0Lobby Selection'
+rows: 6
+templates: 'Hub' #The name of the server template for displaying arenas.
+items: #Change icon when online on the server
+  - 'GREEN_SHULKER_BOX'
+  - 'ORANGE_SHULKER_BOX'
+  - 'RED_SHULKER_BOX'
+item:
+    nameserver: '&aHub' #Name of lobby items
+    count: #The number upon changing which the arena icon will change
+      - 0
+      - 9
+      - 15
+    lore:
+      - ''
+      - '&c%place%'
+      - ''
+      - '&eClick to connect.'
+      - '&Are playing: %so%'

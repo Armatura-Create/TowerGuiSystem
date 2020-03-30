@@ -42,14 +42,14 @@ public class Gui {
         this.items = new HashMap<>();
 
         if (template == null) {
-            TowerGuiSystem.log("Ошибка при загрузки GUI '" + this.name + "'. template = null");
+            TowerGuiSystem.log("Error loading GUI '" + this.name + "'. template = null");
             return;
         }
 
         final String gname = lobby.getString("name", this.name);
 
         if (gname == null) {
-            TowerGuiSystem.log("Имя GUI - null");
+            TowerGuiSystem.log("Name GUI - null");
             return;
         }
 

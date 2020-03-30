@@ -2,20 +2,20 @@ JoinItems:
   SERVERS:
     id: 'COMPASS'
     slot: 1
-    name: '&eВыбор сервера'
+    name: '&eServer selection'
     lore:
-      - '&fПКМ чтобы октрыть.'
-    command: 'gui open serversss'
+      - '&fRMB to open.'
+    command: 'gui open servers_en'
     amount: 1
     drop: true
     move: true
   LOBBY:
     id: 'SLIME_BALL'
     slot: 9
-    name: '&eВыбор лобби'
+    name: '&eLobby selection'
     lore:
-      - '&fПКМ чтобы октрыть.'
-    command: 'gui open lobby'
+      - '&fRMB to open.'
+    command: 'gui open lobby_en'
     amount: 1
     drop: true
     move: true

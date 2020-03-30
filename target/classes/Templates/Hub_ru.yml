@@ -3,7 +3,7 @@
 Items:
    Hub:
     name: '&aВыбор серверов'
-    command: 'gui open serversss'
+    command: 'gui open servers_ru'
     server: 'Hub'
     animation:
       '1':

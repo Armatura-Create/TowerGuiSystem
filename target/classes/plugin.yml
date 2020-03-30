@@ -1,5 +1,5 @@
 name: TowerGuiSystem
-version: 0.9.1
+version: 0.10.0
 main: com.towercraft.TowerGuiSystem
 api-version: 1.13
 authors: [Armatura, Shaytir]
