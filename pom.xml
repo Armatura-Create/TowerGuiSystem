@@ -4,14 +4,21 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <developers>
+        <developer>
+            <name>Armatura</name>
+            <email>Alext303@gmail.com</email>
+        </developer>
+    </developers>
+
     <groupId>TowerGuiSystem</groupId>
     <artifactId>TowerGuiSystem</artifactId>
-    <version>0.5-BETA</version>
+    <version>0.9</version>
     <packaging>jar</packaging>
 
     <name>TowerGuiSystem</name>
 
-    <description>Выводит сервера динамически с таймоклауда</description>
+    <description>Displays the server dynamically in Gui</description>
     <properties>
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -65,16 +72,12 @@
             <url>https://oss.sonatype.org/content/groups/public/</url>
         </repository>
         <repository>
-            <id>TimoCloud-API</id>
-            <url>https://maven.timo.cloud/repository/TimoCloud-API/</url>
-        </repository>
-        <repository>
             <id>codemc-repo</id>
             <url>https://repo.codemc.io/repository/maven-public/</url>
         </repository>
         <repository>
-            <id>cloudnet-repo</id>
-            <url>https://cloudnetservice.eu/repositories</url>
+            <id>placeholderapi</id>
+            <url>https://repo.extendedclip.com/content/repositories/placeholderapi/</url>
         </repository>
     </repositories>
 
@@ -85,11 +88,18 @@
             <version>1.15.2-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
-        <!--Голограммы-->
+        <!--Holograms-->
         <dependency>
             <groupId>com.gmail.filoghost.holographicdisplays</groupId>
             <artifactId>holographicdisplays-api</artifactId>
             <version>2.4.0</version>
+            <scope>provided</scope>
+        </dependency>
+        <!--PlaceHolder-->
+        <dependency>
+            <groupId>me.clip</groupId>
+            <artifactId>placeholderapi</artifactId>
+            <version>2.10.5</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

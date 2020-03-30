@@ -4,7 +4,7 @@ JoinItems:
     slot: 1
     name: '&eВыбор сервера'
     lore:
-      - '&cПОШЕЛ НА Х*Й'
+      - '&cLore'
     command: 'gui open serversss'
     amount: 1
     drop: true
@@ -13,9 +13,9 @@ JoinItems:
   LOBBY:
     id: 'SLIME_BALL'
     slot: 9
-    name: '&eВыбор лобби'
+    name: '&eName'
     lore:
-      - '&cПОШЕЛ НА Х*Й'
+      - '&cLore'
     command: 'gui open lobby'
     amount: 1
     drop: true

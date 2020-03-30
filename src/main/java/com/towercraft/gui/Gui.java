@@ -2,6 +2,7 @@ package com.towercraft.gui;
 
 import com.towercraft.TowerGuiSystem;
 import com.towercraft.utils.ServerModel;
+import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -13,8 +14,9 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
+
+import static com.towercraft.TowerGuiSystem.isPlaceholder;
 
 public class Gui {
     private String name;
@@ -69,7 +71,7 @@ public class Gui {
 
                 int countName = 0;
 
-                List<ServerModel> filterLobby = TowerGuiSystem.lobbys.stream().filter(serverModel -> serverModel.getName().contains(lobby.getString("item.nameserver").replace(lobby.getString("item.nameserver").substring(0,2), ""))).collect(Collectors.toList());
+                List<ServerModel> filterLobby = TowerGuiSystem.lobbys.stream().filter(serverModel -> serverModel.getName().contains(lobby.getString("item.nameserver").replace(lobby.getString("item.nameserver").substring(0, 2), ""))).collect(Collectors.toList());
                 int plus = 0;
                 for (int i = 10; i < (lobby.getInt("rows") - 1) * 9; i++) {
 
@@ -86,50 +88,51 @@ public class Gui {
 
                         ServerModel lobbyGet = filterLobby.get(countName - 1);
 
-                        try {
-                            //В зависимости от того сколько игроков подгружаем нужный id предмета
-                            String id = lobby.getStringList("items").get(0);
+                        if (TowerGuiSystem.nameServer != null && lobbyGet != null)
+                            try {
+                                //В зависимости от того сколько игроков подгружаем нужный id предмета
+                                String id = lobby.getStringList("items").get(0);
 
-                            if (Integer.parseInt(TowerGuiSystem.lobbysOnline.get(lobbyGet.getName()).split("/")[0]) >=
-                                    lobby.getIntegerList("item.count").get(1))
-                                id = lobby.getStringList("items").get(1);
+                                if (Integer.parseInt(TowerGuiSystem.lobbysOnline.get(lobbyGet.getName()).split("/")[0]) >=
+                                        lobby.getIntegerList("item.count").get(1))
+                                    id = lobby.getStringList("items").get(1);
 
-                            if (Integer.parseInt(TowerGuiSystem.lobbysOnline.get(lobbyGet.getName()).split("/")[0]) >=
-                                    lobby.getIntegerList("item.count").get(2))
-                                id = lobby.getStringList("items").get(2);
+                                if (Integer.parseInt(TowerGuiSystem.lobbysOnline.get(lobbyGet.getName()).split("/")[0]) >=
+                                        lobby.getIntegerList("item.count").get(2))
+                                    id = lobby.getStringList("items").get(2);
 
-                            final String name = lobby.getString("item.nameserver").replace("&", "§") + "-" + countName;
-                            final List<String> lore_config = lobby.getStringList("item.lore");
-                            final List<String> lore_result = new ArrayList<>();
+                                final String name = lobby.getString("item.nameserver").replace("&", "§") + "-" + countName;
+                                final List<String> lore_config = lobby.getStringList("item.lore");
+                                final List<String> lore_result = new ArrayList<>();
 
-                            for (String temp : lore_config) {
-                                if (TowerGuiSystem.nameServer.equalsIgnoreCase(lobbyGet.getName()))
-                                    lore_result.add(temp.replace("%place%", "Вы находитесь здесь"));
-                                else
-                                    lore_result.add(temp.replace("%place%", ""));
+                                for (String temp : lore_config) {
+                                    if (TowerGuiSystem.nameServer.equalsIgnoreCase(lobbyGet.getName()))
+                                        lore_result.add(temp.replace("%place%", "Вы находитесь здесь"));
+                                    else
+                                        lore_result.add(temp.replace("%place%", ""));
+                                }
+
+                                final String command = "server:" + filterLobby.get(countName - 1).getName();
+                                Gui.server = name;
+
+                                final GuiItem guiItem = new GuiItem(Gui.this, id, Integer.parseInt(TowerGuiSystem.lobbysOnline.get(lobbyGet.getName()).split("/")[0]), name, lore_result, i, command, new ArrayList<>(), Gui.server);
+
+                                final ItemMeta meta = guiItem.getItemStack().getItemMeta();
+                                final List<String> nlore = new ArrayList<>();
+
+                                for (final String l : guiItem.lore) {
+                                    final String line = l.replace("%so%", "" + TowerGuiSystem.lobbysOnline.get(lobbyGet.getName())).replace("%map%", lobbyGet.getMap()).replace("%status%", lobbyGet.getInStatus());
+                                    nlore.add(line);
+                                }
+
+                                meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+
+                                meta.setLore(nlore);
+                                guiItem.item.setItemMeta(meta);
+                                items.put(i, guiItem);
+                            } catch (Exception e) {
+                                e.printStackTrace();
                             }
-
-                            final String command = "server:" + filterLobby.get(countName - 1).getName();
-                            Gui.server = name;
-
-                            final GuiItem guiItem = new GuiItem(Gui.this, id, Integer.parseInt(TowerGuiSystem.lobbysOnline.get(lobbyGet.getName()).split("/")[0]), name, lore_result, i, command, new ArrayList<>(), Gui.server);
-
-                            final ItemMeta meta = guiItem.getItemStack().getItemMeta();
-                            final List<String> nlore = new ArrayList<>();
-
-                            for (final String l : guiItem.lore) {
-                                final String line = l.replace("%so%", "" + TowerGuiSystem.lobbysOnline.get(lobbyGet.getName())).replace("%map%", lobbyGet.getMap()).replace("%status%", lobbyGet.getInStatus());
-                                nlore.add(line);
-                            }
-
-                            meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-
-                            meta.setLore(nlore);
-                            guiItem.item.setItemMeta(meta);
-                            items.put(i, guiItem);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
                     }
                 }
 
@@ -169,7 +172,7 @@ public class Gui {
                 final int amount = this.config.getInt("Items." + itemName + ".amount");
                 Gui.server = this.config.getString("Items." + itemName + ".server");
                 List<List<String>> animation;
-                TowerGuiSystem.log("Загружаю анимацию для предмета " + itemName);
+                TowerGuiSystem.log("Loading animation from item " + itemName);
                 animation = new ArrayList<>();
                 for (final String string : this.config.getConfigurationSection("Items." + itemName + ".animation").getKeys(false)) {
                     final List<String> list = new ArrayList<>();
@@ -178,7 +181,7 @@ public class Gui {
                     }
                     animation.add(list);
                 }
-                TowerGuiSystem.log("Листов в анимации - " + animation.size());
+                TowerGuiSystem.log("List of animation - " + animation.size());
                 final GuiItem guiItem = new GuiItem(this, id, amount, name, lore, slot, command, animation, Gui.server);
                 this.items.put(slot, guiItem);
                 this.startSheduler(guiItem);
@@ -187,12 +190,12 @@ public class Gui {
                         this.inventory.setItem(s, this.items.get(s).getItemStack());
                     } catch (Exception ex) {
                         ex.printStackTrace();
-                        TowerGuiSystem.log("Предмет в слоте '" + s + "' вызвал ошибку!");
+                        TowerGuiSystem.log("Item in slot '" + s + "' throw exception!");
                     }
                 }
             } catch (Exception ex2) {
                 ex2.printStackTrace();
-                TowerGuiSystem.log("Ошибка при загрузке предмета '" + itemName + "' в GUI '" + this.name + "'");
+                TowerGuiSystem.log("Error from loading item '" + itemName + "' in GUI '" + this.name + "'");
             }
         }
     }
@@ -217,7 +220,7 @@ public class Gui {
                     for (int i = 0; i < item.animation.size(); i++) {
                         List<String> replacement = new ArrayList<>();
                         for (int j = 0; j < item.animation.get(i).size(); j++) {
-                            replacement.add(item.animation.get(i).get(j).replace("%so%", "" + online));
+                            replacement.add(item.animation.get(i).get(j).replace("%so%", "" + online).replace("%sa%", "" + TowerGuiSystem.lobbys.stream().filter(serverModel -> serverModel.getName().split("-")[0].equalsIgnoreCase(item.server)).count()));
                         }
                         temp.add(replacement);
                     }

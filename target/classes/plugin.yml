@@ -1,11 +1,12 @@
 name: TowerGuiSystem
-version: 0.5-BETA
+version: 0.9
 main: com.towercraft.TowerGuiSystem
 api-version: 1.13
-authors: [ScrRnDeR]
-description: Выводит сервера динамически в Гуи
+authors: [Armatura]
+description: Displays the server dynamically in Gui
 website: TowerCraft.site
 
 commands:
   gui:
   connect:
+  hg:

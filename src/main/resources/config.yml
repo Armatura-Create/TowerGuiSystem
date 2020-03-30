@@ -1,8 +1,16 @@
-general:
-  server_name: "Test" #Имя текущего сервака
+General:
+  updateInterval: 2000
+
+Data:
+  HologramsDisplay:
+    - "BWLobby:BWArensDuo"
+    - "BWArensDuo"
 
 Enable:
   Gui: true
   Items: true
+  HologramsDisplay: true
+  PlaceHolderApi: true
+
 AnimationTime: 20
 ClearInventoryOnJoin: true

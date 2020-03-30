@@ -8,6 +8,9 @@ com\towercraft\gui\GuiItem.class
 com\towercraft\items\Item.class
 com\towercraft\items\ItemListener.class
 com\towercraft\gui\GuiListener$1.class
+com\towercraft\utils\PlaceHolderExpansion.class
 com\towercraft\utils\ServerModel.class
 com\towercraft\gui\GuiListener.class
 com\towercraft\items\ItemManager.class
+com\towercraft\utils\SpigotUpdater.class
+com\towercraft\utils\HologramsDisplay.class

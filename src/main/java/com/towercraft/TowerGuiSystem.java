@@ -6,7 +6,10 @@ import com.google.common.io.ByteStreams;
 import com.towercraft.gui.Gui;
 import com.towercraft.items.ItemListener;
 import com.towercraft.items.ItemManager;
+import com.towercraft.utils.HologramsDisplay;
+import com.towercraft.utils.PlaceHolderExpansion;
 import com.towercraft.utils.ServerModel;
+import com.towercraft.utils.SpigotUpdater;
 import org.bukkit.Bukkit;
 import org.bukkit.Server;
 import org.bukkit.command.Command;
@@ -32,10 +35,15 @@ public final class TowerGuiSystem extends JavaPlugin implements CommandExecutor,
     private HashMap<String, Gui> guis;
     public ItemManager itemManager;
     public static TowerGuiSystem plugin;
+    public long updateTime;
     boolean gui;
     boolean items;
     public boolean clearOnJoin;
+    public static boolean isPlaceholder;
     public static boolean isUpdate = false;
+
+    HologramsDisplay hologramsDisplay;
+
     public static String nameServer;
     public static List<ServerModel> servers;
     public static List<ServerModel> lobbys;
@@ -54,7 +62,7 @@ public final class TowerGuiSystem extends JavaPlugin implements CommandExecutor,
             while (true) {
                 try {
                     while (true) {
-                        Thread.sleep(5000L);
+                        Thread.sleep(updateTime); // Update UI in two seconds
                         if (Bukkit.getOnlinePlayers().toArray().length > 0 && nameServer == null)
                             setCurrentServer();
                         if (nameServer != null && !isUpdate)
@@ -100,7 +108,7 @@ public final class TowerGuiSystem extends JavaPlugin implements CommandExecutor,
                     if (command == null) {
                         command = fileEntry.getName().replace(".yml", "");
                     }
-                    Bukkit.getLogger().info("Загружаю Gui '" + fileEntry.getName().replace(".yml", "") + "'");
+                    Bukkit.getLogger().info("Loading Gui '" + fileEntry.getName().replace(".yml", "") + "'");
                     if (command.split(":").length > 1 && command.split(":")[1].contains("dynamic")) {
                         File templates = new File(TowerGuiSystem.instance.getDataFolder() + File.separator + "Templates" + File.separator + configuration.getString("templates", null) + ".yml");
                         if (!templates.exists()) {
@@ -110,9 +118,9 @@ public final class TowerGuiSystem extends JavaPlugin implements CommandExecutor,
                         this.guis.put(command.split(":")[0], new Gui(command.split(":")[0], configuration, YamlConfiguration.loadConfiguration(templates)));
                     } else
                         this.guis.put(command, new Gui(command, configuration));
-                    Bukkit.getLogger().info("Gui '" + fileEntry.getName().replace(".yml", "") + "' успешно загружено");
+                    Bukkit.getLogger().info("Gui '" + fileEntry.getName().replace(".yml", "") + "' successfully uploaded");
                 } catch (Exception ex) {
-                    Bukkit.getLogger().info("Ошибка при загрузки GUI - " + fileEntry.getName().replace(".yml", ""));
+                    Bukkit.getLogger().info("Error loading GUI - " + fileEntry.getName().replace(".yml", ""));
                     ex.printStackTrace();
                 }
             }
@@ -272,6 +280,53 @@ public final class TowerGuiSystem extends JavaPlugin implements CommandExecutor,
         }
     }
 
+    public static int getOnline(String online) {
+        int result = -1;
+        List<String> usage = new ArrayList<>();
+
+        for (ServerModel temp : servers)
+            if (online.contains(temp.getName().split("-")[0])) {
+                if (result == -1)
+                    result = temp.getNowPlayer();
+                else
+                    result += temp.getNowPlayer();
+                if (usage.stream().noneMatch(s -> s.contains(temp.getName().split("-")[0])))
+                    usage.add(temp.getName().split("-")[0]);
+            }
+
+        for (ServerModel temp : lobbys)
+            if (online.contains(temp.getName().split("-")[0]) && usage.stream().noneMatch(s -> s.contains(temp.getName().split("-")[0])))
+                if (result == -1)
+                    result = temp.getNowPlayer();
+                else
+                    result += temp.getNowPlayer();
+
+        return result;
+    }
+
+    public static int getAllOnline() {
+        int result = -1;
+        List<String> usage = new ArrayList<>();
+
+        for (ServerModel temp : servers) {
+            if (result == -1)
+                result = temp.getNowPlayer();
+            else
+                result += temp.getNowPlayer();
+            if (usage.stream().noneMatch(s -> s.contains(temp.getName().split("-")[0])))
+                usage.add(temp.getName().split("-")[0]);
+        }
+
+        for (ServerModel temp : lobbys)
+            if (usage.stream().noneMatch(s -> s.contains(temp.getName().split("-")[0])))
+                if (result == -1)
+                    result = temp.getNowPlayer();
+                else
+                    result += temp.getNowPlayer();
+
+        return result;
+    }
+
     @Override
     public void onPluginMessageReceived(String channel, Player player, byte[] message) {
 
@@ -322,7 +377,6 @@ public final class TowerGuiSystem extends JavaPlugin implements CommandExecutor,
     }
 
     private static String getMinecraftVersion(Server server) {
-        // Same substring as the one bStats uses, so should be safe
         String version = server.getVersion();
         int start = version.indexOf("MC: ") + 4;
         int end = version.length() - 1;
@@ -332,12 +386,38 @@ public final class TowerGuiSystem extends JavaPlugin implements CommandExecutor,
     @Override
     public void onEnable() {
 
-        //TODO Добавить проверку на все нужные плагины
+        SpigotUpdater updater = new SpigotUpdater(this, 76667);
+        try {
+            if (updater.checkForUpdates())
+                log("An update was found! New version: " + updater.getLatestVersion() + " download: " + updater.getResourceURL());
+        } catch (Exception e) {
+            log("Could not check for updates! Stacktrace:");
+            e.printStackTrace();
+        }
+
+        isPlaceholder = this.getConfig().getBoolean("Enable.PlaceHolderApi");
+
+        if (isPlaceholder)
+            if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
+                new PlaceHolderExpansion().register();
+                log("PlaceHolderExpansion - registered");
+            }
+            else
+                throw new RuntimeException("Could not find PlaceholderAPI!! Plugin can not work without it!");
+
+        if (this.getConfig().getBoolean("Enable.HologramsDisplay"))
+            if (Bukkit.getPluginManager().getPlugin("HolographicDisplays") != null) {
+                hologramsDisplay = new HologramsDisplay(this);
+                hologramsDisplay.registerPlaceholderPluginAll(this.getConfig().getStringList("Data.HologramsDisplay"));
+            } else
+                throw new RuntimeException("Could not find HolographicDisplays!! Plugin can not work without it!");
 
         this.saveDefaultConfig();
         TowerGuiSystem.plugin = this;
         TowerGuiSystem.instance = this;
         this.guis = new HashMap<>();
+
+        updateTime = this.getConfig().getLong("General.updateInterval");
 
         Bukkit.getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
 
@@ -351,14 +431,16 @@ public final class TowerGuiSystem extends JavaPlugin implements CommandExecutor,
         loadItems();
         this.getCommand("gui").setExecutor(this);
         this.getCommand("connect").setExecutor(this);
+
         loadGui();
 
         this.staticRunnable();
         this.startUpdate();
     }
-    public void setCurrentServer(){
+
+    public void setCurrentServer() {
         ByteArrayDataOutput out = ByteStreams.newDataOutput();
-        Player player = (Player)Bukkit.getOnlinePlayers().toArray()[0];
+        Player player = (Player) Bukkit.getOnlinePlayers().toArray()[0];
         out.writeUTF(player.getName());
         player.sendPluginMessage(this, "tgs:channel", out.toByteArray());
     }
@@ -375,6 +457,7 @@ public final class TowerGuiSystem extends JavaPlugin implements CommandExecutor,
 
     @Override
     public void onDisable() {
+        hologramsDisplay.unregisterPlaceholdersPlugin();
         Bukkit.getMessenger().unregisterIncomingPluginChannel(this, "BungeeCord");
         Bukkit.getMessenger().unregisterIncomingPluginChannel(this, "tgs:channel");
     }
