@@ -2,11 +2,10 @@ name: TowerGuiSystem
 version: ${project.version}
 main: com.towercraft.TowerGuiSystem
 api-version: 1.13
-authors: [Armatura]
+authors: [Armatura, Shaytir]
 description: Displays the server dynamically in Gui
 website: TowerCraft.site
 
 commands:
   gui:
   connect:
-  hg:

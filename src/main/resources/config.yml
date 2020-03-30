@@ -1,3 +1,6 @@
+#Permissions:
+#  Reload gui - gui.reload
+
 General:
   updateInterval: 2000
 

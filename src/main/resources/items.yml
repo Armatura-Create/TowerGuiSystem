@@ -4,19 +4,38 @@ JoinItems:
     slot: 1
     name: '&eВыбор сервера'
     lore:
-      - '&cLore'
+      - '&fПКМ чтобы октрыть.'
     command: 'gui open serversss'
     amount: 1
     drop: true
     move: true
-
   LOBBY:
     id: 'SLIME_BALL'
     slot: 9
-    name: '&eName'
+    name: '&eВыбор лобби'
     lore:
-      - '&cLore'
+      - '&fПКМ чтобы октрыть.'
     command: 'gui open lobby'
+    amount: 1
+    drop: true
+    move: true
+  Colletions:
+    id: 'CHEST'
+    slot: 5
+    name: '&eКоллекции'
+    lore:
+      - '&fПКМ чтобы октрыть.'
+    command: '/collections'
+    amount: 1
+    drop: true
+    move: true
+  Options:
+    id: 'EXP_BOTTLE'
+    slot: 6
+    name: '&eНастройки'
+    lore:
+      - '&fПКМ чтобы октрыть.'
+    command: '/options'
     amount: 1
     drop: true
     move: true
