@@ -13,7 +13,7 @@
 
     <groupId>TowerGuiSystem</groupId>
     <artifactId>TowerGuiSystem</artifactId>
-    <version>0.10.0</version>
+    <version>0.10.2</version>
     <packaging>jar</packaging>
 
     <name>TowerGuiSystem</name>

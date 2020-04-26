@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="cedbbe08-9abd-43ab-89e3-987c4514ce88" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/TowerGuiSystem.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_spigotmc_spigot_api_1_15_2_R0_1_SNAPSHOT.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_spigotmc_spigot_api_1_15_2_R0_1_SNAPSHOT.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TimoInfo.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/towercraft/TowerGuiSystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/towercraft/TowerGuiSystem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/towercraft/items/ItemListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/towercraft/items/ItemListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Menu/static_en.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Menu/static_en.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/config.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/config.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/plugin.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/plugin.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/TowerGuiSystem-0.10.0-shaded.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/TowerGuiSystem-0.10.0.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Menu/static_en.yml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Menu/static_en.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/towercraft/TowerGuiSystem.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/towercraft/TowerGuiSystem.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/towercraft/items/ItemListener$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/towercraft/items/ItemListener$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/towercraft/items/ItemListener$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/towercraft/items/ItemListener$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/towercraft/items/ItemListener.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/towercraft/items/ItemListener.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/config.yml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/config.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/plugin.yml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/plugin.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/original-TowerGuiSystem-0.10.0.jar" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1aatM47M23b7LmpEMZ1K5qNk6cZ" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.40344828" />
+    <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="cedbbe08-9abd-43ab-89e3-987c4514ce88" name="Default Changelist" comment="" />
+      <created>1586985480361</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1586985480361</updated>
+      <workItem from="1586985483921" duration="1735000" />
+      <workItem from="1587042844613" duration="33000" />
+      <workItem from="1587042887823" duration="272000" />
+      <workItem from="1587110128496" duration="603000" />
+      <workItem from="1587121279808" duration="765000" />
+      <workItem from="1587652898555" duration="275000" />
+      <workItem from="1587653190945" duration="5881000" />
+      <workItem from="1587731054280" duration="1815000" />
+      <workItem from="1587748975519" duration="913000" />
+      <workItem from="1587896200820" duration="1318000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="2" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="666" y="266" key="FileChooserDialogImpl" timestamp="1586986885738">
+      <screen x="0" y="0" width="1920" height="1050" />
+    </state>
+    <state x="666" y="266" key="FileChooserDialogImpl/0.0.1920.1050@0.0.1920.1050" timestamp="1586986885738" />
+    <state width="1860" height="282" key="GridCell.Tab.0.bottom" timestamp="1587897348775">
+      <screen x="0" y="0" width="1920" height="1050" />
+    </state>
+    <state width="1860" height="282" key="GridCell.Tab.0.bottom/0.0.1920.1050@0.0.1920.1050" timestamp="1587897348775" />
+    <state width="1860" height="282" key="GridCell.Tab.0.center" timestamp="1587897348774">
+      <screen x="0" y="0" width="1920" height="1050" />
+    </state>
+    <state width="1860" height="282" key="GridCell.Tab.0.center/0.0.1920.1050@0.0.1920.1050" timestamp="1587897348774" />
+    <state width="1860" height="282" key="GridCell.Tab.0.left" timestamp="1587897348773">
+      <screen x="0" y="0" width="1920" height="1050" />
+    </state>
+    <state width="1860" height="282" key="GridCell.Tab.0.left/0.0.1920.1050@0.0.1920.1050" timestamp="1587897348773" />
+    <state width="1860" height="282" key="GridCell.Tab.0.right" timestamp="1587897348774">
+      <screen x="0" y="0" width="1920" height="1050" />
+    </state>
+    <state width="1860" height="282" key="GridCell.Tab.0.right/0.0.1920.1050@0.0.1920.1050" timestamp="1587897348774" />
+    <state x="490" y="179" key="Maven.ArtifactSearchDialog" timestamp="1586985670087">
+      <screen x="0" y="0" width="1920" height="1050" />
+    </state>
+    <state x="490" y="179" key="Maven.ArtifactSearchDialog/0.0.1920.1050@0.0.1920.1050" timestamp="1586985670087" />
+    <state x="440" y="98" key="SettingsEditor" timestamp="1587042940226">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="440" y="98" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1587042940226" />
+    <state x="440" y="99" key="SettingsEditor/0.0.1920.1050@0.0.1920.1050" timestamp="1586986710778" />
+  </component>
+</project>

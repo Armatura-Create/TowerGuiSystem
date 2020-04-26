@@ -18,3 +18,4 @@ Enable:
 
 AnimationTime: 20
 ClearInventoryOnJoin: true
+ReplaceItemOnJoin: true

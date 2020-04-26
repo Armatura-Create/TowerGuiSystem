@@ -1,5 +1,5 @@
 command: 'servers_en'
-name: '&0Выбор режима'
+name: '&0Mode selection'
 rows: 6
 Items:
    Hub:

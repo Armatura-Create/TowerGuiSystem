@@ -18,6 +18,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.plugin.messaging.PluginMessageListener;
@@ -40,6 +41,7 @@ public final class TowerGuiSystem extends JavaPlugin implements CommandExecutor,
     boolean gui;
     boolean items;
     public boolean clearOnJoin;
+    public boolean replaceItemOnJoin = false;
     public static boolean isPlaceholder;
     public static boolean isUpdate = false;
 
@@ -113,10 +115,10 @@ public final class TowerGuiSystem extends JavaPlugin implements CommandExecutor,
                     if (command.split(":").length > 1 && command.split(":")[1].contains("dynamic")) {
                         File templates = new File(TowerGuiSystem.instance.getDataFolder() + File.separator + "Templates" + File.separator + configuration.getString("templates", null) + ".yml");
                         if (!templates.exists()) {
-                            templates.mkdir();
+                            templates.createNewFile();
                             log("File - " + configuration.getString("template", null) + ".yml not found");
-                        }
-                        this.guis.put(command.split(":")[0], new Gui(command.split(":")[0], configuration, YamlConfiguration.loadConfiguration(templates)));
+                        } else
+                            this.guis.put(command.split(":")[0], new Gui(command.split(":")[0], configuration, YamlConfiguration.loadConfiguration(templates)));
                     } else
                         this.guis.put(command, new Gui(command, configuration));
                     Bukkit.getLogger().info("Gui '" + fileEntry.getName().replace(".yml", "") + "' successfully uploaded");
@@ -133,6 +135,7 @@ public final class TowerGuiSystem extends JavaPlugin implements CommandExecutor,
             return;
         }
         this.clearOnJoin = this.getConfig().getBoolean("ClearInventoryOnJoin", false);
+        this.replaceItemOnJoin = this.getConfig().getBoolean("ReplaceItemOnJoin", false);
         this.itemManager = new ItemManager();
         new ItemListener();
     }
@@ -196,7 +199,6 @@ public final class TowerGuiSystem extends JavaPlugin implements CommandExecutor,
 
             ByteArrayOutputStream b = new ByteArrayOutputStream();
             DataOutputStream out = new DataOutputStream(b);
-
             try {
                 out.writeUTF("Connect");
                 out.writeUTF(servers.get(0).getName());
@@ -271,7 +273,7 @@ public final class TowerGuiSystem extends JavaPlugin implements CommandExecutor,
                     if (args[0].equalsIgnoreCase("open")) {
                         final Gui gui = this.guis.get(args[1]);
                         if (gui == null) {
-                            sender.sendMessage(getPrefix() + "§cGui не найденв!");
+                            sender.sendMessage(getPrefix() + "§cGui не найдено!");
                             return true;
                         }
                         gui.open(player);
@@ -417,8 +419,7 @@ public final class TowerGuiSystem extends JavaPlugin implements CommandExecutor,
             if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
                 new PlaceHolderExpansion().register();
                 log("PlaceHolderExpansion - registered");
-            }
-            else
+            } else
                 throw new RuntimeException("Could not find PlaceholderAPI!! Plugin can not work without it!");
 
         if (this.getConfig().getBoolean("Enable.HologramsDisplay"))
@@ -461,7 +462,6 @@ public final class TowerGuiSystem extends JavaPlugin implements CommandExecutor,
         out.writeUTF(player.getName());
         player.sendPluginMessage(this, "tgs:channel", out.toByteArray());
     }
-
 
     static {
         TowerGuiSystem.servers = new ArrayList<>();

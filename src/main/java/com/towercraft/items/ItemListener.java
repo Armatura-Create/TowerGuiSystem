@@ -2,7 +2,6 @@ package com.towercraft.items;
 
 import com.towercraft.TowerGuiSystem;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -35,7 +34,7 @@ public class ItemListener implements Listener {
         String language = "";
         try {
             language = player.getLocale().toLowerCase().split("_")[0];
-        } catch (Exception ignore){
+        } catch (Exception ignore) {
             language = TowerGuiSystem.defaultLanguage;
         }
 
@@ -76,7 +75,7 @@ public class ItemListener implements Listener {
         String language = "";
         try {
             language = e.getPlayer().getLocale().toLowerCase().split("_")[0];
-        } catch (Exception ignore){
+        } catch (Exception ignore) {
             language = TowerGuiSystem.defaultLanguage;
         }
 
@@ -98,7 +97,7 @@ public class ItemListener implements Listener {
         String language = "";
         try {
             language = p.getLocale().toLowerCase().split("_")[0];
-        } catch (Exception ignore){
+        } catch (Exception ignore) {
             language = TowerGuiSystem.defaultLanguage;
         }
 
@@ -124,12 +123,10 @@ public class ItemListener implements Listener {
                     return;
                 }
 
-                TowerGuiSystem.log(player.getLocale().toLowerCase().split("_")[0]);
-
                 String language = "";
                 try {
                     language = player.getLocale().toLowerCase().split("_")[0];
-                } catch (Exception ignore){
+                } catch (Exception ignore) {
                     language = TowerGuiSystem.defaultLanguage;
                 }
 
@@ -140,14 +137,18 @@ public class ItemListener implements Listener {
                 for (final Integer slot : listItems.keySet()) {
                     final Item item = listItems.get(slot);
                     final ItemStack itemStack = player.getInventory().getItem(slot);
-                    player.getInventory().setItem(slot, item.getItemStack());
-                    if (itemStack == null || itemStack.getType() == Material.AIR || ItemListener.this.manager.getItem(player.getLocale().toLowerCase().split("_")[0], itemStack) != null) {
+
+                    if (ItemListener.this.manager.getItem(language, itemStack) != null)
                         continue;
-                    }
-                    player.getInventory().addItem(itemStack);
+
+                    if (itemStack == null)
+                        player.getInventory().setItem(slot, item.getItemStack());
+
+                    if (itemStack != null && TowerGuiSystem.instance.replaceItemOnJoin)
+                        player.getInventory().setItem(slot, item.getItemStack());
                 }
                 player.updateInventory();
             }
-        }.runTaskLaterAsynchronously(TowerGuiSystem.instance, 0L);
+        }.runTaskLaterAsynchronously(TowerGuiSystem.instance, 10L);
     }
 }
