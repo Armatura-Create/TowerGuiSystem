@@ -31,14 +31,7 @@ public class ItemListener implements Listener {
         }
         final Player player = e.getPlayer();
 
-        String language = "";
-        try {
-            language = player.getLocale().toLowerCase().split("_")[0];
-        } catch (Exception ignore) {
-            language = TowerGuiSystem.defaultLanguage;
-        }
-
-        final Item item = this.manager.getItem(language, player.getItemInHand());
+        final Item item = this.manager.getItem(player.getItemInHand());
         if (item == null) {
             return;
         }
@@ -72,14 +65,7 @@ public class ItemListener implements Listener {
     public void onDrop(final PlayerDropItemEvent e) {
         final ItemStack itemStack = e.getItemDrop().getItemStack();
 
-        String language = "";
-        try {
-            language = e.getPlayer().getLocale().toLowerCase().split("_")[0];
-        } catch (Exception ignore) {
-            language = TowerGuiSystem.defaultLanguage;
-        }
-
-        final Item item = this.manager.getItem(language, itemStack);
+        final Item item = this.manager.getItem(itemStack);
         if (item == null) {
             return;
         }
@@ -94,14 +80,7 @@ public class ItemListener implements Listener {
     public void onInventoryClick(final InventoryClickEvent e) {
         Player p = (Player) e.getWhoClicked();
 
-        String language = "";
-        try {
-            language = p.getLocale().toLowerCase().split("_")[0];
-        } catch (Exception ignore) {
-            language = TowerGuiSystem.defaultLanguage;
-        }
-
-        final Item item = this.manager.getItem(language, e.getCurrentItem());
+        final Item item = this.manager.getItem(e.getCurrentItem());
         if (item == null) {
             return;
         }
@@ -123,22 +102,13 @@ public class ItemListener implements Listener {
                     return;
                 }
 
-                String language = "";
-                try {
-                    language = player.getLocale().toLowerCase().split("_")[0];
-                } catch (Exception ignore) {
-                    language = TowerGuiSystem.defaultLanguage;
-                }
-
-                Map<Integer, Item> listItems = ItemListener.this.manager.items.get(language);
-                if (listItems == null || listItems.size() == 0)
-                    listItems = ItemListener.this.manager.items.get(TowerGuiSystem.defaultLanguage);
+                Map<Integer, Item> listItems = ItemListener.this.manager.items;
 
                 for (final Integer slot : listItems.keySet()) {
                     final Item item = listItems.get(slot);
                     final ItemStack itemStack = player.getInventory().getItem(slot);
 
-                    if (ItemListener.this.manager.getItem(language, itemStack) != null)
+                    if (ItemListener.this.manager.getItem(itemStack) != null)
                         continue;
 
                     if (itemStack == null)

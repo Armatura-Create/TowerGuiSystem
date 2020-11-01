@@ -34,7 +34,6 @@ public final class TowerGuiSystem extends JavaPlugin implements CommandExecutor,
     private HashMap<String, Gui> guis;
     public ItemManager itemManager;
     public static TowerGuiSystem plugin;
-    public static String defaultLanguage;
     public long updateTime;
     boolean gui;
     boolean items;
@@ -422,7 +421,6 @@ public final class TowerGuiSystem extends JavaPlugin implements CommandExecutor,
 
         this.gui = this.getConfig().getBoolean("Enable.Gui");
         this.items = this.getConfig().getBoolean("Enable.Items");
-        defaultLanguage = this.getConfig().getString("General.DefaultLanguage");
 
         this.getCommand("gui").setExecutor(this);
         this.getCommand("connect").setExecutor(this);

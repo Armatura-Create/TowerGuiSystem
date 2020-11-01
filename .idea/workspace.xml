@@ -23,46 +23,29 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cedbbe08-9abd-43ab-89e3-987c4514ce88" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__net_md_5_bungeecord_chat_1_15_SNAPSHOT.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__net_md_5_bungeecord_chat_1_15_SNAPSHOT.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_spigotmc_spigot_api_1_15_2_R0_1_SNAPSHOT.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_spigotmc_spigot_api_1_15_2_R0_1_SNAPSHOT.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/towercraft/TowerGuiSystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/towercraft/TowerGuiSystem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/towercraft/gui/Gui.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/towercraft/gui/Gui.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/towercraft/gui/GuiItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/towercraft/gui/GuiItem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/towercraft/gui/GuiListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/towercraft/gui/GuiListener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/towercraft/items/Item.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/towercraft/items/Item.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/towercraft/items/ItemListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/towercraft/items/ItemListener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/towercraft/items/ItemManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/towercraft/items/ItemManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/towercraft/utils/HologramsDisplay.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/towercraft/utils/HologramsDisplay.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/towercraft/utils/PlaceHolderExpansion.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/towercraft/utils/PlaceHolderExpansion.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/towercraft/utils/ServerModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/towercraft/utils/ServerModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/towercraft/utils/SpigotUpdater.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/towercraft/utils/SpigotUpdater.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/Items/items_en.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/Items/items_ru.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Items/items.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/towercraft/TowerGuiSystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/towercraft/TowerGuiSystem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/towercraft/gui/Gui.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/towercraft/gui/Gui.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/towercraft/items/ItemListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/towercraft/items/ItemListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/towercraft/items/ItemManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/towercraft/items/ItemManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/config.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/config.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/plugin.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/plugin.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Items/items_en.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Items/items_ru.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Menu/lobby.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Templates/BWArens.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/towercraft/TowerGuiSystem.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/towercraft/gui/Gui$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/towercraft/gui/Gui$2.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/towercraft/gui/Gui.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/towercraft/gui/GuiItem.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/towercraft/gui/GuiListener$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/towercraft/gui/GuiListener.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/towercraft/items/Item.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/towercraft/items/ItemListener$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/towercraft/items/ItemListener$2.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/towercraft/items/ItemListener.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/towercraft/items/ItemManager.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/towercraft/utils/HologramsDisplay.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/towercraft/utils/PlaceHolderExpansion.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/towercraft/utils/ServerModel.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/towercraft/utils/SpigotUpdater.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/items.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/TowerGuiSystem-0.10.2.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/TowerGuiSystem-0.10.2.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/config.yml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/config.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/me/towercraft/TowerGuiSystem.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/me/towercraft/TowerGuiSystem.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/me/towercraft/gui/Gui$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/me/towercraft/gui/Gui$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/me/towercraft/items/ItemListener$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/me/towercraft/items/ItemListener$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/me/towercraft/items/ItemListener$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/me/towercraft/items/ItemListener$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/me/towercraft/items/ItemListener.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/me/towercraft/items/ItemListener.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/me/towercraft/items/ItemManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/me/towercraft/items/ItemManager.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/plugin.yml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/plugin.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-archiver/pom.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-archiver/pom.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/original-TowerGuiSystem-0.10.2.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/original-TowerGuiSystem-0.10.2.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/settings.ini" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -100,6 +83,7 @@
     <property name="node.js.path.for.package.tslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="nodejs_package_manager_path" value="npm" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.40344828" />
@@ -132,7 +116,7 @@
       <workItem from="1604228174679" duration="708000" />
       <workItem from="1604249009342" duration="299000" />
       <workItem from="1604253671153" duration="6000" />
-      <workItem from="1604253750132" duration="1291000" />
+      <workItem from="1604253750132" duration="2588000" />
     </task>
     <servers />
   </component>
@@ -154,6 +138,22 @@
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
   </component>
   <component name="WindowStateProjectService">
+    <state width="1638" height="295" key="GridCell.Tab.0.bottom" timestamp="1604256421738">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state width="1638" height="295" key="GridCell.Tab.0.bottom/0.0.1680.1050@0.0.1680.1050" timestamp="1604256421738" />
+    <state width="1638" height="295" key="GridCell.Tab.0.center" timestamp="1604256421737">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state width="1638" height="295" key="GridCell.Tab.0.center/0.0.1680.1050@0.0.1680.1050" timestamp="1604256421737" />
+    <state width="1638" height="295" key="GridCell.Tab.0.left" timestamp="1604256421737">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state width="1638" height="295" key="GridCell.Tab.0.left/0.0.1680.1050@0.0.1680.1050" timestamp="1604256421737" />
+    <state width="1638" height="295" key="GridCell.Tab.0.right" timestamp="1604256421738">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state width="1638" height="295" key="GridCell.Tab.0.right/0.0.1680.1050@0.0.1680.1050" timestamp="1604256421738" />
     <state x="541" y="157" width="598" height="735" key="find.popup" timestamp="1604254676775">
       <screen x="0" y="0" width="1680" height="1050" />
     </state>

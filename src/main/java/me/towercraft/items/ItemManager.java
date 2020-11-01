@@ -15,7 +15,7 @@ import java.util.Objects;
 
 public class ItemManager {
     FileConfiguration config;
-    public Map<String, Map<Integer, Item>> items;
+    public Map<Integer, Item> items;
 
     public ItemManager() {
         this.load();
@@ -77,15 +77,13 @@ public class ItemManager {
                     TowerGuiSystem.log("[TGSItems] Error loading item '" + name + "'. Error - " + ex2.getMessage());
                 }
 
-                this.items.put(fileEntry.getName().split("_")[1].replace(".yml", ""), temp);
+                this.items = temp;
             }
         }
     }
 
-    public Item getItem(String language, final ItemStack item) {
-        if(this.items.get(language) == null)
-            language = TowerGuiSystem.defaultLanguage;
-        for (Map.Entry<Integer, Item> temp : this.items.get(language).entrySet()) {
+    public Item getItem(final ItemStack item) {
+        for (Map.Entry<Integer, Item> temp : this.items.entrySet()) {
             if (temp.getValue().getItemStack().equals(item)) {
                 return temp.getValue();
             }

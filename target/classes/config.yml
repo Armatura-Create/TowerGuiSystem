@@ -3,7 +3,6 @@
 
 General:
   updateInterval: 2000
-  DefaultLanguage: "ru" # ru or en or...
 
 Data:
   HologramsDisplay:

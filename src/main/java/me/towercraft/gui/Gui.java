@@ -118,7 +118,7 @@ public class Gui {
                                 final List<String> nlore = new ArrayList<>();
 
                                 for (final String l : guiItem.lore) {
-                                    final String line = l.replace("%so%", "" + TowerGuiSystem.lobbysOnline.get(lobbyGet.getName()).replace("ONLINE", "Ожидание")).replace("%map%", lobbyGet.getMap()).replace("%status%", lobbyGet.getInStatus());
+                                    final String line = l.replace("%so%", "" + TowerGuiSystem.lobbysOnline.get(lobbyGet.getName())).replace("%map%", lobbyGet.getMap()).replace("%status%", lobbyGet.getInStatus().replace("ONLINE", "Ожидание"));
                                     nlore.add(line);
                                 }
 
