@@ -4,8 +4,9 @@ main: com.towercraft.TowerGuiSystem
 api-version: 1.13
 author: Armatura
 description: Displays the server dynamically in Gui
-website: TowerCraft.site
+website: TowerCraft.me
 
 commands:
   gui:
   connect:
+  maxconnect:
