@@ -7,6 +7,7 @@ items: #Смена иконки при онлайне на сервере
   - 'ORANGE_SHULKER_BOX' # count 2
   - 'RED_SHULKER_BOX' # count 3
   - 'RED_SHULKER_BOX' #Когда сервак запускается
+  - 'RED_SHULKER_BOX' #Сервер на котором ты сейчас
 item:
     nameserver: '&aHub' #Название элементов лобби
     count: #Число при смене которой изменится иконка арены

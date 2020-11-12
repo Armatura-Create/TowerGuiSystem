@@ -98,7 +98,7 @@ public class Gui {
                                         lobby.getIntegerList("item.count").get(2))
                                     id = lobby.getStringList("items").get(2);
 
-                                if (lobbyGet.getInStatus().equals("starting"))
+                                if (lobbyGet.getInStatus().equals("starting") || lobbyGet.getInStatus().equals("offline"))
                                     id = lobby.getStringList("items").get(3);
 
                                 final String name = lobby.getString("item.nameserver").replace("&", "§") + "-" + countName;
@@ -106,8 +106,10 @@ public class Gui {
                                 final List<String> lore_result = new ArrayList<>();
 
                                 for (String temp : lore_config) {
-                                    if (TowerGuiSystem.nameServer.equalsIgnoreCase(lobbyGet.getName()))
+                                    if (TowerGuiSystem.nameServer.equalsIgnoreCase(lobbyGet.getName())) {
                                         lore_result.add(temp.replace("%place%", "Вы находитесь здесь"));
+                                        id = lobby.getStringList("items").get(4);
+                                    }
                                     else
                                         lore_result.add(temp.replace("%place%", ""));
                                 }
