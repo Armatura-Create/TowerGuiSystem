@@ -1,6 +1,6 @@
-name: TowerGuiSystem
+name: TGS
 version: ${project.version}
-main: me.towercraft.TowerGuiSystem
+main: me.towercraft.TGS
 api-version: 1.13
 author: Armatura
 description: Displays the server dynamically in Gui

@@ -1,0 +1,24 @@
+# %so% - (Server Online)
+# %place% - (Where player now)
+command: 'lobby:dynamic'
+name: '&0Выбор Лобби'
+rows: 6 #Высота инвенторя
+templates: 'Hub' #Имя шаблона серверов, по котороых выводить инфу арен.     
+items: #Смена иконки при онлайне на сервере
+  - 'GREEN_SHULKER_BOX' #count 1
+  - 'ORANGE_SHULKER_BOX' # count 2
+  - 'RED_SHULKER_BOX' # count 3
+  - 'RED_SHULKER_BOX' #Когда сервак запускается
+  - 'RED_SHULKER_BOX' #Сервер на котором ты сейчас
+item:
+    nameserver: '&aHub' #Название элементов лобби
+    count: #Число при смене которой изменится иконка арены
+      - 0 #count 1
+      - 9 #count 2
+      - 15 #count 3
+    lore:
+      - ''
+      - '&c%place%'
+      - ''
+      - '&eНажмите чтобы подключится.'
+      - '&7Играют: %so%'

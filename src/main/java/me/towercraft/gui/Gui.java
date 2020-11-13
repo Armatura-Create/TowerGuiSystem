@@ -1,6 +1,6 @@
 package me.towercraft.gui;
 
-import me.towercraft.TowerGuiSystem;
+import me.towercraft.TGS;
 import me.towercraft.utils.ServerModel;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -39,14 +39,14 @@ public class Gui {
         this.items = new HashMap<>();
 
         if (template == null) {
-            TowerGuiSystem.log("Error loading GUI '" + this.name + "'. template = null");
+            TGS.log("Error loading GUI '" + this.name + "'. template = null");
             return;
         }
 
         final String gname = lobby.getString("name", this.name);
 
         if (gname == null) {
-            TowerGuiSystem.log("Name GUI - null");
+            TGS.log("Name GUI - null");
             return;
         }
 
@@ -64,11 +64,11 @@ public class Gui {
             @Override
             public void run() {
 
-                TowerGuiSystem.isUpdate = true;
+                TGS.isUpdate = true;
 
                 int countName = 0;
 
-                List<ServerModel> filterLobby = TowerGuiSystem.lobbys.stream().filter(serverModel -> serverModel.getName().contains(lobby.getString("item.nameserver").replace(lobby.getString("item.nameserver").substring(0, 2), ""))).collect(Collectors.toList());
+                List<ServerModel> filterLobby = TGS.lobbys.stream().filter(serverModel -> serverModel.getName().contains(lobby.getString("item.nameserver").replace(lobby.getString("item.nameserver").substring(0, 2), ""))).collect(Collectors.toList());
                 int plus = 0;
                 for (int i = 10; i < (lobby.getInt("rows") - 1) * 9; i++) {
 
@@ -85,16 +85,16 @@ public class Gui {
 
                         ServerModel lobbyGet = filterLobby.get(countName - 1);
 
-                        if (TowerGuiSystem.nameServer != null && lobbyGet != null)
+                        if (TGS.nameServer != null && lobbyGet != null)
                             try {
                                 //В зависимости от того сколько игроков подгружаем нужный id предмета
                                 String id = lobby.getStringList("items").get(0);
 
-                                if (Integer.parseInt(TowerGuiSystem.lobbysOnline.get(lobbyGet.getName()).split("/")[0]) >=
+                                if (Integer.parseInt(TGS.lobbysOnline.get(lobbyGet.getName()).split("/")[0]) >=
                                         lobby.getIntegerList("item.count").get(1))
                                     id = lobby.getStringList("items").get(1);
 
-                                if (Integer.parseInt(TowerGuiSystem.lobbysOnline.get(lobbyGet.getName()).split("/")[0]) >=
+                                if (Integer.parseInt(TGS.lobbysOnline.get(lobbyGet.getName()).split("/")[0]) >=
                                         lobby.getIntegerList("item.count").get(2))
                                     id = lobby.getStringList("items").get(2);
 
@@ -106,7 +106,7 @@ public class Gui {
                                 final List<String> lore_result = new ArrayList<>();
 
                                 for (String temp : lore_config) {
-                                    if (TowerGuiSystem.nameServer.equalsIgnoreCase(lobbyGet.getName())) {
+                                    if (TGS.nameServer.equalsIgnoreCase(lobbyGet.getName())) {
                                         lore_result.add(temp.replace("%place%", "Вы находитесь здесь"));
                                         id = lobby.getStringList("items").get(4);
                                     }
@@ -117,20 +117,20 @@ public class Gui {
                                 final String command = "server:" + filterLobby.get(countName - 1).getName();
                                 Gui.server = name;
 
-                                final GuiItem guiItem = new GuiItem(Gui.this, id, Integer.parseInt(TowerGuiSystem.lobbysOnline.get(lobbyGet.getName()).split("/")[0]), name, lore_result, i, command, new ArrayList<>(), Gui.server);
+                                final GuiItem guiItem = new GuiItem(Gui.this, id, Integer.parseInt(TGS.lobbysOnline.get(lobbyGet.getName()).split("/")[0]), name, lore_result, i, command, new ArrayList<>(), filterLobby.get(countName - 1), server);
 
                                 final ItemMeta meta = guiItem.getItemStack().getItemMeta();
                                 final List<String> nlore = new ArrayList<>();
 
-                                for (final String l : guiItem.lore) {
-                                    final String line = l.replace("%so%", "" + TowerGuiSystem.lobbysOnline.get(lobbyGet.getName())).replace("%map%", lobbyGet.getMap()).replace("%status%", lobbyGet.getInStatus().replace("ONLINE", "Ожидание"));
+                                for (final String l : guiItem.getLore()) {
+                                    final String line = l.replace("%so%", "" + TGS.lobbysOnline.get(lobbyGet.getName())).replace("%map%", lobbyGet.getMap()).replace("%status%", lobbyGet.getInStatus().replace("ONLINE", "Ожидание"));
                                     nlore.add(line);
                                 }
 
                                 meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
 
                                 meta.setLore(nlore);
-                                guiItem.item.setItemMeta(meta);
+                                guiItem.getItem().setItemMeta(meta);
                                 items.put(i, guiItem);
                             } catch (Exception e) {
                                 e.printStackTrace();
@@ -146,9 +146,9 @@ public class Gui {
                     }
                 }
 
-                TowerGuiSystem.isUpdate = false;
+                TGS.isUpdate = false;
             }
-        }.runTaskTimer(TowerGuiSystem.instance, 40L, 20L);
+        }.runTaskTimer(TGS.instance, 40L, 20L);
     }
 
     void load(boolean statics) {
@@ -157,11 +157,11 @@ public class Gui {
             this.inventory = Bukkit.createInventory(null, this.config.getInt("rows") * 9, this.displayName);
         }
         if (this.config == null) {
-            TowerGuiSystem.log("Ошибка при загрзуки GUI '" + this.name + "'. config = null");
+            TGS.log("Ошибка при загрзуки GUI '" + this.name + "'. config = null");
             return;
         }
         if (this.config.getConfigurationSection("Items") == null) {
-            TowerGuiSystem.log("Ошибка при загрзуки GUI '" + this.name + "'. Items не найдена");
+            TGS.log("Ошибка при загрзуки GUI '" + this.name + "'. Items не найдена");
             return;
         }
         for (final String itemName : this.config.getConfigurationSection("Items").getKeys(false)) {
@@ -174,7 +174,7 @@ public class Gui {
                 final int amount = this.config.getInt("Items." + itemName + ".amount");
                 Gui.server = this.config.getString("Items." + itemName + ".server");
                 List<List<String>> animation;
-                TowerGuiSystem.log("Loading animation from item " + itemName);
+                TGS.log("Loading animation from item " + itemName);
                 animation = new ArrayList<>();
                 for (final String string : this.config.getConfigurationSection("Items." + itemName + ".animation").getKeys(false)) {
                     final List<String> list = new ArrayList<>();
@@ -183,8 +183,8 @@ public class Gui {
                     }
                     animation.add(list);
                 }
-                TowerGuiSystem.log("List of animation - " + animation.size());
-                final GuiItem guiItem = new GuiItem(this, id, amount, name, lore, slot, command, animation, Gui.server);
+                TGS.log("List of animation - " + animation.size());
+                final GuiItem guiItem = new GuiItem(this, id, amount, name, lore, slot, command, animation, TGS.servers.stream().filter(serverModel -> serverModel.getName().equals(server)).findFirst().orElse(null), server);
                 this.items.put(slot, guiItem);
                 this.startSheduler(guiItem);
                 for (final int s : this.items.keySet()) {
@@ -192,12 +192,12 @@ public class Gui {
                         this.inventory.setItem(s, this.items.get(s).getItemStack());
                     } catch (Exception ex) {
                         ex.printStackTrace();
-                        TowerGuiSystem.log("Item in slot '" + s + "' throw exception!");
+                        TGS.log("Item in slot '" + s + "' throw exception!");
                     }
                 }
             } catch (Exception ex2) {
                 ex2.printStackTrace();
-                TowerGuiSystem.log("Error from loading item '" + itemName + "' in GUI '" + this.name + "'");
+                TGS.log("Error from loading item '" + itemName + "' in GUI '" + this.name + "'");
             }
         }
     }
@@ -209,9 +209,9 @@ public class Gui {
                 final List<String> nlore = new ArrayList<>();
                 String online;
 
-                online = TowerGuiSystem.serversOnline.get(item.server) == null ? "§cOffline" : TowerGuiSystem.serversOnline.get(item.server);
+                online = TGS.serversOnline.get(item.getServer()) == null ? "§cOffline" : TGS.serversOnline.get(item.getServer());
 
-                for (final String l : item.lore) {
+                for (final String l : item.getLore()) {
                     final String line = l.replace("%so%", online);
                     nlore.add(line);
                 }
@@ -219,10 +219,10 @@ public class Gui {
                 if (!item.iterator.hasNext()) {
                     List<List<String>> temp = new ArrayList<>();
 
-                    for (int i = 0; i < item.animation.size(); i++) {
+                    for (int i = 0; i < item.getAnimation().size(); i++) {
                         List<String> replacement = new ArrayList<>();
-                        for (int j = 0; j < item.animation.get(i).size(); j++) {
-                            replacement.add(item.animation.get(i).get(j).replace("%so%", "" + online).replace("%sa%", "" + TowerGuiSystem.lobbys.stream().filter(serverModel -> serverModel.getName().split("-")[0].equalsIgnoreCase(item.server)).count()));
+                        for (int j = 0; j < item.getAnimation().get(i).size(); j++) {
+                            replacement.add(item.getAnimation().get(i).get(j).replace("%so%", "" + online).replace("%sa%", "" + TGS.lobbys.stream().filter(serverModel -> serverModel.getName().split("-")[0].equalsIgnoreCase(item.getServer())).count()));
                         }
                         temp.add(replacement);
                     }
@@ -235,10 +235,10 @@ public class Gui {
                 meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
 
                 meta.setLore(nlore);
-                item.item.setItemMeta(meta);
+                item.getItem().setItemMeta(meta);
                 Gui.this.inventory.setItem(item.getSlot(), item.getItemStack());
             }
-        }.runTaskTimer(TowerGuiSystem.instance, 40L, TowerGuiSystem.instance.getConfig().getInt("AnimationTime"));
+        }.runTaskTimer(TGS.instance, 40L, TGS.instance.getConfig().getInt("AnimationTime"));
     }
 
     public String getDisplayName() {

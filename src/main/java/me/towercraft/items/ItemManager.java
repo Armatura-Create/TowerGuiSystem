@@ -1,6 +1,6 @@
 package me.towercraft.items;
 
-import me.towercraft.TowerGuiSystem;
+import me.towercraft.TGS;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -23,13 +23,13 @@ public class ItemManager {
 
     public void load() {
         this.items = new HashMap<>();
-        final File files = new File(TowerGuiSystem.instance.getDataFolder() + File.separator + "Items");
+        final File files = new File(TGS.instance.getDataFolder() + File.separator + "Items");
 
         //TODO Правильное создание файлов если их нет
 
         if (!files.exists()) {
             files.mkdir();
-            this.config = YamlConfiguration.loadConfiguration(new InputStreamReader(Objects.requireNonNull(TowerGuiSystem.instance.getResource("Items/items.yml"))));
+            this.config = YamlConfiguration.loadConfiguration(new InputStreamReader(Objects.requireNonNull(TGS.instance.getResource("Items/items.yml"))));
             try {
                 this.config.save(files);
             } catch (Exception ex) {
@@ -72,9 +72,9 @@ public class ItemManager {
                     final boolean move = this.config.getBoolean("JoinItems." + name + ".move", false);
                     final Item item = new Item(name, id, slot, displayName, lore, command, amount, drop, move, cooldown);
                     temp.put(slot, item);
-                    TowerGuiSystem.log("[TGSItems] Item '" + name + "' successfully uploaded");
+                    TGS.log("[TGSItems] Item '" + name + "' successfully uploaded");
                 } catch (Exception ex2) {
-                    TowerGuiSystem.log("[TGSItems] Error loading item '" + name + "'. Error - " + ex2.getMessage());
+                    TGS.log("[TGSItems] Error loading item '" + name + "'. Error - " + ex2.getMessage());
                 }
 
                 this.items = temp;

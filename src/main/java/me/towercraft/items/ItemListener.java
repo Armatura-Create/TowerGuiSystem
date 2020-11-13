@@ -1,6 +1,6 @@
 package me.towercraft.items;
 
-import me.towercraft.TowerGuiSystem;
+import me.towercraft.TGS;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -20,8 +20,8 @@ public class ItemListener implements Listener {
     private ItemManager manager;
 
     public ItemListener() {
-        this.manager = TowerGuiSystem.instance.itemManager;
-        TowerGuiSystem.registerListener(this);
+        this.manager = TGS.instance.itemManager;
+        TGS.registerListener(this);
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
@@ -46,7 +46,7 @@ public class ItemListener implements Listener {
                 public void run() {
                     item.cooldowns.remove(name);
                 }
-            }.runTaskLaterAsynchronously(TowerGuiSystem.instance, item.getCooldown() * 20L);
+            }.runTaskLaterAsynchronously(TGS.instance, item.getCooldown() * 20L);
         }
         if (item.getCommand() == null) {
             return;
@@ -93,7 +93,7 @@ public class ItemListener implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onJoin(final PlayerJoinEvent e) {
         final Player player = e.getPlayer();
-        if (TowerGuiSystem.instance.clearOnJoin) {
+        if (TGS.instance.clearOnJoin) {
             player.getInventory().clear();
         }
         new BukkitRunnable() {
@@ -114,11 +114,11 @@ public class ItemListener implements Listener {
                     if (itemStack == null)
                         player.getInventory().setItem(slot, item.getItemStack());
 
-                    if (itemStack != null && TowerGuiSystem.instance.replaceItemOnJoin)
+                    if (itemStack != null && TGS.instance.replaceItemOnJoin)
                         player.getInventory().setItem(slot, item.getItemStack());
                 }
                 player.updateInventory();
             }
-        }.runTaskLaterAsynchronously(TowerGuiSystem.instance, 10L);
+        }.runTaskLaterAsynchronously(TGS.instance, 10L);
     }
 }

@@ -28,12 +28,12 @@ import java.io.IOException;
 import java.util.*;
 import java.util.logging.Logger;
 
-public final class TowerGuiSystem extends JavaPlugin implements CommandExecutor, PluginMessageListener {
+public final class TGS extends JavaPlugin implements CommandExecutor, PluginMessageListener {
 
-    public static TowerGuiSystem instance;
+    public static TGS instance;
     private HashMap<String, Gui> guis;
     public ItemManager itemManager;
-    public static TowerGuiSystem plugin;
+    public static TGS plugin;
     public long updateTime;
     boolean gui;
     boolean items;
@@ -54,7 +54,7 @@ public final class TowerGuiSystem extends JavaPlugin implements CommandExecutor,
     Runnable mainRunnable;
 
     public static String getPrefix() {
-        return TowerGuiSystem.prefix;
+        return TGS.prefix;
     }
 
     public void startUpdate() {
@@ -66,7 +66,7 @@ public final class TowerGuiSystem extends JavaPlugin implements CommandExecutor,
                         if (Bukkit.getOnlinePlayers().toArray().length > 0 && nameServer == null)
                             setCurrentServer();
                         if (nameServer != null && !isUpdate)
-                            TowerGuiSystem.this.mainRunnable.run();
+                            TGS.this.mainRunnable.run();
                     }
                 } catch (Exception ex) {
                     ex.printStackTrace();
@@ -96,7 +96,7 @@ public final class TowerGuiSystem extends JavaPlugin implements CommandExecutor,
         }
         this.guis.clear();
         this.getServer().getScheduler().cancelTasks(this);
-        final File files = new File(TowerGuiSystem.instance.getDataFolder() + File.separator + "Menu");
+        final File files = new File(TGS.instance.getDataFolder() + File.separator + "Menu");
         if (!files.exists()) {
             files.mkdir();
         }
@@ -110,7 +110,7 @@ public final class TowerGuiSystem extends JavaPlugin implements CommandExecutor,
                     }
                     Bukkit.getLogger().info("Loading Gui '" + fileEntry.getName().replace(".yml", "") + "'");
                     if (command.split(":").length > 1 && command.split(":")[1].contains("dynamic")) {
-                        File templates = new File(TowerGuiSystem.instance.getDataFolder() + File.separator + "Templates" + File.separator + configuration.getString("templates", null) + ".yml");
+                        File templates = new File(TGS.instance.getDataFolder() + File.separator + "Templates" + File.separator + configuration.getString("templates", null) + ".yml");
                         if (!templates.exists()) {
                             templates.createNewFile();
                             log("File - " + configuration.getString("template", null) + ".yml not found");
@@ -143,11 +143,13 @@ public final class TowerGuiSystem extends JavaPlugin implements CommandExecutor,
 
         List<ServerModel> servers = new ArrayList<>();
 
-        TowerGuiSystem.servers.sort(Comparator.comparing(ServerModel::getNowPlayer));
+        TGS.servers.sort(Comparator.comparing(ServerModel::getNowPlayer));
 
-        for (final ServerModel s : TowerGuiSystem.servers)
+        for (final ServerModel s : TGS.servers)
             if (s.getName().contains(where.split("_")[0])
-                    && (!s.getInStatus().equalsIgnoreCase("ingame")))
+                    && (!s.getInStatus().equalsIgnoreCase("ingame")) &&
+                    (!s.getInStatus().equalsIgnoreCase("starting")) &&
+                    (!s.getInStatus().equalsIgnoreCase("offline")))
                 servers.add(s);
 
         if (servers.size() < 1) {
@@ -182,12 +184,12 @@ public final class TowerGuiSystem extends JavaPlugin implements CommandExecutor,
                 log(e.getMessage());
             }
 
-            p.sendPluginMessage(TowerGuiSystem.instance, "BungeeCord", b.toByteArray());
+            p.sendPluginMessage(TGS.instance, "BungeeCord", b.toByteArray());
         }
     }
 
     public static void registerListener(final Listener listener) {
-        Bukkit.getServer().getPluginManager().registerEvents(listener, TowerGuiSystem.instance);
+        Bukkit.getServer().getPluginManager().registerEvents(listener, TGS.instance);
     }
 
     public static void log(final String message) {
@@ -407,8 +409,8 @@ public final class TowerGuiSystem extends JavaPlugin implements CommandExecutor,
                 throw new RuntimeException("Could not find HolographicDisplays!! Plugin can not work without it!");
 
         this.saveDefaultConfig();
-        TowerGuiSystem.plugin = this;
-        TowerGuiSystem.instance = this;
+        TGS.plugin = this;
+        TGS.instance = this;
         this.guis = new HashMap<>();
 
         updateTime = this.getConfig().getLong("General.updateInterval");
@@ -440,12 +442,12 @@ public final class TowerGuiSystem extends JavaPlugin implements CommandExecutor,
     }
 
     static {
-        TowerGuiSystem.servers = new ArrayList<>();
-        TowerGuiSystem.nameServer = null;
-        TowerGuiSystem.lobbys = new ArrayList<>();
-        TowerGuiSystem.serversOnline = new HashMap<>();
-        TowerGuiSystem.lobbysOnline = new HashMap<>();
-        TowerGuiSystem.prefix = "§6TGS §8» §7";
+        TGS.servers = new ArrayList<>();
+        TGS.nameServer = null;
+        TGS.lobbys = new ArrayList<>();
+        TGS.serversOnline = new HashMap<>();
+        TGS.lobbysOnline = new HashMap<>();
+        TGS.prefix = "§6TGS §8» §7";
     }
 
     @Override

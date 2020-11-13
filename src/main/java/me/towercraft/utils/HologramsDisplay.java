@@ -2,7 +2,7 @@ package me.towercraft.utils;
 
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.placeholder.PlaceholderReplacer;
-import me.towercraft.TowerGuiSystem;
+import me.towercraft.TGS;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 
@@ -10,13 +10,13 @@ import java.util.Collection;
 import java.util.List;
 
 import static com.gmail.filoghost.holographicdisplays.api.HologramsAPI.*;
-import static me.towercraft.TowerGuiSystem.getOnline;
+import static me.towercraft.TGS.getOnline;
 
 public class HologramsDisplay {
 
-    TowerGuiSystem plugin;
+    TGS plugin;
 
-    public HologramsDisplay(TowerGuiSystem plugin) {
+    public HologramsDisplay(TGS plugin) {
         this.plugin = plugin;
     }
 
@@ -59,7 +59,7 @@ public class HologramsDisplay {
                 try {
                     for (String placeholder : placeHolders) {
                         registerPlaceholderPlugin("{" + placeholder + "}", 1, () -> getOnline(placeholder) == -1 ? "§cOffline" : "" + getOnline(placeholder));
-                        TowerGuiSystem.log("Register Placeholder - " + placeholder);
+                        TGS.log("Register Placeholder - " + placeholder);
                     }
 
                     return;

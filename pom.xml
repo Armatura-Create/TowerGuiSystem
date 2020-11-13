@@ -11,8 +11,8 @@
         </developer>
     </developers>
 
-    <groupId>TowerGuiSystem</groupId>
-    <artifactId>TowerGuiSystem</artifactId>
+    <groupId>TGS</groupId>
+    <artifactId>TGS</artifactId>
     <version>0.10.2</version>
     <packaging>jar</packaging>
 

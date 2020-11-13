@@ -1,6 +1,7 @@
 package me.towercraft.gui;
 
-import me.towercraft.TowerGuiSystem;
+import me.towercraft.TGS;
+import me.towercraft.utils.ServerModel;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -13,13 +14,14 @@ public class GuiItem {
 
     private int slot;
     private String command;
-    public ItemStack item;
+    private ItemStack item;
     public Iterator<List<String>> iterator;
-    List<List<String>> animation;
-    List<String> lore = new ArrayList<>();
-    String server;
+    private List<List<String>> animation;
+    private List<String> lore = new ArrayList<>();
+    private ServerModel serverModel;
+    private String server;
 
-    public GuiItem(final Gui gui, final String id, int amount, final String name, final List<String> lore, final int slot, final String command, final List<List<String>> animation, final String server) {
+    public GuiItem(final Gui gui, final String id, int amount, final String name, final List<String> lore, final int slot, final String command, final List<List<String>> animation, final ServerModel serverModel, String server) {
         List<String> lore_result = new ArrayList<>();
         lore_result.addAll(lore);
 
@@ -31,6 +33,7 @@ public class GuiItem {
 
         this.slot = slot;
         this.command = command;
+        this.serverModel = serverModel;
         this.server = server;
         if (amount == 0) {
             amount = 1;
@@ -53,7 +56,7 @@ public class GuiItem {
             this.item = itemStack;
         } catch (Exception ex) {
             ex.printStackTrace();
-            TowerGuiSystem.log("Ошибка при загрузке предмета '" + name + " - " + id + "' \u0432 Gui '" + gui.getName() + "'");
+            TGS.log("Ошибка при загрузке предмета '" + name + " - " + id + "' \u0432 Gui '" + gui.getName() + "'");
         }
 
         this.animation = animation;
@@ -72,5 +75,25 @@ public class GuiItem {
 
     public String getCommand() {
         return this.command;
+    }
+
+    public List<List<String>> getAnimation() {
+        return animation;
+    }
+
+    public List<String> getLore() {
+        return lore;
+    }
+
+    public ServerModel getServerModel() {
+        return serverModel;
+    }
+
+    public String getServer() {
+        return server;
+    }
+
+    public ItemStack getItem() {
+        return item;
     }
 }

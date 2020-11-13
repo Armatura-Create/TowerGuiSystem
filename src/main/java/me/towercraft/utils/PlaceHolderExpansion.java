@@ -1,6 +1,6 @@
 package me.towercraft.utils;
 
-import me.towercraft.TowerGuiSystem;
+import me.towercraft.TGS;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.OfflinePlayer;
 
@@ -23,12 +23,12 @@ public class PlaceHolderExpansion extends PlaceholderExpansion {
 
     @Override
     public String getAuthor() {
-        return TowerGuiSystem.plugin.getDescription().getAuthors().toString();
+        return TGS.plugin.getDescription().getAuthors().toString();
     }
 
     @Override
     public String getVersion() {
-        return TowerGuiSystem.plugin.getDescription().getVersion();
+        return TGS.plugin.getDescription().getVersion();
     }
 
     @Override
@@ -37,22 +37,22 @@ public class PlaceHolderExpansion extends PlaceholderExpansion {
         if (params == null)
             return "";
         if (params.equals("servername")) {
-            if (TowerGuiSystem.nameServer != null)
-                return TowerGuiSystem.nameServer.split("-")[0];
+            if (TGS.nameServer != null)
+                return TGS.nameServer.split("-")[0];
             else
                 return "NameServer";
         }
         if (params.equals("servernamewithnumber")) {
-            if (TowerGuiSystem.nameServer != null)
-                return TowerGuiSystem.nameServer;
+            if (TGS.nameServer != null)
+                return TGS.nameServer;
             else
                 return "NameServer";
         }
         if (params.equals("onlineamount")) {
-            return TowerGuiSystem.getAllOnline() + "";
+            return TGS.getAllOnline() + "";
         }
         if (params.contains("serveramount")) {
-            return TowerGuiSystem.lobbys.stream().filter(serverModel -> serverModel.getName().split("-")[0].equalsIgnoreCase(params.split("_")[1])).count() + "";
+            return TGS.lobbys.stream().filter(serverModel -> serverModel.getName().split("-")[0].equalsIgnoreCase(params.split("_")[1])).count() + "";
         }
         return super.onRequest(p, params);
     }
