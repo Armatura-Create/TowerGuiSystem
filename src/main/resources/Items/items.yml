@@ -5,7 +5,7 @@ JoinItems:
     name: '&eВыбор сервера'
     lore:
       - '&fПКМ чтобы открыть.'
-    command: 'gui open servers_ru'
+    command: 'gui open servers'
     amount: 1
     drop: true
     move: true
@@ -15,7 +15,7 @@ JoinItems:
     name: '&eВыбор лобби'
     lore:
       - '&fПКМ чтобы открыть.'
-    command: 'gui open lobby_ru'
+    command: 'gui open lobby'
     amount: 1
     drop: true
     move: true

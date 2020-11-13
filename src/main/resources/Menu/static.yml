@@ -1,24 +1,24 @@
-command: 'servers_en'
-name: '&0Mode selection'
+command: 'servers'
+name: '&0Выбор режима'
 rows: 6
 Items:
    Hub:
-    name: '&aMain hub'
+    name: '&aГлавный хаб'
     command: 'server:Hub'
     server: 'Hub'
     animation:
       '1':
-      - '&7Return to the hub'
-      - '&7Online lobby: &e%sa%'
+      - '&7Вернуться в хаб'
+      - '&7Лобби в сети: &e%sa%'
       - ''
-      - '&a▶ Click to connect'
-      - '&7Are playing: %so%'
+      - '&a▶ Нажмите, чтобы подключиться'
+      - '&7Играют: %so%'   
       '2':
-      - '&7Return to the hub'
-      - '&7Online lobby: &e%sa%'
+      - '&7Вернуться в хаб'
+      - '&7Лобби в сети: &e%sa%'
       - ''
-      - '&a  Click to connect'
-      - '&7Are playing: %so%'
+      - '&a  Нажмите, чтобы подключиться'
+      - '&7Играют: %so%'
     id: 'BOOKSHELF'
     slot: 10
     lore:
