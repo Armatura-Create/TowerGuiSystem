@@ -426,7 +426,13 @@ public final class TGS extends JavaPlugin implements CommandExecutor, PluginMess
 
         //Инициализируем файл с сообщениями
         files = new Files(this);
-        files.createMessages();
+        try {
+            files.createMessages();
+        } catch (Exception e){
+            log("Error load files Stacktrace:");
+            e.printStackTrace();
+        }
+
 
         loadItems();
         loadGui();
