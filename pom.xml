@@ -16,7 +16,7 @@
     <version>0.10.2</version>
     <packaging>jar</packaging>
 
-    <name>TowerGuiSystem</name>
+    <name>TGS</name>
 
     <description>Displays the server dynamically in Gui</description>
     <properties>
