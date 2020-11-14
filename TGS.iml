@@ -24,7 +24,7 @@
     <orderEntry type="module-library" scope="PROVIDED">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/TowerAuthSystem-1.0-BETA.jar!/" />
+          <root url="jar://$MODULE_DIR$/TGS-1.0-BETA.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

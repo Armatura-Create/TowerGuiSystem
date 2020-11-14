@@ -6,11 +6,9 @@ import com.google.common.io.ByteStreams;
 import me.towercraft.gui.Gui;
 import me.towercraft.items.ItemListener;
 import me.towercraft.items.ItemManager;
-import me.towercraft.utils.HologramsDisplay;
-import me.towercraft.utils.PlaceHolderExpansion;
-import me.towercraft.utils.ServerModel;
-import me.towercraft.utils.SpigotUpdater;
+import me.towercraft.utils.*;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -31,6 +29,7 @@ import java.util.logging.Logger;
 public final class TGS extends JavaPlugin implements CommandExecutor, PluginMessageListener {
 
     public static TGS instance;
+    public static Files files;
     private HashMap<String, Gui> guis;
     public ItemManager itemManager;
     public static TGS plugin;
@@ -152,10 +151,8 @@ public final class TGS extends JavaPlugin implements CommandExecutor, PluginMess
                     (!s.getInStatus().equalsIgnoreCase("offline")))
                 servers.add(s);
 
-        if (servers.size() < 1) {
-            String result =  "Не найден сервер";
-            p.sendMessage(getPrefix() + result);
-        }
+        if (servers.size() < 1)
+            p.sendMessage(getPrefix() + ChatColor.translateAlternateColorCodes('&', TGS.files.getMSG().getString("GUI.main.wrongArgumentConnect")));
 
         switch (type) {
             case "random":
@@ -170,8 +167,7 @@ public final class TGS extends JavaPlugin implements CommandExecutor, PluginMess
         if (servers.size() > 0) {
 
             if (nameServer.equalsIgnoreCase(servers.get(0).getName())) {
-                String result = "Вы уже находитесь в - ";
-                p.sendMessage(getPrefix() + result + "§a" + nameServer);
+                p.sendMessage(getPrefix() + ChatColor.translateAlternateColorCodes('&', TGS.files.getMSG().getString("GUI.main.areYouHere")) + "§a" + nameServer);
                 return;
             }
 
@@ -201,28 +197,27 @@ public final class TGS extends JavaPlugin implements CommandExecutor, PluginMess
         switch (commandLabel.split("_")[0]) {
             case "gui":
                 if (args.length == 0) {
-                    sender.sendMessage(getPrefix() + "Открыть Gui - §c/gui open [название]");
-                    sender.sendMessage(getPrefix() + "Список Gui - §c/gui list");
-                    sender.sendMessage(getPrefix() + "Перезагрузить конфигурацию - §c/gui reload");
+                    for (String temp : TGS.files.getMSG().getStringList("GUI.help"))
+                        sender.sendMessage(getPrefix() + ChatColor.translateAlternateColorCodes('&', temp));
                     return true;
                 }
 
                 if (args[0].equalsIgnoreCase("reload")) {
                     if (!sender.hasPermission("gui.reload")) {
-                        sender.sendMessage(getPrefix() + "§cУ вас недостаточно прав!");
+                        sender.sendMessage(getPrefix() + ChatColor.translateAlternateColorCodes('&', TGS.files.getMSG().getString("GUI.reload.noPermissionss")));
                         return true;
                     }
                     this.gui = this.getConfig().getBoolean("Enable.Gui");
                     this.items = this.getConfig().getBoolean("Enable.Items");
                     this.loadGui();
                     this.loadItems();
-                    sender.sendMessage(getPrefix() + "Конфигурация успешно перезагружена.");
+                    sender.sendMessage(getPrefix() + ChatColor.translateAlternateColorCodes('&', TGS.files.getMSG().getString("GUI.reload.loadComplete")));
                     return true;
                 }
 
                 if (args.length == 1) {
                     if (args[0].equalsIgnoreCase("list")) {
-                        sender.sendMessage(getPrefix() + "Список Gui:");
+                        sender.sendMessage(getPrefix() + ChatColor.translateAlternateColorCodes('&', TGS.files.getMSG().getString("GUI.main.listGui")));
 
                         final ByteArrayOutputStream b = new ByteArrayOutputStream();
                         final DataOutputStream out = new DataOutputStream(b);
@@ -251,15 +246,17 @@ public final class TGS extends JavaPlugin implements CommandExecutor, PluginMess
                     if (args[0].equalsIgnoreCase("open")) {
                         final Gui gui = this.guis.get(args[1]);
                         if (gui == null) {
-                            sender.sendMessage(getPrefix() + "§cGui не найдено!");
+                            sender.sendMessage(getPrefix() + ChatColor.translateAlternateColorCodes('&', TGS.files.getMSG().getString("GUI.main.guiNotFound")));
                             return true;
                         }
                         gui.open(player);
                         return true;
                     }
                 }
-                sender.sendMessage(getPrefix() + "Открыть Gui - §c/gui open [название]");
-                sender.sendMessage(getPrefix() + "Список Gui - §c/gui list");
+
+                for (String temp : TGS.files.getMSG().getStringList("GUI.help"))
+                    sender.sendMessage(getPrefix() + ChatColor.translateAlternateColorCodes('&', temp));
+
                 return true;
 
             case "connect":
@@ -267,7 +264,7 @@ public final class TGS extends JavaPlugin implements CommandExecutor, PluginMess
                     if (args.length > 0)
                         connect((Player) sender, args[0] + "_normal");
                     else
-                        sender.sendMessage(getPrefix() + "Не задан сервер");
+                        sender.sendMessage(getPrefix() + ChatColor.translateAlternateColorCodes('&', TGS.files.getMSG().getString("GUI.main.wrongArgumentConnect")));
                 return true;
 
             case "maxconnect":
@@ -275,11 +272,11 @@ public final class TGS extends JavaPlugin implements CommandExecutor, PluginMess
                     if (args.length > 0)
                         connect((Player) sender, args[0] + "_max");
                     else
-                        sender.sendMessage(getPrefix() + "Не задан сервер");
+                        sender.sendMessage(getPrefix() + ChatColor.translateAlternateColorCodes('&', TGS.files.getMSG().getString("GUI.main.wrongArgumentConnect")));
                 return true;
 
             default:
-                sender.sendMessage(getPrefix() + "Команда не найденна");
+                sender.sendMessage(getPrefix() + ChatColor.translateAlternateColorCodes('&', TGS.files.getMSG().getString("GUI.main.commandNotFound")));
                 return true;
         }
     }
@@ -426,6 +423,10 @@ public final class TGS extends JavaPlugin implements CommandExecutor, PluginMess
 
         this.getCommand("gui").setExecutor(this);
         this.getCommand("connect").setExecutor(this);
+
+        //Инициализируем файл с сообщениями
+        files = new Files(this);
+        files.createMessages();
 
         loadItems();
         loadGui();

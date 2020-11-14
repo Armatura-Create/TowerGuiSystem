@@ -4,8 +4,10 @@ me/towercraft/items/ItemListener$1.class
 me/towercraft/TGS.class
 me/towercraft/utils/HologramsDisplay.class
 me/towercraft/items/ItemManager.class
+.DS_Store
 me/towercraft/gui/Gui.class
 me/towercraft/utils/ServerModel.class
+me/towercraft/utils/Files.class
 me/towercraft/gui/Gui$1.class
 me/towercraft/gui/GuiListener.class
 me/towercraft/items/Item.class

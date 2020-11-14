@@ -1,0 +1,22 @@
+GUI:
+  help:
+    - 'Открыть Gui - §c/gui open [название]'
+    - 'Список Gui - §c/gui list'
+    - 'Перезагрузить конфигурацию - §c/gui reload'
+
+  reload:
+    noPermissions: '§cУ вас недостаточно прав!'
+    loadComplete: 'Конфигурация успешно перезагружена.'
+
+  main:
+    listGui: 'Список Gui:'
+    commandNotFound: 'Команда не найденна!'
+    guiNotFound: '§cGui не найдено!'
+    wrongArgumentConnect: 'Ошибка в команде'
+    areYouHere: 'Вы уже находитесь в - '
+
+  serverStatus:
+    online: 'Онлайн'
+    ingame: 'В игре'
+    starting: 'Запускается'
+    offline: 'Оффлайн'

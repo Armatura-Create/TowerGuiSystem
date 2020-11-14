@@ -3,6 +3,7 @@ package me.towercraft.gui;
 import me.towercraft.TGS;
 import me.towercraft.utils.ServerModel;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -209,7 +210,10 @@ public class Gui {
                 final List<String> nlore = new ArrayList<>();
                 String online;
 
-                online = TGS.serversOnline.get(item.getServer()) == null ? "§cOffline" : TGS.serversOnline.get(item.getServer());
+                if(TGS.serversOnline.get(item.getServer()) == null)
+                    online = ChatColor.translateAlternateColorCodes('&', TGS.files.getMSG().getString("GUI.serverStatus.offline"));
+                else
+                    online = ChatColor.translateAlternateColorCodes('&', TGS.files.getMSG().getString("GUI.serverStatus." + TGS.serversOnline.get(item.getServer())));
 
                 for (final String l : item.getLore()) {
                     final String line = l.replace("%so%", online);
