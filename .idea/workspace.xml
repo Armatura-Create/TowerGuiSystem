@@ -23,14 +23,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cedbbe08-9abd-43ab-89e3-987c4514ce88" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/towercraft/utils/Files.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Message.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TGS.iml" beforeDir="false" afterPath="$PROJECT_DIR$/TGS.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/towercraft/TGS.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/towercraft/TGS.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/towercraft/gui/Gui.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/towercraft/gui/Gui.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Message.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Messages.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/me/towercraft/gui/Gui$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/me/towercraft/gui/Gui$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/me/towercraft/gui/Gui$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/me/towercraft/gui/Gui$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/me/towercraft/gui/Gui.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/me/towercraft/gui/Gui.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/original-TGS-0.10.2.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/original-TGS-0.10.2.jar" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -132,7 +131,7 @@
       <workItem from="1605252001409" duration="4682000" />
       <workItem from="1605297508297" duration="86000" />
       <workItem from="1605351193019" duration="318000" />
-      <workItem from="1605352284546" duration="1912000" />
+      <workItem from="1605352284546" duration="2817000" />
     </task>
     <servers />
   </component>
@@ -163,22 +162,22 @@
       <screen x="0" y="0" width="1680" height="1050" />
     </state>
     <state x="653" y="249" key="#com.intellij.ide.util.MemberChooser/0.0.1680.1050@0.0.1680.1050" timestamp="1605295599262" />
-    <state width="1638" height="294" key="GridCell.Tab.0.bottom" timestamp="1605297675915">
+    <state width="1638" height="294" key="GridCell.Tab.0.bottom" timestamp="1605355192588">
       <screen x="0" y="0" width="1680" height="1050" />
     </state>
-    <state width="1638" height="294" key="GridCell.Tab.0.bottom/0.0.1680.1050@0.0.1680.1050" timestamp="1605297675915" />
-    <state width="1638" height="294" key="GridCell.Tab.0.center" timestamp="1605297675914">
+    <state width="1638" height="294" key="GridCell.Tab.0.bottom/0.0.1680.1050@0.0.1680.1050" timestamp="1605355192588" />
+    <state width="1638" height="294" key="GridCell.Tab.0.center" timestamp="1605355192586">
       <screen x="0" y="0" width="1680" height="1050" />
     </state>
-    <state width="1638" height="294" key="GridCell.Tab.0.center/0.0.1680.1050@0.0.1680.1050" timestamp="1605297675914" />
-    <state width="1638" height="294" key="GridCell.Tab.0.left" timestamp="1605297675913">
+    <state width="1638" height="294" key="GridCell.Tab.0.center/0.0.1680.1050@0.0.1680.1050" timestamp="1605355192586" />
+    <state width="1638" height="294" key="GridCell.Tab.0.left" timestamp="1605355192585">
       <screen x="0" y="0" width="1680" height="1050" />
     </state>
-    <state width="1638" height="294" key="GridCell.Tab.0.left/0.0.1680.1050@0.0.1680.1050" timestamp="1605297675913" />
-    <state width="1638" height="294" key="GridCell.Tab.0.right" timestamp="1605297675914">
+    <state width="1638" height="294" key="GridCell.Tab.0.left/0.0.1680.1050@0.0.1680.1050" timestamp="1605355192585" />
+    <state width="1638" height="294" key="GridCell.Tab.0.right" timestamp="1605355192587">
       <screen x="0" y="0" width="1680" height="1050" />
     </state>
-    <state width="1638" height="294" key="GridCell.Tab.0.right/0.0.1680.1050@0.0.1680.1050" timestamp="1605297675914" />
+    <state width="1638" height="294" key="GridCell.Tab.0.right/0.0.1680.1050@0.0.1680.1050" timestamp="1605355192587" />
     <state x="-1302" y="88" width="684" height="822" key="find.popup" timestamp="1605253281999">
       <screen x="-1920" y="-73" width="1920" height="1080" />
     </state>

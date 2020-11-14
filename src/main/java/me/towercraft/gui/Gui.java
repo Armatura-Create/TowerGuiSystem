@@ -124,7 +124,7 @@ public class Gui {
                                 final List<String> nlore = new ArrayList<>();
 
                                 for (final String l : guiItem.getLore()) {
-                                    final String line = l.replace("%so%", "" + TGS.lobbysOnline.get(lobbyGet.getName())).replace("%map%", lobbyGet.getMap()).replace("%status%", lobbyGet.getInStatus().replace("ONLINE", "Ожидание"));
+                                    final String line = l.replace("%so%", "" + TGS.lobbysOnline.get(lobbyGet.getName())).replace("%map%", lobbyGet.getMap()).replace("%status%", ChatColor.translateAlternateColorCodes('&', TGS.files.getMSG().getString("GUI.serverStatus." + lobbyGet.getInStatus())));
                                     nlore.add(line);
                                 }
 
@@ -208,12 +208,7 @@ public class Gui {
             public void run() {
                 final ItemMeta meta = item.getItemStack().getItemMeta();
                 final List<String> nlore = new ArrayList<>();
-                String online;
-
-                if(TGS.serversOnline.get(item.getServer()) == null)
-                    online = ChatColor.translateAlternateColorCodes('&', TGS.files.getMSG().getString("GUI.serverStatus.offline"));
-                else
-                    online = ChatColor.translateAlternateColorCodes('&', TGS.files.getMSG().getString("GUI.serverStatus." + TGS.serversOnline.get(item.getServer())));
+                String online = TGS.serversOnline.get(item.getServer()) == null ? "§cOffline" : TGS.serversOnline.get(item.getServer());
 
                 for (final String l : item.getLore()) {
                     final String line = l.replace("%so%", online);
@@ -237,6 +232,9 @@ public class Gui {
                 nlore.addAll(item.iterator.next());
 
                 meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+                meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+                meta.addItemFlags(ItemFlag.HIDE_DESTROYS);
+                meta.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
 
                 meta.setLore(nlore);
                 item.getItem().setItemMeta(meta);
