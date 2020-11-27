@@ -1,0 +1,12 @@
+name: TGS
+version: 1.0
+main: me.towercraft.TGS
+api-version: 1.13
+author: Armatura
+description: Displays the server dynamically in Gui
+website: TowerCraft.me
+
+commands:
+  gui:
+  connect:
+  maxconnect:

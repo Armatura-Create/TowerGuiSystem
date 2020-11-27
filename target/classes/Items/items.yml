@@ -1,0 +1,41 @@
+JoinItems:
+  SERVERS:
+    id: 'COMPASS'
+    slot: 1
+    name: '&eВыбор сервера'
+    lore:
+      - '&fПКМ чтобы открыть.'
+    command: 'gui open servers'
+    amount: 1
+    drop: true
+    move: true
+  LOBBY:
+    id: 'SLIME_BALL'
+    slot: 9
+    name: '&eВыбор лобби'
+    lore:
+      - '&fПКМ чтобы открыть.'
+    command: 'gui open lobby'
+    amount: 1
+    drop: true
+    move: true
+  Colletions:
+    id: 'CHEST'
+    slot: 5
+    name: '&eКоллекции'
+    lore:
+      - '&fПКМ чтобы октрыть.'
+    command: '/collections'
+    amount: 1
+    drop: true
+    move: true
+  Options:
+    id: 'EXP_BOTTLE'
+    slot: 6
+    name: '&eНастройки'
+    lore:
+      - '&fПКМ чтобы октрыть.'
+    command: '/options'
+    amount: 1
+    drop: true
+    move: true

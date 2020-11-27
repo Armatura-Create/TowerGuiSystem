@@ -102,6 +102,9 @@ public class Gui {
                                 if (lobbyGet.getInStatus().equals("starting") || lobbyGet.getInStatus().equals("offline"))
                                     id = lobby.getStringList("items").get(3);
 
+                                if (lobbyGet.getInStatus().equals("ingame"))
+                                    id = lobby.getStringList("items").get(4);
+
                                 final String name = lobby.getString("item.nameserver").replace("&", "§") + "-" + countName;
                                 final List<String> lore_config = lobby.getStringList("item.lore");
                                 final List<String> lore_result = new ArrayList<>();
@@ -109,7 +112,7 @@ public class Gui {
                                 for (String temp : lore_config) {
                                     if (TGS.nameServer.equalsIgnoreCase(lobbyGet.getName())) {
                                         lore_result.add(temp.replace("%place%", "Вы находитесь здесь"));
-                                        id = lobby.getStringList("items").get(4);
+                                        id = lobby.getStringList("items").get(5);
                                     }
                                     else
                                         lore_result.add(temp.replace("%place%", ""));

@@ -30,7 +30,6 @@ public class GuiListener implements Listener {
             return;
         }
 
-        //TODO Попровить проверку на объект если он не лобби
         if (item.getServerModel() == null || item.getServerModel().getInStatus().equals("online"))
             new BukkitRunnable() {
                 public void run() {
