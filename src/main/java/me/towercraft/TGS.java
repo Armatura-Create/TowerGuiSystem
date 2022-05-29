@@ -61,7 +61,7 @@ public final class TGS extends JavaPlugin implements CommandExecutor, PluginMess
             while (true) {
                 try {
                     while (true) {
-                        Thread.sleep(updateTime); // Update UI in two seconds
+                        Thread.sleep(updateTime); //Update UI in two seconds
                         if (Bukkit.getOnlinePlayers().toArray().length > 0 && nameServer == null)
                             setCurrentServer();
                         if (nameServer != null && !isUpdate)
@@ -432,7 +432,6 @@ public final class TGS extends JavaPlugin implements CommandExecutor, PluginMess
             log("Error load files Stacktrace:");
             e.printStackTrace();
         }
-
 
         loadItems();
         loadGui();
