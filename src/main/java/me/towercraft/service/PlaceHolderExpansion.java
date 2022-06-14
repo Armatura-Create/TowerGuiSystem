@@ -2,10 +2,10 @@ package me.towercraft.service;
 
 import me.towercraft.TGS;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
-import me.towercraft.plugin.ioc.annotations.Autowire;
-import me.towercraft.plugin.ioc.annotations.PostConstruct;
-import me.towercraft.plugin.ioc.annotations.PreDestroy;
-import me.towercraft.plugin.ioc.annotations.Service;
+import unsave.plugin.context.annotations.Autowire;
+import unsave.plugin.context.annotations.PostConstruct;
+import unsave.plugin.context.annotations.PreDestroy;
+import unsave.plugin.context.annotations.Service;
 import me.towercraft.service.server.ServerModel;
 import me.towercraft.service.server.ServersUpdateHandler;
 import me.towercraft.utils.TGSLogger;
@@ -66,15 +66,21 @@ public class PlaceHolderExpansion extends PlaceholderExpansion {
     @Override
     public String onRequest(OfflinePlayer p, String params) {
 
+        tgsLogger.log("PlaceHolderExpansion onRequest - " + params);
+
         if (params == null)
             return "";
+
         if (params.equals("servername")) {
-            return plugin.getServer().getName().split("-")[0];
+            String servername = plugin.getServer().getName().split("-")[0];
+            tgsLogger.log("Server name - " + servername);
+            return servername;
         }
 
         if (params.equals("servernamewithnumber")) {
             return plugin.getServer().getName();
         }
+
         if (params.equals("onlineamount")) {
             Integer onlineServers = serversUpdateHandler.getServers()
                     .stream()
@@ -82,6 +88,7 @@ public class PlaceHolderExpansion extends PlaceholderExpansion {
                     .reduce(0, Integer::sum);
             return onlineServers + "";
         }
+
         if (params.contains("serveramount")) {
             return serversUpdateHandler.getServers()
                     .stream()

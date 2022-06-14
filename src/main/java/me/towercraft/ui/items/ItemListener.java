@@ -1,9 +1,9 @@
 package me.towercraft.ui.items;
 
 import me.towercraft.TGS;
-import me.towercraft.plugin.ioc.annotations.Autowire;
-import me.towercraft.plugin.ioc.annotations.Component;
-import me.towercraft.plugin.ioc.annotations.PostConstruct;
+import unsave.plugin.context.annotations.Autowire;
+import unsave.plugin.context.annotations.Component;
+import unsave.plugin.context.annotations.PostConstruct;
 import me.towercraft.service.GuiService;
 import me.towercraft.service.ItemService;
 import org.bukkit.Bukkit;

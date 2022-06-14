@@ -1,9 +1,9 @@
 package me.towercraft.service;
 
 import me.towercraft.TGS;
-import me.towercraft.plugin.ioc.annotations.Autowire;
-import me.towercraft.plugin.ioc.annotations.PostConstruct;
-import me.towercraft.plugin.ioc.annotations.Service;
+import unsave.plugin.context.annotations.Autowire;
+import unsave.plugin.context.annotations.PostConstruct;
+import unsave.plugin.context.annotations.Service;
 import me.towercraft.utils.TGSLogger;
 
 import java.io.BufferedReader;
@@ -12,7 +12,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 
-@Service
+//@Service
 public class SpigotUpdater {
     private final int projectId = 76667;
     private URL checkURL;

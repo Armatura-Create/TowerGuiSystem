@@ -55,14 +55,18 @@ public class Gui {
             return;
         }
 
-        if (groupName != null) {
+        if (groupName != null)
             this.displayName = groupName.replace("&", "§");
-            this.inventory = Bukkit.createInventory(null, config.getInt("rows") * 9, this.displayName);
-        }
+        else
+            this.displayName = this.config.getString("name", this.name).replace("&", "§");
 
-        loadGui(groupName == null);
+        this.inventory = Bukkit.createInventory(null, this.config.getInt("rows", 6) * 9, this.displayName);
+
+        loadGui();
+
         if (groupName != null)
             startDynamic(config);
+
         new GuiListener(this, this.plugin, connectionService);
     }
 
@@ -131,7 +135,7 @@ public class Gui {
                                 final String command = "server:" + dynamicServers.get(countName - 1).getName();
                                 serverName = name;
 
-                                final GuiItem guiItem = new GuiItem(Gui.this, id, dynamicServer.getNowPlayer(), name, lore_result, i, command, new ArrayList<>(), dynamicServers.get(countName - 1), serverName);
+                                final GuiItem guiItem = new GuiItem( id, dynamicServer.getNowPlayer(), name, lore_result, i, command, new ArrayList<>(), dynamicServers.get(countName - 1), serverName);
 
                                 final ItemMeta meta = guiItem.getItemStack().getItemMeta();
                                 final List<String> description = new ArrayList<>();
@@ -154,34 +158,31 @@ public class Gui {
                     }
                 }
 
-                for (final int s : items.keySet()) {
+                for (int s : items.keySet()) {
                     try {
                         inventory.setItem(s, items.get(s).getItemStack());
                     } catch (Exception ex) {
                         ex.printStackTrace();
                     }
                 }
-
-                TGS.isUpdate = false;
             }
-        }.runTaskTimer(plugin, 40L, 20L);
+        }.runTaskTimer(plugin, 40L, 1000L / 50);
     }
 
-    void loadGui(boolean statics) {
+    void loadGui() {
         if (this.config == null) {
             tgsLogger.log("Error loading GUI '" + this.name + "'. config is null");
             return;
         }
-        if (statics) {
-            this.displayName = this.config.getString("name", this.name).replace("&", "§");
-            this.inventory = Bukkit.createInventory(null, this.config.getInt("rows") * 9, this.displayName);
-        }
+
         if (this.config.getConfigurationSection("Items") == null) {
             tgsLogger.log("Error loading GUI '" + this.name + "'. Items not found");
             return;
         }
         for (String itemName : this.config.getConfigurationSection("Items").getKeys(false)) {
             try {
+                tgsLogger.log("Loading animation from item " + itemName);
+
                 int slot = this.config.getInt("Items." + itemName + ".slot") - 1;
                 String id = this.config.getString("Items." + itemName + ".id");
                 String name = this.config.getString("Items." + itemName + ".name").replace("&", "§");
@@ -189,18 +190,17 @@ public class Gui {
                 String command = this.config.getString("Items." + itemName + ".command");
                 int amount = this.config.getInt("Items." + itemName + ".amount");
                 serverName = this.config.getString("Items." + itemName + ".server");
-                List<List<String>> animation;
-                tgsLogger.log("Loading animation from item " + itemName);
-                animation = new ArrayList<>();
-                for (final String string : this.config.getConfigurationSection("Items." + itemName + ".animation").getKeys(false)) {
-                    final List<String> list = new ArrayList<>();
-                    for (final String str : this.config.getStringList("Items." + itemName + ".animation." + string)) {
+
+                List<List<String>> animation = new ArrayList<>();
+                for (String string : this.config.getConfigurationSection("Items." + itemName + ".animation").getKeys(false)) {
+                    List<String> list = new ArrayList<>();
+                    for (String str : this.config.getStringList("Items." + itemName + ".animation." + string)) {
                         list.add(str.replace("&", "§"));
                     }
                     animation.add(list);
                 }
                 tgsLogger.log("List of animation - " + animation.size());
-                final GuiItem guiItem = new GuiItem(this,
+                final GuiItem guiItem = new GuiItem(
                         id,
                         amount,
                         name,
@@ -217,9 +217,10 @@ public class Gui {
                 );
                 this.items.put(slot, guiItem);
                 this.update(guiItem);
-                for (final int s : this.items.keySet()) {
+                for (int s : this.items.keySet()) {
                     try {
-                        this.inventory.setItem(s, this.items.get(s).getItemStack());
+                        this.inventory.setItem(s,
+                                this.items.get(s).getItemStack());
                     } catch (Exception ex) {
                         tgsLogger.log("Item in slot '" + s + "' throw exception!");
                         ex.printStackTrace();
@@ -235,8 +236,8 @@ public class Gui {
     void update(final GuiItem item) {
         new BukkitRunnable() {
             public void run() {
-                final ItemMeta meta = item.getItemStack().getItemMeta();
-                final List<String> nlore = new ArrayList<>();
+                ItemMeta meta = item.getItemStack().getItemMeta();
+                List<String> nlore = new ArrayList<>();
 
                 ServerModel server = serversUpdateHandler.getServers()
                         .stream()
@@ -246,8 +247,8 @@ public class Gui {
 
                 String online = (server == null ? "§cOffline" : server.getNowPlayer() + "");
 
-                for (final String l : item.getLore()) {
-                    final String line = l.replace("%so%", online);
+                for (String l : item.getLore()) {
+                    String line = l.replace("%so%", online);
                     nlore.add(line);
                 }
 
@@ -283,7 +284,7 @@ public class Gui {
                 item.getItem().setItemMeta(meta);
                 Gui.this.inventory.setItem(item.getSlot(), item.getItemStack());
             }
-        }.runTaskTimer(plugin, 40L, plugin.getConfig().getInt("AnimationTime"));
+        }.runTaskTimer(plugin, 40L, plugin.getConfig().getInt("AnimationTime", 20));
     }
 
     public String getDisplayName() {

@@ -1,9 +1,9 @@
 package me.towercraft.service;
 
 import me.towercraft.TGS;
-import me.towercraft.plugin.ioc.annotations.Autowire;
-import me.towercraft.plugin.ioc.annotations.PostConstruct;
-import me.towercraft.plugin.ioc.annotations.Service;
+import unsave.plugin.context.annotations.Autowire;
+import unsave.plugin.context.annotations.PostConstruct;
+import unsave.plugin.context.annotations.Service;
 import me.towercraft.service.connect.ConnectionService;
 import me.towercraft.service.server.ServersUpdateHandler;
 import me.towercraft.ui.gui.Gui;
@@ -63,8 +63,9 @@ public class GuiService {
 
 
                     if (command == null) {
-                        command = fileEntry.getName().replace(".yml", "");
+                        command = fileEntry.getName().replace(".yml", "").toLowerCase();
                     }
+
                     Bukkit.getLogger().info("Loading Gui '" + fileEntry.getName().replace(".yml", "") + "'");
                     if (command.split(":").length > 1 && command.split(":")[1].contains("dynamic")) {
                         File templates = new File(plugin.getDataFolder() + File.separator + "Templates" + File.separator + configuration.getString("templates", null) + ".yml");

@@ -2,9 +2,9 @@ package me.towercraft.service;
 
 import com.google.common.io.ByteStreams;
 import me.towercraft.TGS;
-import me.towercraft.plugin.ioc.annotations.Autowire;
-import me.towercraft.plugin.ioc.annotations.PostConstruct;
-import me.towercraft.plugin.ioc.annotations.Service;
+import unsave.plugin.context.annotations.Autowire;
+import unsave.plugin.context.annotations.PostConstruct;
+import unsave.plugin.context.annotations.Service;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.file.YamlConfiguration;
 

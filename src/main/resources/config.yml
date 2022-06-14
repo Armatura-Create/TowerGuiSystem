@@ -15,6 +15,6 @@ Enable:
   HologramsDisplay: true
   PlaceHolderApi: true
 
-AnimationTime: 20
+AnimationTime: 200
 ClearInventoryOnJoin: true
 ReplaceItemOnJoin: true

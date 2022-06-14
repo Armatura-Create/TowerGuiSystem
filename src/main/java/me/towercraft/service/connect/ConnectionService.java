@@ -1,8 +1,8 @@
 package me.towercraft.service.connect;
 
 import me.towercraft.TGS;
-import me.towercraft.plugin.ioc.annotations.Autowire;
-import me.towercraft.plugin.ioc.annotations.Service;
+import unsave.plugin.context.annotations.Autowire;
+import unsave.plugin.context.annotations.Service;
 import me.towercraft.service.FileMessages;
 import me.towercraft.service.server.TypeStatusServer;
 import me.towercraft.utils.TGSLogger;

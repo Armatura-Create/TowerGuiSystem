@@ -21,8 +21,7 @@ public class GuiItem {
     private ServerModel serverModel;
     private String server;
 
-    public GuiItem(Gui gui,
-                   String id,
+    public GuiItem(String id,
                    int amount,
                    String name,
                    List<String> lore,
