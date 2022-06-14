@@ -1,6 +1,9 @@
-package me.towercraft.gui;
+package me.towercraft.ui.gui;
 
 import me.towercraft.TGS;
+import me.towercraft.service.connect.ConnectionService;
+import me.towercraft.service.connect.TypeConnect;
+import me.towercraft.service.server.TypeStatusServer;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -11,11 +14,15 @@ import org.bukkit.scheduler.BukkitRunnable;
 public class GuiListener implements Listener {
     private final Gui gui;
     private final String name;
+    private final TGS plugin;
+    private final ConnectionService connectionService;
 
-    public GuiListener(final Gui gui) {
+    public GuiListener(Gui gui, TGS plugin, ConnectionService connectionService) {
         this.gui = gui;
         this.name = gui.getDisplayName();
-        TGS.registerListener(this);
+        this.plugin = plugin;
+        this.connectionService = connectionService;
+        Bukkit.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
     @EventHandler
@@ -25,24 +32,25 @@ public class GuiListener implements Listener {
         }
         final Player player = (Player) e.getWhoClicked();
         e.setCancelled(true);
+
         final GuiItem item = this.gui.getItem(e.getRawSlot());
         if (item == null) {
             return;
         }
 
-        if (item.getServerModel() == null || item.getServerModel().getInStatus().equals("online"))
+        if (item.getServerModel() == null || item.getServerModel().getStatus() == TypeStatusServer.ONLINE)
             new BukkitRunnable() {
                 public void run() {
                     final String[] arr$ = item.getCommand().split(";");
                     for (String cmd : arr$) {
                         if (cmd.startsWith("server:")) {
-                            TGS.connect(player, cmd.replace("server:", "") + "_random");
+                            connectionService.connect(player, cmd.replace("server:", ""), TypeConnect.RANDOM);
                             player.closeInventory();
                         } else if (cmd.startsWith("maxLobby:")) {
-                            TGS.connect(player, cmd.replace("maxLobby:", "") + "_max");
+                            connectionService.connect(player, cmd.replace("maxLobby:", ""), TypeConnect.MAX);
                             player.closeInventory();
                         } else if (cmd.startsWith("minLobby:")) {
-                            TGS.connect(player, cmd.replace("minLobby:", "") + "_min");
+                            connectionService.connect(player, cmd.replace("minLobby:", ""), TypeConnect.MIN);
                             player.closeInventory();
                         } else if (cmd.startsWith("lore")) {
                             return;
@@ -56,6 +64,6 @@ public class GuiListener implements Listener {
                         }
                     }
                 }
-            }.runTaskLater(TGS.instance, 1L);
+            }.runTaskLater(plugin, 1L);
     }
 }

@@ -1,6 +1,11 @@
-package me.towercraft.items;
+package me.towercraft.ui.items;
 
 import me.towercraft.TGS;
+import me.towercraft.plugin.ioc.annotations.Autowire;
+import me.towercraft.plugin.ioc.annotations.Component;
+import me.towercraft.plugin.ioc.annotations.PostConstruct;
+import me.towercraft.service.GuiService;
+import me.towercraft.service.ItemService;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -16,12 +21,27 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Map;
 
+@Component
 public class ItemListener implements Listener {
-    private ItemManager manager;
+    @Autowire
+    private ItemService manager;
 
-    public ItemListener() {
-        this.manager = TGS.instance.itemManager;
-        TGS.registerListener(this);
+    @Autowire
+    private ItemService itemService;
+
+    @Autowire
+    private TGS plugin;
+
+    private Boolean clearOnJoin;
+    private Boolean replaceItemOnJoin;
+
+    @PostConstruct
+    public void init() {
+        if (plugin.getConfig().getBoolean("Enable.Items", false)) {
+            Bukkit.getServer().getPluginManager().registerEvents(this, plugin);
+            clearOnJoin = plugin.getConfig().getBoolean("ClearInventoryOnJoin", false);
+            replaceItemOnJoin = plugin.getConfig().getBoolean("ReplaceItemOnJoin", false);
+        }
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
@@ -46,7 +66,7 @@ public class ItemListener implements Listener {
                 public void run() {
                     item.cooldowns.remove(name);
                 }
-            }.runTaskLaterAsynchronously(TGS.instance, item.getCooldown() * 20L);
+            }.runTaskLaterAsynchronously(plugin, item.getCooldown() * 20L);
         }
         if (item.getCommand() == null) {
             return;
@@ -93,7 +113,7 @@ public class ItemListener implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onJoin(final PlayerJoinEvent e) {
         final Player player = e.getPlayer();
-        if (TGS.instance.clearOnJoin) {
+        if (clearOnJoin) {
             player.getInventory().clear();
         }
         new BukkitRunnable() {
@@ -102,7 +122,7 @@ public class ItemListener implements Listener {
                     return;
                 }
 
-                Map<Integer, Item> listItems = ItemListener.this.manager.items;
+                Map<Integer, Item> listItems = itemService.getItems();
 
                 for (final Integer slot : listItems.keySet()) {
                     final Item item = listItems.get(slot);
@@ -114,11 +134,11 @@ public class ItemListener implements Listener {
                     if (itemStack == null)
                         player.getInventory().setItem(slot, item.getItemStack());
 
-                    if (itemStack != null && TGS.instance.replaceItemOnJoin)
+                    if (itemStack != null && replaceItemOnJoin)
                         player.getInventory().setItem(slot, item.getItemStack());
                 }
                 player.updateInventory();
             }
-        }.runTaskLaterAsynchronously(TGS.instance, 10L);
+        }.runTaskLaterAsynchronously(plugin, 10L);
     }
 }

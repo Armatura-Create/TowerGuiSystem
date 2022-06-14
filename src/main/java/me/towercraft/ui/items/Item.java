@@ -1,4 +1,4 @@
-package me.towercraft.items;
+package me.towercraft.ui.items;
 
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -17,12 +17,19 @@ public class Item {
     private int cooldown;
     HashMap<String, Integer> cooldowns;
 
-    public Item(final String name, final String id, final int slot, final String displayName, final List<String> lore, final String command, final int amount, final boolean drop, final boolean move, final int cooldown) {
+    public Item(String id,
+                int slot,
+                String displayName,
+                List<String> lore,
+                String command,
+                int amount,
+                boolean drop,
+                boolean move,
+                int cooldown) {
         final String[] ids = id.split(":");
         if (ids.length == 1) {
             this.item = new ItemStack(Material.getMaterial(ids[0]), amount);
-        }
-        else {
+        } else {
             this.item = new ItemStack(Material.getMaterial(ids[0]), amount, Short.parseShort(ids[1]));
         }
         this.slot = slot;

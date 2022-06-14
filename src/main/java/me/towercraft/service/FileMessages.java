@@ -1,7 +1,10 @@
-package me.towercraft.utils;
+package me.towercraft.service;
 
 import com.google.common.io.ByteStreams;
 import me.towercraft.TGS;
+import me.towercraft.plugin.ioc.annotations.Autowire;
+import me.towercraft.plugin.ioc.annotations.PostConstruct;
+import me.towercraft.plugin.ioc.annotations.Service;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -10,18 +13,23 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class Files {
-    private final TGS plugin;
+@Service
+public class FileMessages {
+
+    @Autowire
+    private TGS plugin;
     private Configuration config;
 
-    public Files(final TGS plugin) {
-        this.plugin = plugin;
+    @PostConstruct
+    public void init() {
+        createMessages();
     }
 
     public void createMessages() {
         if (!this.plugin.getDataFolder().exists()) {
             this.plugin.getDataFolder().mkdir();
         }
+
         File file = new File(this.plugin.getDataFolder(), "Messages.yml");
         if (!file.exists()) {
             try {

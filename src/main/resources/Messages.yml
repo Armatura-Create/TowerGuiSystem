@@ -17,6 +17,6 @@ GUI:
 
   serverStatus:
     online: 'Онлайн'
-    ingame: 'В игре'
+    in_game: 'В игре'
     starting: 'Запускается'
     offline: 'Оффлайн'

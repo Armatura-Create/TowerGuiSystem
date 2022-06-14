@@ -1,7 +1,7 @@
-package me.towercraft.gui;
+package me.towercraft.ui.gui;
 
 import me.towercraft.TGS;
-import me.towercraft.utils.ServerModel;
+import me.towercraft.service.server.ServerModel;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -21,11 +21,21 @@ public class GuiItem {
     private ServerModel serverModel;
     private String server;
 
-    public GuiItem(final Gui gui, final String id, int amount, final String name, final List<String> lore, final int slot, final String command, final List<List<String>> animation, final ServerModel serverModel, String server) {
+    public GuiItem(Gui gui,
+                   String id,
+                   int amount,
+                   String name,
+                   List<String> lore,
+                   int slot,
+                   String command,
+                   List<List<String>> animation,
+                   ServerModel serverModel,
+                   String server) {
+
         List<String> lore_result = new ArrayList<>();
         lore_result.addAll(lore);
 
-        final List<String> x_lore = new ArrayList<>();
+        List<String> x_lore = new ArrayList<>();
         for (final String lol : lore_result)
             x_lore.add(lol.replace("&", "§"));
 
@@ -56,7 +66,6 @@ public class GuiItem {
             this.item = itemStack;
         } catch (Exception ex) {
             ex.printStackTrace();
-            TGS.log("Ошибка при загрузке предмета '" + name + " - " + id + "' \u0432 Gui '" + gui.getName() + "'");
         }
 
         this.animation = animation;

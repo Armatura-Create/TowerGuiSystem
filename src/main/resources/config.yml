@@ -10,7 +10,7 @@ Data:
     - "BWArensDuo"
 
 Enable:
-  Gui: true
+  Guis: true
   Items: true
   HologramsDisplay: true
   PlaceHolderApi: true
