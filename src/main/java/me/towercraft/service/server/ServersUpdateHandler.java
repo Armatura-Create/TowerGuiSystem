@@ -24,21 +24,19 @@ public class ServersUpdateHandler {
     private TGSLogger tgsLogger;
 
     private final List<ServerModel> servers = new ArrayList<>();
-    private BukkitRunnable bukkitRunnable;
+    private Thread workThread;
 
     @PostConstruct
     public void init() {
         tgsLogger.log("Start get servers");
-        bukkitRunnable = new BukkitRunnable() {
-            @Override
-            public void run() {
+        workThread = new Thread(() -> {
+            while (true) {
                 synchronized (servers) {
                     servers.clear();
-                    tgsLogger.log("" + CloudNetDriver.getInstance().getCloudServiceProvider().getCloudServices().size());
                     for (ServiceInfoSnapshot cloudService : CloudNetDriver.getInstance().getCloudServiceProvider().getCloudServices()) {
                         ServerModel.ServerModelBuilder modelBuilder = new ServerModel.ServerModelBuilder();
                         modelBuilder.group(cloudService.getName().split("-")[0]);
-                        modelBuilder.dynamic(!cloudService.getConfiguration().isStaticService()); //TODO Понять как правильно сделать
+                        modelBuilder.dynamic(!cloudService.getConfiguration().isStaticService());
                         modelBuilder.name(cloudService.getName());
                         modelBuilder.maxPlayers(cloudService.getProperty(BridgeServiceProperty.MAX_PLAYERS).orElse(0));
                         modelBuilder.nowPlayer(cloudService.getProperty(BridgeServiceProperty.ONLINE_COUNT).orElse(0));
@@ -57,20 +55,26 @@ public class ServersUpdateHandler {
                         }
 
                         modelBuilder.status(status);
-
-                        tgsLogger.log(modelBuilder.build() + "");
-
                         servers.add(modelBuilder.build());
                     }
                 }
+                try {
+                    Thread.sleep(plugin.getConfig().getLong("General.updateInterval"));
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
             }
-        };
-        bukkitRunnable.runTaskTimer(plugin, 40L, plugin.getConfig().getLong("General.updateInterval", 2000L) / 50L);
+        });
+        workThread.start();
     }
 
     @PreDestroy
     public void destroy() {
-        bukkitRunnable.cancel();
+
+        tgsLogger.log("Stop get servers");
+
+        if (workThread != null && workThread.isAlive() && !workThread.isInterrupted())
+            workThread.interrupt();
     }
 
     public List<ServerModel> getServers() {

@@ -35,8 +35,8 @@ public class Gui {
     private final TGSLogger tgsLogger;
 
     public Gui(String name,
-               String groupName,
                FileConfiguration config,
+               FileConfiguration template,
                TGS plugin,
                ConnectionService connectionService,
                ServersUpdateHandler serversUpdateHandler,
@@ -55,8 +55,8 @@ public class Gui {
             return;
         }
 
-        if (groupName != null)
-            this.displayName = groupName.replace("&", "§");
+        if (template != null)
+            this.displayName = template.getString("item.nameserver", "LOBBY").replace("&", "§");
         else
             this.displayName = this.config.getString("name", this.name).replace("&", "§");
 
@@ -64,29 +64,34 @@ public class Gui {
 
         loadGui();
 
-        if (groupName != null)
-            startDynamic(config);
+        if (template != null)
+            startDynamic(template);
 
         new GuiListener(this, this.plugin, connectionService);
     }
 
-    private void startDynamic(FileConfiguration lobby) {
+    private void startDynamic(FileConfiguration template) {
         new BukkitRunnable() {
             @Override
             public void run() {
 
                 int countName = 0;
 
+                String configNameserver = template.getString("item.nameserver");
+
+                if (configNameserver == null) {
+                    tgsLogger.log("Not found String [item.nameserver] in template - " + template.getName());
+                    return;
+                }
+
                 List<ServerModel> dynamicServers = serversUpdateHandler.getServers()
                         .stream()
                         .filter(serverModel -> serverModel.getName()
-                                .contains(lobby.getString("item.nameserver")
-                                        .replace(lobby.getString("item.nameserver")
-                                                .substring(0, 2), "")))
+                                .contains(configNameserver.substring(2)))
                         .collect(Collectors.toList());
 
                 int plus = 0;
-                for (int i = 10; i < (lobby.getInt("rows") - 1) * 9; i++) {
+                for (int i = 10; i < (template.getInt("rows") - 1) * 9; i++) {
 
                     if (i % 9 == 0 || i == 17 || i == 26 || i == 35 || i == 44) {
                         plus++;
@@ -104,30 +109,30 @@ public class Gui {
                         if (dynamicServer != null)
                             try {
                                 //В зависимости от того сколько игроков подгружаем нужный id предмета
-                                String id = lobby.getStringList("items").get(0);
+                                String id = template.getStringList("items").get(0);
 
                                 if (dynamicServer.getNowPlayer() >=
-                                        lobby.getIntegerList("item.count").get(1))
-                                    id = lobby.getStringList("items").get(1);
+                                        template.getIntegerList("item.count").get(1))
+                                    id = template.getStringList("items").get(1);
 
                                 if (dynamicServer.getNowPlayer() >=
-                                        lobby.getIntegerList("item.count").get(2))
-                                    id = lobby.getStringList("items").get(2);
+                                        template.getIntegerList("item.count").get(2))
+                                    id = template.getStringList("items").get(2);
 
                                 if (dynamicServer.getStatus() == TypeStatusServer.STARTING || dynamicServer.getStatus() == TypeStatusServer.OFFLINE)
-                                    id = lobby.getStringList("items").get(3);
+                                    id = template.getStringList("items").get(3);
 
                                 if (dynamicServer.getStatus() == TypeStatusServer.IN_GAME)
-                                    id = lobby.getStringList("items").get(4);
+                                    id = template.getStringList("items").get(4);
 
-                                String name = lobby.getString("item.nameserver").replace("&", "§") + "-" + countName;
-                                List<String> lore_config = lobby.getStringList("item.lore");
+                                String name = template.getString("item.nameserver").replace("&", "§") + "-" + countName;
+                                List<String> lore_config = template.getStringList("item.lore");
                                 List<String> lore_result = new ArrayList<>();
 
                                 for (String temp : lore_config) {
                                     if (plugin.getServer().getName().equalsIgnoreCase(dynamicServer.getName())) {
                                         lore_result.add(temp.replace("%place%", "Вы находитесь здесь"));
-                                        id = lobby.getStringList("items").get(5);
+                                        id = template.getStringList("items").get(5);
                                     } else
                                         lore_result.add(temp.replace("%place%", ""));
                                 }
@@ -135,7 +140,7 @@ public class Gui {
                                 final String command = "server:" + dynamicServers.get(countName - 1).getName();
                                 serverName = name;
 
-                                final GuiItem guiItem = new GuiItem( id, dynamicServer.getNowPlayer(), name, lore_result, i, command, new ArrayList<>(), dynamicServers.get(countName - 1), serverName);
+                                final GuiItem guiItem = new GuiItem(id, dynamicServer.getNowPlayer(), name, lore_result, i, command, new ArrayList<>(), dynamicServers.get(countName - 1), serverName);
 
                                 final ItemMeta meta = guiItem.getItemStack().getItemMeta();
                                 final List<String> description = new ArrayList<>();

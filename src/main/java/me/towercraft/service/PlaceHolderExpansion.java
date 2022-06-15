@@ -32,7 +32,7 @@ public class PlaceHolderExpansion extends PlaceholderExpansion {
     public void init() {
         if (plugin.getConfig().getBoolean("Enable.PlaceHolderApi"))
             if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
-                new PlaceHolderExpansion().register();
+                register();
                 tgsLogger.log("PlaceHolderExpansion - registered");
             } else
                 throw new RuntimeException("Could not find PlaceholderAPI!! Plugin can not work without it!");

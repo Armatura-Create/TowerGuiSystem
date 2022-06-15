@@ -61,23 +61,26 @@ public class GuiService {
                     FileConfiguration configuration = YamlConfiguration.loadConfiguration(fileEntry);
                     String command = configuration.getString("command", null);
 
+                    tgsLogger.log("Loading Gui '" + fileEntry.getName().replace(".yml", "") + "'");
 
                     if (command == null) {
                         command = fileEntry.getName().replace(".yml", "").toLowerCase();
                     }
 
-                    Bukkit.getLogger().info("Loading Gui '" + fileEntry.getName().replace(".yml", "") + "'");
+                    tgsLogger.log("Command - " + command);
+
                     if (command.split(":").length > 1 && command.split(":")[1].contains("dynamic")) {
-                        File templates = new File(plugin.getDataFolder() + File.separator + "Templates" + File.separator + configuration.getString("templates", null) + ".yml");
-                        if (!templates.exists()) {
-                            templates.createNewFile();
-                            tgsLogger.log("File - " + configuration.getString("template", null) + ".yml not found");
+                        File template = new File(plugin.getDataFolder() + File.separator + "Templates" + File.separator + configuration.getString("templates", null) + ".yml");
+                        if (!template.exists()) {
+                            template.createNewFile();
+                            tgsLogger.log("File - " + configuration.getString("templates", null) + ".yml not found");
                         } else {
-                            String groupName = configuration.getString("name");
+                            FileConfiguration templateConfiguration = YamlConfiguration.loadConfiguration(template);
+
                             this.guis.put(command.split(":")[0],
                                     new Gui(command.split(":")[0],
-                                            groupName,
-                                            YamlConfiguration.loadConfiguration(templates),
+                                            templateConfiguration,
+                                            configuration,
                                             plugin,
                                             connectionService,
                                             serversUpdateHandler,
@@ -88,8 +91,8 @@ public class GuiService {
                     } else
                         this.guis.put(command,
                                 new Gui(command,
-                                        null,
                                         configuration,
+                                        null,
                                         plugin,
                                         connectionService,
                                         serversUpdateHandler,
