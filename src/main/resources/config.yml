@@ -6,7 +6,7 @@ General:
 
 Data:
   HologramsDisplay:
-    - "BWLobby:BWArensDuo"
+    - "BWLobby:BWArensDuo" #Plus online by 2 server groups
     - "BWArensDuo"
 
 Enable:
