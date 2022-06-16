@@ -5,7 +5,7 @@ General:
   updateInterval: 2000
 
 Data:
-  HologramsDisplay:
+  HologramsDisplay: #In holographic displays {BWLobby:BWArensDuo}, {BWArensDuo}
     - "BWLobby:BWArensDuo" #Plus online by 2 server groups
     - "BWArensDuo"
 
