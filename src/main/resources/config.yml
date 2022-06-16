@@ -13,7 +13,7 @@ Enable:
   Guis: true
   Items: true
   HologramsDisplay: true
-  PlaceHolderApi: true
+  PlaceHolderApi: true #Total players in the Cloud network (MupliProxy support) %towerguisystem_onlineamount%
 
 AnimationTime: 200
 ClearInventoryOnJoin: true
