@@ -12,7 +12,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 
-//@Service
+@Service
 public class SpigotUpdater {
     private final int projectId = 76667;
     private URL checkURL;
