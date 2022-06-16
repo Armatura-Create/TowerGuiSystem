@@ -9,7 +9,6 @@ import unsave.plugin.context.annotations.Autowire;
 import unsave.plugin.context.annotations.PostConstruct;
 import unsave.plugin.context.annotations.PreDestroy;
 import unsave.plugin.context.annotations.Service;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -80,6 +79,26 @@ public class ServersUpdateHandler {
     public List<ServerModel> getServers() {
         synchronized (servers) {
             return new ArrayList<>(servers);
+        }
+    }
+
+    public int getCountAllOnlineByGroup(String group) {
+        synchronized (servers) {
+           return servers
+                    .stream()
+                    .filter(s -> s.getName().contains(group))
+                    .map(ServerModel::getMaxPlayers)
+                    .reduce(0, Integer::sum);
+        }
+    }
+
+    public int getCountOnlineByGroup(String group) {
+        synchronized (servers) {
+            return servers
+                    .stream()
+                    .filter(s -> s.getName().contains(group))
+                    .map(ServerModel::getNowPlayer)
+                    .reduce(0, Integer::sum);
         }
     }
 }

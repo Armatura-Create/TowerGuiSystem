@@ -2,6 +2,7 @@ package me.towercraft.ui.gui;
 
 import me.towercraft.TGS;
 import me.towercraft.service.FileMessages;
+import me.towercraft.service.NameServerService;
 import me.towercraft.service.connect.ConnectionService;
 import me.towercraft.service.server.ServerModel;
 import me.towercraft.service.server.ServersUpdateHandler;
@@ -31,6 +32,7 @@ public class Gui {
     private final TGS plugin;
     private final FileConfiguration config;
     private final ServersUpdateHandler serversUpdateHandler;
+    private final NameServerService nameServerService;
     private final FileMessages fileMessages;
     private final TGSLogger tgsLogger;
 
@@ -40,12 +42,14 @@ public class Gui {
                TGS plugin,
                ConnectionService connectionService,
                ServersUpdateHandler serversUpdateHandler,
+               NameServerService nameServerService,
                FileMessages fileMessages,
                TGSLogger tgsLogger) {
         this.config = config;
         this.name = name.replace("&", "§");
         this.items = new ConcurrentHashMap<>();
         this.plugin = plugin;
+        this.nameServerService = nameServerService;
         this.serversUpdateHandler = serversUpdateHandler;
         this.fileMessages = fileMessages;
         this.tgsLogger = tgsLogger;
@@ -56,7 +60,7 @@ public class Gui {
         }
 
         if (template != null)
-            this.displayName = template.getString("item.nameserver", "LOBBY").replace("&", "§");
+            this.displayName = template.getString("name", "&0GUI").replace("&", "§");
         else
             this.displayName = this.config.getString("name", this.name).replace("&", "§");
 
@@ -130,7 +134,7 @@ public class Gui {
                                 List<String> lore_result = new ArrayList<>();
 
                                 for (String temp : lore_config) {
-                                    if (plugin.getServer().getName().equalsIgnoreCase(dynamicServer.getName())) {
+                                    if (nameServerService.getNameServer().equalsIgnoreCase(dynamicServer.getName())) {
                                         lore_result.add(temp.replace("%place%", "Вы находитесь здесь"));
                                         id = template.getStringList("items").get(5);
                                     } else
@@ -205,7 +209,7 @@ public class Gui {
                     animation.add(list);
                 }
                 tgsLogger.log("List of animation - " + animation.size());
-                final GuiItem guiItem = new GuiItem(
+                GuiItem guiItem = new GuiItem(
                         id,
                         amount,
                         name,
@@ -220,8 +224,10 @@ public class Gui {
                                 .orElse(null),
                         serverName
                 );
+
                 this.items.put(slot, guiItem);
                 this.update(guiItem);
+
                 for (int s : this.items.keySet()) {
                     try {
                         this.inventory.setItem(s,
@@ -231,6 +237,7 @@ public class Gui {
                         ex.printStackTrace();
                     }
                 }
+
             } catch (Exception ex) {
                 ex.printStackTrace();
                 tgsLogger.log("Error from loading item '" + itemName + "' in GUI '" + this.name + "'");
@@ -238,23 +245,30 @@ public class Gui {
         }
     }
 
-    void update(final GuiItem item) {
+    void update(GuiItem item) {
         new BukkitRunnable() {
             public void run() {
                 ItemMeta meta = item.getItemStack().getItemMeta();
-                List<String> nlore = new ArrayList<>();
+                List<String> descriptions = new ArrayList<>();
 
-                ServerModel server = serversUpdateHandler.getServers()
-                        .stream()
-                        .filter(s -> !s.getDynamic())
-                        .filter(s -> s.getName().equalsIgnoreCase(item.getServer()))
-                        .findFirst().orElse(null);
+                List<ServerModel> servers = new ArrayList<>();
+                for (String server : item.getServer().split(":")) {
+                    serversUpdateHandler.getServers()
+                            .stream()
+                            .filter(s -> s.getName().contains(server))
+                            .filter(s -> s.getStatus() == TypeStatusServer.ONLINE)
+                            .findFirst()
+                            .ifPresent(servers::add);
+                }
 
-                String online = (server == null ? "§cOffline" : server.getNowPlayer() + "");
+                int allCount = servers.stream().map(ServerModel::getMaxPlayers).reduce(0, Integer::sum);
+                int onlineCount = servers.stream().map(ServerModel::getNowPlayer).reduce(0, Integer::sum);
+
+                String online = servers.size() == 0 ? "§cOffline" : onlineCount + "/" + allCount;
 
                 for (String l : item.getLore()) {
                     String line = l.replace("%so%", online);
-                    nlore.add(line);
+                    descriptions.add(line);
                 }
 
                 if (!item.iterator.hasNext()) {
@@ -267,7 +281,6 @@ public class Gui {
                                     .replace("%so%", "" + online)
                                     .replace("%sa%", "" + serversUpdateHandler.getServers()
                                             .stream()
-                                            .filter(ServerModel::getDynamic)
                                             .filter(s -> s.getName().split("-")[0].equalsIgnoreCase(item.getServer()))
                                             .count())
                             );
@@ -278,14 +291,14 @@ public class Gui {
                     item.iterator = temp.iterator();
                 }
 
-                nlore.addAll(item.iterator.next());
+                descriptions.addAll(item.iterator.next());
 
                 meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
                 meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
                 meta.addItemFlags(ItemFlag.HIDE_DESTROYS);
                 meta.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
 
-                meta.setLore(nlore);
+                meta.setLore(descriptions);
                 item.getItem().setItemMeta(meta);
                 Gui.this.inventory.setItem(item.getSlot(), item.getItemStack());
             }

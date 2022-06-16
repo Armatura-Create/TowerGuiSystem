@@ -2,6 +2,8 @@ package me.towercraft.service;
 
 import me.towercraft.TGS;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.PluginManager;
 import unsave.plugin.context.annotations.Autowire;
 import unsave.plugin.context.annotations.PostConstruct;
 import unsave.plugin.context.annotations.PreDestroy;
@@ -16,7 +18,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-@Service
 public class PlaceHolderExpansion extends PlaceholderExpansion {
 
     @Autowire
@@ -28,14 +29,34 @@ public class PlaceHolderExpansion extends PlaceholderExpansion {
     @Autowire
     private ServersUpdateHandler serversUpdateHandler;
 
+    @Autowire
+    private NameServerService nameServerService;
+
     @PostConstruct
     public void init() {
-        if (plugin.getConfig().getBoolean("Enable.PlaceHolderApi"))
-            if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
-                register();
-                tgsLogger.log("PlaceHolderExpansion - registered");
+        if (plugin.getConfig().getBoolean("Enable.PlaceHolderApi")) {
+            Plugin placeholderAPI = Bukkit.getPluginManager().getPlugin("PlaceholderAPI");
+            if (placeholderAPI != null) {
+                PluginManager pm = Bukkit.getPluginManager();
+                tgsLogger.log("PlaceholderAPI start detected");
+                new Thread(() -> {
+                    while (true) {
+                        try {
+                            Thread.sleep(100);
+                        } catch (InterruptedException e) {
+                            throw new RuntimeException(e);
+                        }
+                        if (pm.isPluginEnabled(placeholderAPI)) {
+                            tgsLogger.log("PlaceholderAPI detected enable");
+                            this.register();
+                            tgsLogger.log("PlaceHolderExpansion - registered");
+                            break;
+                        }
+                    }
+                }).start();
             } else
                 throw new RuntimeException("Could not find PlaceholderAPI!! Plugin can not work without it!");
+        }
     }
 
     @Override
@@ -50,7 +71,7 @@ public class PlaceHolderExpansion extends PlaceholderExpansion {
 
     @Override
     public String getRequiredPlugin() {
-        return "TowerGuiSystem";
+        return plugin.getDescription().getName();
     }
 
     @Override
@@ -72,13 +93,13 @@ public class PlaceHolderExpansion extends PlaceholderExpansion {
             return "";
 
         if (params.equals("servername")) {
-            String servername = plugin.getServer().getName().split("-")[0];
+            String servername = nameServerService.getNameServer();
             tgsLogger.log("Server name - " + servername);
             return servername;
         }
 
         if (params.equals("servernamewithnumber")) {
-            return plugin.getServer().getName();
+            return nameServerService.getNameServer();
         }
 
         if (params.equals("onlineamount")) {

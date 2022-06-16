@@ -26,14 +26,14 @@ public class GuiListener implements Listener {
     }
 
     @EventHandler
-    public void onInventoryClick(final InventoryClickEvent e) {
+    public void onInventoryClick(InventoryClickEvent e) {
         if (!e.getView().getTitle().equals(this.name)) {
             return;
         }
-        final Player player = (Player) e.getWhoClicked();
+        Player player = (Player) e.getWhoClicked();
         e.setCancelled(true);
 
-        final GuiItem item = this.gui.getItem(e.getRawSlot());
+        GuiItem item = this.gui.getItem(e.getRawSlot());
         if (item == null) {
             return;
         }
@@ -41,8 +41,8 @@ public class GuiListener implements Listener {
         if (item.getServerModel() == null || item.getServerModel().getStatus() == TypeStatusServer.ONLINE)
             new BukkitRunnable() {
                 public void run() {
-                    final String[] arr$ = item.getCommand().split(";");
-                    for (String cmd : arr$) {
+                    String[] args = item.getCommand().split(";");
+                    for (String cmd : args) {
                         if (cmd.startsWith("server:")) {
                             connectionService.connect(player, cmd.replace("server:", ""), TypeConnect.RANDOM);
                             player.closeInventory();

@@ -13,6 +13,8 @@ public final class TGS extends JavaPlugin {
 
         context = new PluginApplicationContext(this);
 
+
+
         Bukkit.getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
     }
 

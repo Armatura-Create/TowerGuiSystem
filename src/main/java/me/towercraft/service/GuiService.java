@@ -27,6 +27,8 @@ public class GuiService {
 
     @Autowire
     private ServersUpdateHandler serversUpdateHandler;
+    @Autowire
+    private NameServerService nameServerService;
 
     @Autowire
     private FileMessages fileMessages;
@@ -84,6 +86,7 @@ public class GuiService {
                                             plugin,
                                             connectionService,
                                             serversUpdateHandler,
+                                            nameServerService,
                                             fileMessages,
                                             tgsLogger)
                             );
@@ -96,6 +99,7 @@ public class GuiService {
                                         plugin,
                                         connectionService,
                                         serversUpdateHandler,
+                                        nameServerService,
                                         fileMessages,
                                         tgsLogger)
                         );

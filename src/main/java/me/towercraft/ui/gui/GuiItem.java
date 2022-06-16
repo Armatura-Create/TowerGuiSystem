@@ -12,14 +12,14 @@ import java.util.List;
 
 public class GuiItem {
 
-    private int slot;
-    private String command;
+    private final int slot;
+    private final String command;
     private ItemStack item;
     public Iterator<List<String>> iterator;
-    private List<List<String>> animation;
+    private final List<List<String>> animation;
     private List<String> lore = new ArrayList<>();
-    private ServerModel serverModel;
-    private String server;
+    private final ServerModel serverModel;
+    private final String server;
 
     public GuiItem(String id,
                    int amount,
