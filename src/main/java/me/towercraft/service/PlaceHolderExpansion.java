@@ -2,6 +2,7 @@ package me.towercraft.service;
 
 import me.towercraft.TGS;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
+import me.towercraft.service.server.TypeStatusServer;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import unsave.plugin.context.annotations.Autowire;
@@ -18,7 +19,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-@Service
 public class PlaceHolderExpansion extends PlaceholderExpansion {
 
     @Autowire
@@ -88,15 +88,11 @@ public class PlaceHolderExpansion extends PlaceholderExpansion {
     @Override
     public String onRequest(OfflinePlayer p, String params) {
 
-        tgsLogger.log("PlaceHolderExpansion onRequest - " + params);
-
         if (params == null)
             return "";
 
         if (params.equals("servername")) {
-            String servername = nameServerService.getNameServer();
-            tgsLogger.log("Server name - " + servername);
-            return servername;
+            return nameServerService.getNameServer().split("-")[0];
         }
 
         if (params.equals("servernamewithnumber")) {
@@ -106,6 +102,7 @@ public class PlaceHolderExpansion extends PlaceholderExpansion {
         if (params.equals("onlineamount")) {
             Integer onlineServers = serversUpdateHandler.getServers()
                     .stream()
+                    .filter(s -> s.getStatus() == TypeStatusServer.ONLINE)
                     .map(ServerModel::getNowPlayer)
                     .reduce(0, Integer::sum);
             return onlineServers + "";
