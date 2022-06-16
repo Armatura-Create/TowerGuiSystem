@@ -13,5 +13,5 @@
  
 # Достоинства:
  - **Кастомизация**: Максимальная кастомизация любой GUI
- - **Оптимизация**: Максимально чистый код. Использывание свой библеотеки **[PluginApplicationContext](https://github.com/Armatura-Create/pluginApplicationContext)**
+ - **Оптимизация**: Максимально чистый код. Использование свой библеотеки **[PluginApplicationContext](https://github.com/Armatura-Create/pluginApplicationContext)**
  - **Простота**: Максимально понятные конфиги.
