@@ -5,15 +5,15 @@ General:
   updateInterval: 2000
 
 Data:
-  HologramsDisplay:
-    - "BWLobby:BWArensDuo"
+  HologramsDisplay: #In holographic displays {BWLobby:BWArensDuo}, {BWArensDuo}
+    - "BWLobby:BWArensDuo" #Plus online by 2 server groups
     - "BWArensDuo"
 
 Enable:
   Guis: true
   Items: true
   HologramsDisplay: true
-  PlaceHolderApi: true
+  PlaceHolderApi: true #Total players in the Cloud network (MupliProxy support) %towerguisystem_onlineamount%
 
 AnimationTime: 200
 ClearInventoryOnJoin: true
