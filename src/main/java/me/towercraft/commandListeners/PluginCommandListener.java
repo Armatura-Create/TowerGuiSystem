@@ -4,7 +4,7 @@ import me.towercraft.TGS;
 import unsave.plugin.context.annotations.Autowire;
 import unsave.plugin.context.annotations.Component;
 import unsave.plugin.context.annotations.PostConstruct;
-import me.towercraft.service.FileMessages;
+import me.towercraft.utils.FileMessages;
 import me.towercraft.service.GuiService;
 import me.towercraft.service.ItemService;
 import me.towercraft.service.connect.ConnectionService;

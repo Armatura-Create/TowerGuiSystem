@@ -3,6 +3,7 @@ package me.towercraft.service;
 import me.towercraft.TGS;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import me.towercraft.service.server.TypeStatusServer;
+import me.towercraft.utils.NameServerService;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import unsave.plugin.context.annotations.Autowire;

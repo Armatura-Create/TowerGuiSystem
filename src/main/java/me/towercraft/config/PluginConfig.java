@@ -2,7 +2,7 @@ package me.towercraft.config;
 
 import me.towercraft.TGS;
 import me.towercraft.service.HologramsDisplay;
-import me.towercraft.service.NameServerService;
+import me.towercraft.utils.NameServerService;
 import me.towercraft.service.PlaceHolderExpansion;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;

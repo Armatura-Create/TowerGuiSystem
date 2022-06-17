@@ -1,4 +1,4 @@
-package me.towercraft.service;
+package me.towercraft.utils;
 
 import com.google.common.io.ByteStreams;
 import me.towercraft.TGS;

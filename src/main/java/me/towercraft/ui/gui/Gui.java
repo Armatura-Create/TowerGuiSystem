@@ -1,8 +1,8 @@
 package me.towercraft.ui.gui;
 
 import me.towercraft.TGS;
-import me.towercraft.service.FileMessages;
-import me.towercraft.service.NameServerService;
+import me.towercraft.utils.FileMessages;
+import me.towercraft.utils.NameServerService;
 import me.towercraft.service.connect.ConnectionService;
 import me.towercraft.service.server.ServerModel;
 import me.towercraft.service.server.ServersUpdateHandler;
@@ -279,10 +279,7 @@ public class Gui {
                         for (int j = 0; j < item.getAnimation().get(i).size(); j++) {
                             replacement.add(item.getAnimation().get(i).get(j)
                                     .replace("%so%", "" + online)
-                                    .replace("%sa%", "" + serversUpdateHandler.getServers()
-                                            .stream()
-                                            .filter(s -> s.getName().split("-")[0].equalsIgnoreCase(item.getServer()))
-                                            .count())
+                                    .replace("%sa%", "" + servers.size())
                             );
                         }
                         temp.add(replacement);

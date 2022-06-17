@@ -1,4 +1,4 @@
-package me.towercraft.service;
+package me.towercraft.utils;
 
 import de.dytanic.cloudnet.driver.service.ServiceInfoSnapshot;
 import de.dytanic.cloudnet.wrapper.Wrapper;

@@ -1,8 +1,8 @@
 package me.towercraft.service.connect;
 
 import me.towercraft.TGS;
-import me.towercraft.service.NameServerService;
-import me.towercraft.service.FileMessages;
+import me.towercraft.utils.NameServerService;
+import me.towercraft.utils.FileMessages;
 import me.towercraft.service.server.ServerModel;
 import me.towercraft.service.server.ServersUpdateHandler;
 import me.towercraft.service.server.TypeStatusServer;
