@@ -7,17 +7,11 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import unsave.plugin.context.annotations.Autowire;
 import unsave.plugin.context.annotations.PostConstruct;
-import unsave.plugin.context.annotations.PreDestroy;
-import unsave.plugin.context.annotations.Service;
 import me.towercraft.service.server.ServerModel;
 import me.towercraft.service.server.ServersUpdateHandler;
 import me.towercraft.utils.TGSLogger;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
-
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class PlaceHolderExpansion extends PlaceholderExpansion {
 
@@ -35,7 +29,7 @@ public class PlaceHolderExpansion extends PlaceholderExpansion {
 
     @PostConstruct
     public void init() {
-        if (plugin.getConfig().getBoolean("Enable.PlaceHolderApi")) {
+        if (plugin.getConfig().getBoolean("Enable.PlaceHolderApi", false)) {
             Plugin placeholderAPI = Bukkit.getPluginManager().getPlugin("PlaceholderAPI");
             if (placeholderAPI != null) {
                 PluginManager pm = Bukkit.getPluginManager();
