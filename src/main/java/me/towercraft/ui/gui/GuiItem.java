@@ -1,6 +1,5 @@
 package me.towercraft.ui.gui;
 
-import me.towercraft.TGS;
 import me.towercraft.service.server.ServerModel;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -9,6 +8,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class GuiItem {
 
@@ -17,7 +17,7 @@ public class GuiItem {
     private ItemStack item;
     public Iterator<List<String>> iterator;
     private final List<List<String>> animation;
-    private List<String> lore = new ArrayList<>();
+    private final List<String> lore;
     private final ServerModel serverModel;
     private final String server;
 
@@ -31,15 +31,7 @@ public class GuiItem {
                    ServerModel serverModel,
                    String server) {
 
-        List<String> lore_result = new ArrayList<>();
-        lore_result.addAll(lore);
-
-        List<String> x_lore = new ArrayList<>();
-        for (final String lol : lore_result)
-            x_lore.add(lol.replace("&", "§"));
-
-        lore_result = x_lore;
-
+        this.lore = lore.stream().map(l -> l.replace("&", "§")).collect(Collectors.toList());
         this.slot = slot;
         this.command = command;
         this.serverModel = serverModel;
@@ -48,19 +40,17 @@ public class GuiItem {
             amount = 1;
         }
         try {
-            final String[] xid = id.split(":");
+            String[] xid = id.split(":");
             ItemStack itemStack;
-            if (xid.length == 2) {
-                final int subid = Integer.parseInt(xid[1]);
-                itemStack = new ItemStack(Material.getMaterial(xid[0]), amount, (short) subid);
-            } else {
+            if (xid.length == 2)
+                itemStack = new ItemStack(Material.getMaterial(xid[0]), amount, Short.parseShort(xid[1]));
+            else
                 itemStack = new ItemStack(Material.getMaterial(xid[0]), amount);
-            }
-            final ItemMeta meta = itemStack.getItemMeta();
-            meta.setDisplayName(name);
-            if (lore_result.size() > 0) {
-                this.lore = lore_result;
-            }
+
+            ItemMeta meta = itemStack.getItemMeta();
+            if (meta != null)
+                meta.setDisplayName(name);
+
             itemStack.setItemMeta(meta);
             this.item = itemStack;
         } catch (Exception ex) {

@@ -144,10 +144,10 @@ public class Gui {
                                 final String command = "server:" + dynamicServers.get(countName - 1).getName();
                                 serverName = name;
 
-                                final GuiItem guiItem = new GuiItem(id, dynamicServer.getNowPlayer(), name, lore_result, i, command, new ArrayList<>(), dynamicServers.get(countName - 1), serverName);
+                                GuiItem guiItem = new GuiItem(id, dynamicServer.getNowPlayer(), name, lore_result, i, command, new ArrayList<>(), dynamicServers.get(countName - 1), serverName);
 
-                                final ItemMeta meta = guiItem.getItemStack().getItemMeta();
-                                final List<String> description = new ArrayList<>();
+                                ItemMeta meta = guiItem.getItemStack().getItemMeta();
+                                List<String> description = new ArrayList<>();
 
                                 for (String l : guiItem.getLore()) {
                                     String line = l.replace("%so%", "" + dynamicServer.getNowPlayer() + "/" + dynamicServer.getMaxPlayers())
@@ -197,7 +197,7 @@ public class Gui {
                 String name = this.config.getString("Items." + itemName + ".name").replace("&", "§");
                 List<String> description = this.config.getStringList("Items." + itemName + ".lore");
                 String command = this.config.getString("Items." + itemName + ".command");
-                int amount = this.config.getInt("Items." + itemName + ".amount");
+                int amount = this.config.getInt("Items." + itemName + ".amount", 1);
                 serverName = this.config.getString("Items." + itemName + ".server");
 
                 List<List<String>> animation = new ArrayList<>();

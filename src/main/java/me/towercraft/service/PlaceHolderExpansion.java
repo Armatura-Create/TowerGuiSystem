@@ -96,9 +96,11 @@ public class PlaceHolderExpansion extends PlaceholderExpansion {
         if (params.equals("onlineamount")) {
             Integer onlineServers = serversUpdateHandler.getServers()
                     .stream()
+                    .filter(s -> !s.getName().contains("Proxy"))
                     .filter(s -> s.getStatus() == TypeStatusServer.ONLINE)
                     .map(ServerModel::getNowPlayer)
                     .reduce(0, Integer::sum);
+
             return onlineServers + "";
         }
 

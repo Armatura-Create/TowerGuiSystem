@@ -7,14 +7,15 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Item {
-    private ItemStack item;
-    private int slot;
-    private String command;
-    private boolean drop;
-    private boolean move;
-    private int cooldown;
+    private final ItemStack item;
+    private final int slot;
+    private final String command;
+    private final boolean drop;
+    private final boolean move;
+    private final int cooldown;
     HashMap<String, Integer> cooldowns;
 
     public Item(String id,
@@ -26,24 +27,22 @@ public class Item {
                 boolean drop,
                 boolean move,
                 int cooldown) {
-        final String[] ids = id.split(":");
-        if (ids.length == 1) {
+        String[] ids = id.split(":");
+
+        if (ids.length == 1)
             this.item = new ItemStack(Material.getMaterial(ids[0]), amount);
-        } else {
+        else
             this.item = new ItemStack(Material.getMaterial(ids[0]), amount, Short.parseShort(ids[1]));
-        }
+
         this.slot = slot;
+
         final ItemMeta meta = this.item.getItemMeta();
-        if (displayName != null) {
+        if (displayName != null && meta != null) {
             meta.setDisplayName(displayName.replace("&", "§"));
+            if (lore != null)
+                meta.setLore(lore.stream().map(l -> l.replace("&", "§")).collect(Collectors.toList()));
         }
-        if (lore != null) {
-            final List<String> slore = new ArrayList<>();
-            for (final String lol : lore) {
-                slore.add(lol.replace("&", "§"));
-            }
-            meta.setLore(slore);
-        }
+
         this.item.setItemMeta(meta);
         this.drop = drop;
         this.move = move;

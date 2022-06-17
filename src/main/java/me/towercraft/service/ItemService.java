@@ -32,7 +32,7 @@ public class ItemService {
     @PostConstruct
     public void load() {
         this.items = new ConcurrentHashMap<>();
-        final File files = new File(plugin.getDataFolder() + File.separator + "Items");
+        File files = new File(plugin.getDataFolder() + File.separator + "Items");
 
         if (!files.exists()) {
             files.mkdir();
