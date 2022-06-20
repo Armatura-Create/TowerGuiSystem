@@ -44,7 +44,7 @@ public class ItemService {
             }
         }
 
-        for (final File fileEntry : files.listFiles()) {
+        for (File fileEntry : files.listFiles()) {
 
             this.config = YamlConfiguration.loadConfiguration(fileEntry);
 

@@ -48,7 +48,7 @@ public class FileMessages {
                 throw new RuntimeException("Unable to create config file", ex2);
             }
         }
-        YamlConfiguration.loadConfiguration(new File(this.plugin.getDataFolder(), "Messages.yml"));
+        config = YamlConfiguration.loadConfiguration(file);
     }
 
     public Configuration getMSG() {

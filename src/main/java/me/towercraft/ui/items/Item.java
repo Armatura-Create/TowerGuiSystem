@@ -36,7 +36,7 @@ public class Item {
 
         this.slot = slot;
 
-        final ItemMeta meta = this.item.getItemMeta();
+        ItemMeta meta = this.item.getItemMeta();
         if (displayName != null && meta != null) {
             meta.setDisplayName(displayName.replace("&", "§"));
             if (lore != null)

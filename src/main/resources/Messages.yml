@@ -10,7 +10,7 @@ GUI:
 
   main:
     listGui: 'Список Gui:'
-    commandNotFound: 'Команда не найденна!'
+    commandNotFound: 'Команда не найдена!'
     guiNotFound: '§cGui не найдено!'
     wrongArgumentConnect: 'Ошибка в команде'
     areYouHere: 'Вы уже находитесь в - '

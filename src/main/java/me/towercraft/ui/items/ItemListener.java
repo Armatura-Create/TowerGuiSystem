@@ -82,10 +82,10 @@ public class ItemListener implements Listener {
     }
 
     @EventHandler
-    public void onDrop(final PlayerDropItemEvent e) {
-        final ItemStack itemStack = e.getItemDrop().getItemStack();
+    public void onDrop(PlayerDropItemEvent e) {
+        ItemStack itemStack = e.getItemDrop().getItemStack();
 
-        final Item item = this.manager.getItem(itemStack);
+        Item item = this.manager.getItem(itemStack);
         if (item == null) {
             return;
         }
@@ -97,10 +97,10 @@ public class ItemListener implements Listener {
     }
 
     @EventHandler
-    public void onInventoryClick(final InventoryClickEvent e) {
+    public void onInventoryClick(InventoryClickEvent e) {
         Player p = (Player) e.getWhoClicked();
 
-        final Item item = this.manager.getItem(e.getCurrentItem());
+        Item item = manager.getItem(e.getCurrentItem());
         if (item == null) {
             return;
         }
@@ -111,34 +111,11 @@ public class ItemListener implements Listener {
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
-    public void onJoin(final PlayerJoinEvent e) {
-        final Player player = e.getPlayer();
+    public void onJoin(PlayerJoinEvent e) {
+        Player player = e.getPlayer();
         if (clearOnJoin) {
             player.getInventory().clear();
         }
-        new BukkitRunnable() {
-            public void run() {
-                if (!player.isOnline()) {
-                    return;
-                }
 
-                Map<Integer, Item> listItems = itemService.getItems();
-
-                for (final Integer slot : listItems.keySet()) {
-                    final Item item = listItems.get(slot);
-                    final ItemStack itemStack = player.getInventory().getItem(slot);
-
-                    if (ItemListener.this.manager.getItem(itemStack) != null)
-                        continue;
-
-                    if (itemStack == null)
-                        player.getInventory().setItem(slot, item.getItemStack());
-
-                    if (itemStack != null && replaceItemOnJoin)
-                        player.getInventory().setItem(slot, item.getItemStack());
-                }
-                player.updateInventory();
-            }
-        }.runTaskLaterAsynchronously(plugin, 10L);
     }
 }

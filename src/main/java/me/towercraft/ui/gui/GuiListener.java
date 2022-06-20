@@ -38,7 +38,7 @@ public class GuiListener implements Listener {
             return;
         }
 
-        if (item.getServerModel() == null || item.getServerModel().getStatus() == TypeStatusServer.ONLINE)
+        if (item.getServerModel().getStatus() == TypeStatusServer.ONLINE)
             new BukkitRunnable() {
                 public void run() {
                     String[] args = item.getCommand().split(";");
